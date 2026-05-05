@@ -7,3 +7,11 @@ Thumbs.db
 desktop.ini
 .vscode/
 node_modules/
+
+# Power Apps Studio non-deterministic state — noisy diffs
+canvas-app/ADAMSCOSBY_CLEAN/Entropy/
+canvas-app/ADAMSCOSBY_CLEAN/Src/EditorState/
+
+# Audit CSVs and msapp staging
+docs/msapp-keep-audit.csv
+canvas-app/_staging_unpack/
