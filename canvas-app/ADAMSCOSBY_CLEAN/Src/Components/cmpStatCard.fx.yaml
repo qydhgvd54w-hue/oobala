@@ -1,0 +1,8 @@
+cmpStatCard As CanvasComponent:
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =120
+    Width: =220
+    X: =0
+    Y: =0
+    ZIndex: =1
+

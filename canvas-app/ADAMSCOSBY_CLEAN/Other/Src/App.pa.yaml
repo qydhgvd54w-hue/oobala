@@ -1,0 +1,12 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+App:
+  Properties:
+    OnStart: '=Set(BrandRed, RGBA(200, 16, 46, 1)); Set(BrandRedDark, RGBA(159, 12, 36, 1)); Set(BrandSoft, RGBA(252, 235, 235, 1)); Set(BgCream, RGBA(250, 249, 245, 1)); Set(BgCream2, RGBA(244, 242, 238, 1)); Set(TextPrimary, RGBA(31, 30, 29, 1)); Set(TextSecondary, RGBA(107, 106, 103, 1)); Set(BorderSoft, RGBA(232, 229, 221, 1)); Set(StatusActive, RGBA(46, 124, 214, 1)); Set(StatusWorking, RGBA(234, 138, 46, 1)); Set(StatusBound, RGBA(29, 158, 117, 1)); Set(StatusLost, RGBA(168, 165, 160, 1)); Set(AgentAlec, RGBA(26, 82, 122, 1)); Set(AgentRachel, RGBA(142, 91, 201, 1)); Set(AgentJM, RGBA(186, 117, 23, 1)); Set(CurrentAgent, "Alec"); Set(SharedInbox, "SC1047@alfains.com"); Set(SharedInboxAlias, "teamac@alfains.com");   '
+    Theme: =PowerAppsTheme

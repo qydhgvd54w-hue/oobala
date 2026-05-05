@@ -1,0 +1,9 @@
+*.msapp
+*_backup_*/
+*_unpack/
+archive/
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+node_modules/

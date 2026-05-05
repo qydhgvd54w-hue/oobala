@@ -1,0 +1,594 @@
+TemplatesScreen As screen:
+    Fill: =BgCream2
+    TplSidebarBackground As rectangle:
+        Fill: =RGBA(247, 247, 250, 1)
+        Height: =Parent.Height
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =0
+        ZIndex: =1
+    TplSidebarLogoLabel As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        PaddingLeft: =16
+        Size: =16
+        Text: ="Adams Cosby"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =16
+        ZIndex: =2
+    TplSidebarNavItemDashboard As rectangle:
+        Fill: =If("Dashboard"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =3
+    TplSidebarNavItemDashboardAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Dashboard"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =72
+        ZIndex: =4
+    TplSidebarNavItemDashboardIcon As icon.Home:
+        Color: =If("Dashboard"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Home
+        Width: =20
+        X: =16
+        Y: =82
+        ZIndex: =5
+    TplSidebarNavItemDashboardLabel As label:
+        Color: =If("Dashboard"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Dashboard"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Dashboard"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =5
+    TplSidebarNavItemLeads As rectangle:
+        Fill: =If("Leads"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Leads screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =3
+    TplSidebarNavItemLeadsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Leads"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =112
+        ZIndex: =4
+    TplSidebarNavItemLeadsIcon As icon.People:
+        Color: =If("Leads"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.People
+        Width: =20
+        X: =16
+        Y: =122
+        ZIndex: =5
+    TplSidebarNavItemLeadsLabel As label:
+        Color: =If("Leads"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Leads"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Leads screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Leads"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =5
+    TplSidebarNavItemActivities As rectangle:
+        Fill: =If("Activities"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =3
+    TplSidebarNavItemActivitiesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Activities"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =152
+        ZIndex: =4
+    TplSidebarNavItemActivitiesIcon As icon.Phone:
+        Color: =If("Activities"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Phone
+        Width: =20
+        X: =16
+        Y: =162
+        ZIndex: =5
+    TplSidebarNavItemActivitiesLabel As label:
+        Color: =If("Activities"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Activities"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Activities"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =5
+    TplSidebarNavItemCalendar As rectangle:
+        Fill: =If("Calendar"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =3
+    TplSidebarNavItemCalendarAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Calendar"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =192
+        ZIndex: =4
+    TplSidebarNavItemCalendarIcon As icon.CalendarBlank:
+        Color: =If("Calendar"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.CalendarBlank
+        Width: =20
+        X: =16
+        Y: =202
+        ZIndex: =5
+    TplSidebarNavItemCalendarLabel As label:
+        Color: =If("Calendar"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Calendar"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Calendar"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =5
+    TplSidebarNavItemTasks As rectangle:
+        Fill: =If("Tasks"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =3
+    TplSidebarNavItemTasksAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Tasks"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =232
+        ZIndex: =4
+    TplSidebarNavItemTasksIcon As icon.Check:
+        Color: =If("Tasks"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Check
+        Width: =20
+        X: =16
+        Y: =242
+        ZIndex: =5
+    TplSidebarNavItemTasksLabel As label:
+        Color: =If("Tasks"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Tasks"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Tasks"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =5
+    TplSidebarNavItemTemplates As rectangle:
+        Fill: =If("Templates"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("You're on Templates", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =3
+    TplSidebarNavItemTemplatesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Templates"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =272
+        ZIndex: =4
+    TplSidebarNavItemTemplatesIcon As icon.Mail:
+        Color: =If("Templates"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Mail
+        Width: =20
+        X: =16
+        Y: =282
+        ZIndex: =5
+    TplSidebarNavItemTemplatesLabel As label:
+        Color: =If("Templates"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Templates"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("You're on Templates", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Templates"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =5
+    TplSidebarNavItemReports As rectangle:
+        Fill: =If("Reports"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =3
+    TplSidebarNavItemReportsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Reports"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =312
+        ZIndex: =4
+    TplSidebarNavItemReportsIcon As icon.Trending:
+        Color: =If("Reports"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Trending
+        Width: =20
+        X: =16
+        Y: =322
+        ZIndex: =5
+    TplSidebarNavItemReportsLabel As label:
+        Color: =If("Reports"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Reports"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Reports"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =5
+    TplSidebarNavItemFiles As rectangle:
+        Fill: =If("Files"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =3
+    TplSidebarNavItemFilesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Files"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =352
+        ZIndex: =4
+    TplSidebarNavItemFilesIcon As icon.Folder:
+        Color: =If("Files"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Folder
+        Width: =20
+        X: =16
+        Y: =362
+        ZIndex: =5
+    TplSidebarNavItemFilesLabel As label:
+        Color: =If("Files"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Files"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Files"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =5
+    TplSidebarNavItemSettings As rectangle:
+        Fill: =If("Settings"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =3
+    TplSidebarNavItemSettingsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Settings"="Templates", true, false)
+        Width: =3
+        X: =0
+        Y: =392
+        ZIndex: =4
+    TplSidebarNavItemSettingsIcon As icon.Settings:
+        Color: =If("Settings"="Templates", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Settings
+        Width: =20
+        X: =16
+        Y: =402
+        ZIndex: =5
+    TplSidebarNavItemSettingsLabel As label:
+        Color: =If("Settings"="Templates", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Settings"="Templates", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Settings"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =5
+    TplHeaderRect As rectangle:
+        Fill: =BrandRed
+        Height: =80
+        Width: =Parent.Width - 200
+        X: =200
+        Y: =0
+        ZIndex: =2
+    TplHeaderLabel As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        Size: =20
+        Text: ="Templates"
+        Width: =400
+        X: =232
+        Y: =20
+        ZIndex: =3
+    TplBackButton As button:
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PressedFill: =RGBA(255, 255, 255, 0.25)
+        Size: =13
+        Text: ="← Dashboard"
+        Width: =120
+        X: =Parent.Width - 136
+        Y: =22
+        ZIndex: =100
+    TplSearchBox As text:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Default: =""
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =36
+        HintText: ="Search templates"
+        OnChange: =Set(varTemplateSearch, Self.Text)
+        Size: =13
+        Width: =400
+        X: =232
+        Y: =104
+        ZIndex: =4
+    "TplListGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =BorderSoft
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =600
+        Items: =SortByColumns(Filter('Email Templates', (IsBlank(varTemplateSearch) || StartsWith(Title, varTemplateSearch)) And (IsBlank(AssignedAgents) || User().Email in Concat(AssignedAgents, Email, ";"))), "Title", SortOrder.Ascending)
+        Layout: =Layout.Vertical
+        TemplateFill: =If(!IsBlank(varSelectedTemplate) && ThisItem.ID = varSelectedTemplate.ID, BrandSoft, RGBA(255, 255, 255, 0))
+        TemplatePadding: =0
+        TemplateSize: =80
+        Width: =480
+        X: =232
+        Y: =152
+        ZIndex: =5
+
+        TplGalleryRowHotspot As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =0
+            Font: =Font.'Open Sans'
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Set(varSelectedTemplate, ThisItem)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =1
+            Text: =""
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+        TplGalleryRowTitle As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =16
+            Size: =14
+            Text: =ThisItem.Title
+            Width: =Parent.TemplateWidth - 16
+            X: =0
+            Y: =8
+            ZIndex: =2
+
+        TplGalleryRowSubject As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =12
+            Text: =Coalesce(ThisItem.Subject, "")
+            Width: =Parent.TemplateWidth - 16
+            X: =0
+            Y: =30
+            ZIndex: =3
+
+        TplGalleryRowModified As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =16
+            PaddingLeft: =16
+            Size: =11
+            Text: =Text(ThisItem.Modified, "[$-en-US]m/d/yy")
+            Width: =Parent.TemplateWidth - 16
+            X: =0
+            Y: =50
+            ZIndex: =4
+
+        TplGalleryRowSeparator As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =79
+            ZIndex: =5
+
+    TplPreviewRect As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =600
+        Visible: =!IsBlank(varSelectedTemplate)
+        Width: =Parent.Width - 980
+        X: =732
+        Y: =152
+        ZIndex: =5
+    TplPreviewTitle As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =28
+        PaddingLeft: =16
+        Size: =16
+        Text: =If(IsBlank(varSelectedTemplate), "", varSelectedTemplate.Title)
+        Visible: =!IsBlank(varSelectedTemplate)
+        Width: =Parent.Width - 1012
+        X: =748
+        Y: =168
+        ZIndex: =6
+    TplPreviewSubject As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =22
+        PaddingLeft: =16
+        Size: =12
+        Text: =If(IsBlank(varSelectedTemplate), "", "Subject: " & varSelectedTemplate.Subject)
+        Visible: =!IsBlank(varSelectedTemplate)
+        Width: =Parent.Width - 1012
+        X: =748
+        Y: =200
+        ZIndex: =6
+    TplPreviewBody As label:
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =400
+        Text: =If(IsBlank(varSelectedTemplate), "", varSelectedTemplate.Body)
+        Size: =12
+        Visible: =!IsBlank(varSelectedTemplate)
+        Width: =Parent.Width - 1012
+        X: =748
+        Y: =232
+        ZIndex: =6
+    TplEmptyState As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontStyle: =FontStyle.Italic
+        Height: =40
+        Size: =13
+        Text: ="Select a template to preview"
+        VerticalAlign: =VerticalAlign.Middle
+        Visible: =IsBlank(varSelectedTemplate)
+        Width: =Parent.Width - 980
+        X: =732
+        Y: =432
+        ZIndex: =7

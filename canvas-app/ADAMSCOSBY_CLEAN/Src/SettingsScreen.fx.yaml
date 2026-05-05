@@ -1,0 +1,468 @@
+SettingsScreen As screen:
+    Fill: =BgCream2
+    SetSidebarBackground As rectangle:
+        Fill: =RGBA(247, 247, 250, 1)
+        Height: =Parent.Height
+        Width: =200
+        X: =0
+        Y: =0
+        ZIndex: =1
+    SetSidebarLogoLabel As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        PaddingLeft: =16
+        Size: =16
+        Text: ="Adams Cosby"
+        Width: =200
+        X: =0
+        Y: =16
+        ZIndex: =2
+    SetSidebarNavItemDashboard As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Dashboard"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =3
+    SetSidebarNavItemDashboardAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Dashboard"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =72
+        ZIndex: =4
+    SetSidebarNavItemDashboardIcon As icon.Home:
+        Color: =If("Dashboard"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Home
+        Width: =20
+        X: =16
+        Y: =82
+        ZIndex: =5
+    SetSidebarNavItemDashboardLabel As label:
+        Color: =If("Dashboard"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Dashboard"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Dashboard"
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =5
+    SetSidebarNavItemLeads As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Leads"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =3
+    SetSidebarNavItemLeadsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Leads"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =112
+        ZIndex: =4
+    SetSidebarNavItemLeadsIcon As icon.People:
+        Color: =If("Leads"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.People
+        Width: =20
+        X: =16
+        Y: =122
+        ZIndex: =5
+    SetSidebarNavItemLeadsLabel As label:
+        Color: =If("Leads"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Leads"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Leads"
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =5
+    SetSidebarNavItemActivities As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Activities"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =3
+    SetSidebarNavItemActivitiesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Activities"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =152
+        ZIndex: =4
+    SetSidebarNavItemActivitiesIcon As icon.Phone:
+        Color: =If("Activities"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Phone
+        Width: =20
+        X: =16
+        Y: =162
+        ZIndex: =5
+    SetSidebarNavItemActivitiesLabel As label:
+        Color: =If("Activities"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Activities"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Activities"
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =5
+    SetSidebarNavItemCalendar As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Calendar"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =3
+    SetSidebarNavItemCalendarAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Calendar"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =192
+        ZIndex: =4
+    SetSidebarNavItemCalendarIcon As icon.CalendarBlank:
+        Color: =If("Calendar"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.CalendarBlank
+        Width: =20
+        X: =16
+        Y: =202
+        ZIndex: =5
+    SetSidebarNavItemCalendarLabel As label:
+        Color: =If("Calendar"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Calendar"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Calendar"
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =5
+    SetSidebarNavItemTasks As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Tasks"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =3
+    SetSidebarNavItemTasksAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Tasks"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =232
+        ZIndex: =4
+    SetSidebarNavItemTasksIcon As icon.Check:
+        Color: =If("Tasks"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Check
+        Width: =20
+        X: =16
+        Y: =242
+        ZIndex: =5
+    SetSidebarNavItemTasksLabel As label:
+        Color: =If("Tasks"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Tasks"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Tasks"
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =5
+    SetSidebarNavItemTemplates As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Templates"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =3
+    SetSidebarNavItemTemplatesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Templates"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =272
+        ZIndex: =4
+    SetSidebarNavItemTemplatesIcon As icon.Mail:
+        Color: =If("Templates"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Mail
+        Width: =20
+        X: =16
+        Y: =282
+        ZIndex: =5
+    SetSidebarNavItemTemplatesLabel As label:
+        Color: =If("Templates"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Templates"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Templates"
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =5
+    SetSidebarNavItemReports As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Reports"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =3
+    SetSidebarNavItemReportsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Reports"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =312
+        ZIndex: =4
+    SetSidebarNavItemReportsIcon As icon.Trending:
+        Color: =If("Reports"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Trending
+        Width: =20
+        X: =16
+        Y: =322
+        ZIndex: =5
+    SetSidebarNavItemReportsLabel As label:
+        Color: =If("Reports"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Reports"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Reports"
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =5
+    SetSidebarNavItemFiles As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Files"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =3
+    SetSidebarNavItemFilesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Files"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =352
+        ZIndex: =4
+    SetSidebarNavItemFilesIcon As icon.Folder:
+        Color: =If("Files"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Folder
+        Width: =20
+        X: =16
+        Y: =362
+        ZIndex: =5
+    SetSidebarNavItemFilesLabel As label:
+        Color: =If("Files"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Files"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Files"
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =5
+    SetSidebarNavItemSettings As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Settings"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("You're on Settings", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =3
+    SetSidebarNavItemSettingsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Settings"="Settings", true, false)
+        Width: =3
+        X: =0
+        Y: =392
+        ZIndex: =4
+    SetSidebarNavItemSettingsIcon As icon.Settings:
+        Color: =If("Settings"="Settings", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Settings
+        Width: =20
+        X: =16
+        Y: =402
+        ZIndex: =5
+    SetSidebarNavItemSettingsLabel As label:
+        Color: =If("Settings"="Settings", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Settings"="Settings", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("You're on Settings", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Settings"
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =5
+    SetHeaderRect As rectangle:
+        Fill: =BrandRed
+        Height: =80
+        Width: =Parent.Width - 200
+        X: =200
+        Y: =0
+        ZIndex: =2
+    SetHeaderLabel As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        Size: =20
+        Text: ="Settings"
+        Width: =400
+        X: =232
+        Y: =20
+        ZIndex: =3
+    SetBackButton As button:
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PressedFill: =RGBA(255, 255, 255, 0.25)
+        Size: =13
+        Text: ="← Dashboard"
+        Width: =120
+        X: =Parent.Width - 136
+        Y: =22
+        ZIndex: =100
+    SetTemplatesHeader As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =24
+        Size: =14
+        Text: ="Email templates"
+        Width: =600
+        X: =232
+        Y: =120
+        ZIndex: =4
+    SetTemplatesDesc As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =44
+        Size: =12
+        Text: ="Customize which templates appear in your lead drawer. Edit each template's AssignedAgents field in SharePoint to control visibility per agent."
+        Width: =800
+        Wrap: =true
+        X: =232
+        Y: =152
+        ZIndex: =5
+    SetTemplatesButton As button:
+        BorderThickness: =0
+        Color: =RGBA(255, 255, 255, 1)
+        Cursor: =Cursor.Hand
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Launch("https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY/Lists/Email%20Templates")
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Size: =13
+        Text: ="Open Email Templates list"
+        Width: =240
+        X: =232
+        Y: =210
+        ZIndex: =6

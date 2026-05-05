@@ -1,0 +1,1852 @@
+LeadsListScreen As screen:
+    Fill: =RGBA(255, 255, 255, 1)
+    LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    OnVisible: =ClearCollect(colLeadCounts, {Status:"Active", Count: CountRows(Filter(Leads, Status.Value = "Active"))}, {Status:"Working", Count: CountRows(Filter(Leads, Status.Value = "Working"))}, {Status:"Bound", Count: CountRows(Filter(Leads, Status.Value = "Bound"))}, {Status:"Lost", Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))}, {Status:"Quoted", Count: CountRows(Filter(Leads, Status.Value = "Quoted"))}, {Status:"Contacted", Count: CountRows(Filter(Leads, Status.Value = "Contacted"))}, {Status:"Negotiating", Count: CountRows(Filter(Leads, Status.Value = "Negotiating"))}, {Status:"Total", Count: CountRows(Leads)})
+    SidebarBackground As rectangle:
+        Fill: =RGBA(247, 247, 250, 1)
+        Height: =Parent.Height
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =0
+        ZIndex: =1
+    SidebarLogoLabel As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        PaddingLeft: =16
+        Size: =16
+        Text: ="Adams Cosby"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =16
+        ZIndex: =2
+    SidebarNavItemDashboard As rectangle:
+        Fill: =If("Dashboard"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =3
+    SidebarNavItemDashboardAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Dashboard"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =72
+        ZIndex: =4
+    SidebarNavItemDashboardIcon As icon.Home:
+        Color: =If("Dashboard"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Home
+        Width: =20
+        X: =16
+        Y: =82
+        ZIndex: =5
+    SidebarNavItemDashboardLabel As label:
+        Color: =If("Dashboard"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Dashboard"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Dashboard"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =5
+    SidebarNavItemLeads As rectangle:
+        Fill: =If("Leads"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =3
+    SidebarNavItemLeadsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Leads"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =112
+        ZIndex: =4
+    SidebarNavItemLeadsIcon As icon.People:
+        Color: =If("Leads"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.People
+        Width: =20
+        X: =16
+        Y: =122
+        ZIndex: =5
+    SidebarNavItemLeadsLabel As label:
+        Color: =If("Leads"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Leads"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Leads"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =5
+    SidebarNavItemActivities As rectangle:
+        Fill: =If("Activities"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =3
+    SidebarNavItemActivitiesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Activities"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =152
+        ZIndex: =4
+    SidebarNavItemActivitiesIcon As icon.Phone:
+        Color: =If("Activities"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Phone
+        Width: =20
+        X: =16
+        Y: =162
+        ZIndex: =5
+    SidebarNavItemActivitiesLabel As label:
+        Color: =If("Activities"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Activities"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Activities"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =5
+    SidebarNavItemCalendar As rectangle:
+        Fill: =If("Calendar"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =3
+    SidebarNavItemCalendarAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Calendar"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =192
+        ZIndex: =4
+    SidebarNavItemCalendarIcon As icon.CalendarBlank:
+        Color: =If("Calendar"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.CalendarBlank
+        Width: =20
+        X: =16
+        Y: =202
+        ZIndex: =5
+    SidebarNavItemCalendarLabel As label:
+        Color: =If("Calendar"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Calendar"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Calendar"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =5
+    SidebarNavItemTasks As rectangle:
+        Fill: =If("Tasks"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =3
+    SidebarNavItemTasksAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Tasks"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =232
+        ZIndex: =4
+    SidebarNavItemTasksIcon As icon.Check:
+        Color: =If("Tasks"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Check
+        Width: =20
+        X: =16
+        Y: =242
+        ZIndex: =5
+    SidebarNavItemTasksLabel As label:
+        Color: =If("Tasks"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Tasks"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Tasks"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =5
+    SidebarNavItemTemplates As rectangle:
+        Fill: =If("Templates"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =3
+    SidebarNavItemTemplatesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Templates"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =272
+        ZIndex: =4
+    SidebarNavItemTemplatesIcon As icon.Mail:
+        Color: =If("Templates"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Mail
+        Width: =20
+        X: =16
+        Y: =282
+        ZIndex: =5
+    SidebarNavItemTemplatesLabel As label:
+        Color: =If("Templates"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Templates"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Templates"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =5
+    SidebarNavItemReports As rectangle:
+        Fill: =If("Reports"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =3
+    SidebarNavItemReportsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Reports"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =312
+        ZIndex: =4
+    SidebarNavItemReportsIcon As icon.Trending:
+        Color: =If("Reports"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Trending
+        Width: =20
+        X: =16
+        Y: =322
+        ZIndex: =5
+    SidebarNavItemReportsLabel As label:
+        Color: =If("Reports"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Reports"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Reports"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =5
+    SidebarNavItemFiles As rectangle:
+        Fill: =If("Files"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =3
+    SidebarNavItemFilesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Files"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =352
+        ZIndex: =4
+    SidebarNavItemFilesIcon As icon.Folder:
+        Color: =If("Files"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Folder
+        Width: =20
+        X: =16
+        Y: =362
+        ZIndex: =5
+    SidebarNavItemFilesLabel As label:
+        Color: =If("Files"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Files"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Files"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =5
+    SidebarNavItemSettings As rectangle:
+        Fill: =If("Settings"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =3
+    SidebarNavItemSettingsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Settings"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =392
+        ZIndex: =4
+    SidebarNavItemSettingsIcon As icon.Settings:
+        Color: =If("Settings"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Settings
+        Width: =20
+        X: =16
+        Y: =402
+        ZIndex: =5
+    SidebarNavItemSettingsLabel As label:
+        Color: =If("Settings"="Dashboard", BrandRed, TextPrimary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Settings"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Settings"
+        Cursor: =Cursor.Hand
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =5
+    DashboardHeader As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =56
+        PaddingLeft: =16
+        Size: =22
+        Text: ="Dashboard"
+        Width: =Parent.Width - 200
+        X: =200
+        Y: =0
+    DashboardNewLeadButton As button:
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Notify("New lead screen coming soon", NotificationType.Information)
+        Size: =13
+        Text: ="+ New Lead"
+        Width: =120
+        X: =Parent.Width - 136
+        Y: =14
+        ZIndex: =100
+    DashboardFiltersButton As button:
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Notify("Advanced filters coming soon", NotificationType.Information)
+        Size: =13
+        Text: ="⛓  Filters"
+        Width: =100
+        X: =Parent.Width - 248
+        Y: =14
+        ZIndex: =100
+    DashboardCardActive As rectangle:
+        BorderColor: =If(varStatusFilter = "Active", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Active", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =118
+        X: =216
+        Y: =72
+        ZIndex: =1
+    DashboardCardActiveValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Active").Count)
+        Width: =118
+        X: =216
+        Y: =91
+        ZIndex: =2
+    DashboardCardActiveLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+        Size: =9
+        Text: ="ACTIVE"
+        Width: =118
+        X: =216
+        Y: =122
+        ZIndex: =3
+    DashboardCardActiveIcon As icon.Person:
+        Color: =StatusActive
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Person
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+        Width: =20
+        X: =230
+        Y: =78
+        ZIndex: =5
+    DashboardCardWorking As rectangle:
+        BorderColor: =If(varStatusFilter = "Working", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Working", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =118
+        X: =342
+        Y: =72
+        ZIndex: =1
+    DashboardCardWorkingValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Working").Count)
+        Width: =118
+        X: =342
+        Y: =91
+        ZIndex: =2
+    DashboardCardWorkingLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+        Size: =9
+        Text: ="WORKING"
+        Width: =118
+        X: =342
+        Y: =122
+        ZIndex: =3
+    DashboardCardWorkingIcon As icon.Clock:
+        Color: =StatusWorking
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Clock
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+        Width: =20
+        X: =356
+        Y: =78
+        ZIndex: =5
+    DashboardCardBound As rectangle:
+        BorderColor: =If(varStatusFilter = "Bound", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Bound", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =118
+        X: =468
+        Y: =72
+        ZIndex: =1
+    DashboardCardBoundValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Bound").Count)
+        Width: =118
+        X: =468
+        Y: =91
+        ZIndex: =2
+    DashboardCardBoundLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+        Size: =9
+        Text: ="BOUND"
+        Width: =118
+        X: =468
+        Y: =122
+        ZIndex: =3
+    DashboardCardBoundIcon As icon.Check:
+        Color: =StatusBound
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Check
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+        Width: =20
+        X: =482
+        Y: =78
+        ZIndex: =5
+    DashboardCardLost As rectangle:
+        BorderColor: =If(varStatusFilter = "Lost", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Lost", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =118
+        X: =594
+        Y: =72
+        ZIndex: =1
+    DashboardCardLostValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Lost").Count)
+        Width: =118
+        X: =594
+        Y: =91
+        ZIndex: =2
+    DashboardCardLostLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+        Size: =9
+        Text: ="LOST"
+        Width: =118
+        X: =594
+        Y: =122
+        ZIndex: =3
+    DashboardCardLostIcon As icon.Cancel:
+        Color: =StatusLost
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Cancel
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+        Width: =20
+        X: =608
+        Y: =78
+        ZIndex: =5
+    DashboardCardQuoted As rectangle:
+        BorderColor: =If(varStatusFilter = "Quoted", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Quoted", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =118
+        X: =720
+        Y: =72
+        ZIndex: =1
+    DashboardCardQuotedValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Quoted").Count)
+        Width: =118
+        X: =720
+        Y: =91
+        ZIndex: =2
+    DashboardCardQuotedLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+        Size: =9
+        Text: ="QUOTED"
+        Width: =118
+        X: =720
+        Y: =122
+        ZIndex: =3
+    DashboardCardQuotedIcon As icon.Document:
+        Color: =StatusWorking
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Document
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+        Width: =20
+        X: =734
+        Y: =78
+        ZIndex: =5
+    DashboardCardContacted As rectangle:
+        BorderColor: =If(varStatusFilter = "Contacted", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Contacted", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =true
+        Width: =118
+        X: =846
+        Y: =72
+        ZIndex: =1
+    DashboardCardContactedValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Contacted").Count)
+        Visible: =true
+        Width: =118
+        X: =846
+        Y: =91
+        ZIndex: =2
+    DashboardCardContactedLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+        Size: =9
+        Text: ="CONTACTED"
+        Visible: =true
+        Width: =118
+        X: =846
+        Y: =122
+        ZIndex: =3
+    DashboardCardContactedIcon As icon.Phone:
+        Color: =RGBA(59, 130, 246, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Phone
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+        Visible: =true
+        Width: =20
+        X: =860
+        Y: =78
+        ZIndex: =5
+    DashboardCardNegotiating As rectangle:
+        BorderColor: =If(varStatusFilter = "Negotiating", BrandRed, BorderSoft)
+        BorderThickness: =If(varStatusFilter = "Negotiating", 2, 1)
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =74
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Negotiating", "All", "Negotiating"))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =true
+        Width: =118
+        X: =972
+        Y: =72
+        ZIndex: =1
+    DashboardCardNegotiatingValue As label:
+        Align: =Align.Center
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Negotiating", "All", "Negotiating"))
+        Size: =21
+        Text: =Text(LookUp(colLeadCounts, Status="Negotiating").Count)
+        Visible: =true
+        Width: =118
+        X: =972
+        Y: =91
+        ZIndex: =2
+    DashboardCardNegotiatingLabel As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Negotiating", "All", "Negotiating"))
+        Size: =9
+        Text: ="NEGOTIATING"
+        Visible: =true
+        Width: =118
+        X: =972
+        Y: =122
+        ZIndex: =3
+    DashboardCardNegotiatingIcon As icon.OfficeBuilding:
+        Color: =RGBA(234, 179, 8, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.OfficeBuilding
+        OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Negotiating", "All", "Negotiating"))
+        Visible: =true
+        Width: =20
+        X: =986
+        Y: =78
+        ZIndex: =5
+    DashboardSearchBox As text:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Default: =""
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =40
+        HintText: ="Search by name..."
+        OnChange: =Set(varSearchText, Self.Text)
+        Size: =13
+        Width: =400
+        X: =216
+        Y: =154
+        ZIndex: =6
+    DashboardStatusFilter As dropDown:
+        BorderColor: =BorderSoft
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =40
+        Items: =["All","Active","Working","Bound","Lost","Quoted"]
+        OnChange: =Set(varStatusFilter, Self.Selected.Value)
+        Width: =180
+        X: =632
+        Y: =154
+        ZIndex: =7
+    DashboardAgentFilter As dropDown:
+        BorderColor: =BorderSoft
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =40
+        Items: =["All","Alec Adams","Rachel Cosby","Unassigned"]
+        OnChange: =Set(varAgentFilter, Self.Selected.Value)
+        Width: =180
+        X: =828
+        Y: =154
+        ZIndex: =8
+    GalleryHeaderBackground As rectangle:
+        Fill: =RGBA(247, 247, 250, 1)
+        Height: =40
+        Width: =DashboardLeadsGallery.Width
+        X: =216
+        Y: =194
+        ZIndex: =3
+    GalleryHeaderLeadName As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        PaddingLeft: =0
+        Size: =11
+        Text: ="LEAD NAME"
+        Width: =180
+        X: =DashboardLeadsGallery.X + 16
+        Y: =GalleryHeaderBackground.Y
+        ZIndex: =4
+    GalleryHeaderStatus As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        Size: =11
+        Text: ="STATUS"
+        Width: =80
+        X: =DashboardLeadsGallery.X + 300
+        Y: =GalleryHeaderBackground.Y
+        ZIndex: =4
+    GalleryHeaderType As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        Size: =11
+        Text: ="TYPE"
+        Width: =220
+        X: =DashboardLeadsGallery.X + 420
+        Y: =GalleryHeaderBackground.Y
+        ZIndex: =4
+    GalleryHeaderPremium As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        Size: =11
+        Text: ="PREMIUM"
+        Width: =130
+        X: =DashboardLeadsGallery.X + 665
+        Y: =GalleryHeaderBackground.Y
+        ZIndex: =4
+    GalleryHeaderAgent As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        Size: =11
+        Text: ="AGENT"
+        Width: =DashboardLeadsGallery.Width - 1030
+        X: =DashboardLeadsGallery.X + 830
+        Y: =GalleryHeaderBackground.Y
+        ZIndex: =4
+    GalleryHeaderUpdated As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        Size: =11
+        Text: ="UPDATED"
+        Width: =90
+        X: =DashboardLeadsGallery.X + DashboardLeadsGallery.Width - 116
+        Y: =GalleryHeaderBackground.Y
+        ZIndex: =4
+    "DashboardLeadsGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =BorderSoft
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =If(IsBlank(varSelectedLead), 540, 216)
+        Items: =Filter(Leads, (varSearchText="" || StartsWith(Title, varSearchText)) && (varStatusFilter="All" || Status.Value=varStatusFilter || (varStatusFilter="Lost" && StartsWith(Status.Value, "Lost"))) && (varAgentFilter="All" || (varAgentFilter="Unassigned" && IsBlank(Agent)) || (Agent.DisplayName=varAgentFilter)))
+        Layout: =Layout.Vertical
+        TemplateFill: =If(!IsBlank(varSelectedLead) && ThisItem.ID = varSelectedLead.ID, RGBA(252, 245, 245, 1), RGBA(255, 255, 255, 0))
+        TemplatePadding: =0
+        TemplateSize: =96
+        Width: =Parent.Width - 232
+        X: =216
+        Y: =234
+        ZIndex: =1
+
+        DashboardLeadRowHotspot As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =0
+            Font: =Font.'Open Sans'
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =1
+            Text: =""
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+        DashboardLeadSelectedAccent As rectangle:
+            Fill: =BrandRed
+            Height: =Parent.TemplateHeight - 16
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            Visible: =!IsBlank(varSelectedLead) && ThisItem.ID = varSelectedLead.ID
+            Width: =3
+            X: =0
+            Y: =8
+            ZIndex: =2
+
+        DashboardLeadName As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =If(!IsBlank(varSelectedLead) && ThisItem.ID = varSelectedLead.ID, FontWeight.Bold, FontWeight.Semibold)
+            Height: =24
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PaddingLeft: =0
+            Size: =14
+            Text: =ThisItem.Title
+            Width: =250
+            X: =18
+            Y: =8
+            ZIndex: =1
+
+        DashboardLeadPhone As label:
+            Color: =If(IsBlank(ThisItem.'Phone Number'), TextTertiary, TextSecondary)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =20
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PaddingLeft: =0
+            Size: =11
+            Text: =Coalesce(ThisItem.'Phone Number', "")
+            Visible: =!IsBlank(ThisItem.'Phone Number')
+            Width: =250
+            X: =18
+            Y: =34
+            ZIndex: =2
+
+        DashboardLeadEmail As label:
+            Color: =If(IsBlank(ThisItem.Email), TextTertiary, TextSecondary)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =16
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            Size: =10
+            Text: =Coalesce(ThisItem.Email, "")
+            Visible: =!IsBlank(ThisItem.Email)
+            Width: =250
+            X: =18
+            Y: =If(IsBlank(ThisItem.'Phone Number'), 34, 54)
+            ZIndex: =3
+
+        DashboardLeadAgent As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =20
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PaddingLeft: =0
+            Size: =11
+            Text: =If(IsBlank(ThisItem.Agent), "Unassigned", ThisItem.Agent.DisplayName)
+            Width: =Parent.TemplateWidth - 1030
+            X: =830
+            Y: =36
+            ZIndex: =4
+
+        DashboardLeadType As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =20
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PaddingLeft: =0
+            Size: =11
+            Text: =If(IsBlank(ThisItem.Products), "—", With({p: Concat(ThisItem.Products, Value, " + ")}, Switch(true, "Auto" in p And "Home" in p, "Alfa Home + Auto", "Auto" in p, "Alfa Auto", "Home" in p, "Alfa Home", "Life" in p, "Alfa Life", p)))
+            Width: =220
+            X: =420
+            Y: =36
+            ZIndex: =4
+
+        DashboardLeadPremium As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PaddingLeft: =0
+            Size: =11
+            Text: =If(IsBlank(ThisItem.'Current Premiums'), "—", "$" & ThisItem.'Current Premiums')
+            Width: =130
+            X: =665
+            Y: =36
+            ZIndex: =4
+
+        DashboardLeadUpdated As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =20
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            PaddingLeft: =0
+            Size: =10
+            Text: =Text(ThisItem.Modified, "[$-en-US]m/d/yy")
+            Width: =90
+            X: =Parent.TemplateWidth - 116
+            Y: =36
+            ZIndex: =4
+
+        DashboardLeadStatusPill As rectangle:
+            Fill: =If(IsBlank(ThisItem.Status), BgEmpty, Switch(ThisItem.Status.Value, "New", StatusNew_Bg, "Active", StatusNew_Bg, "Contacted", StatusNew_Bg, "Quote Sent", StatusQuoted_Bg, "Quoted", StatusQuoted_Bg, "Working", StatusProg_Bg, "Follow-Up", StatusFollow_Bg, "Negotiating", StatusProg_Bg, "Bound", StatusBound_Bg, StatusLost_Bg))
+            Height: =24
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Width: =80
+            X: =300
+            Y: =36
+            ZIndex: =3
+
+        DashboardLeadStatusPillLabel As label:
+            Align: =Align.Center
+            Color: =Switch(ThisItem.Status.Value, "New", StatusNew_Fg, "Active", StatusNew_Fg, "Contacted", StatusNew_Fg, "Quote Sent", StatusQuoted_Fg, "Quoted", StatusQuoted_Fg, "Working", StatusProg_Fg, "Follow-Up", StatusFollow_Fg, "Negotiating", StatusProg_Fg, "Bound", StatusBound_Fg, StatusLost_Fg)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            Size: =10
+            Text: =If(IsBlank(ThisItem.Status), "—", If(StartsWith(ThisItem.Status.Value, "Lost"), "LOST", Upper(ThisItem.Status.Value)))
+            VerticalAlign: =VerticalAlign.Middle
+            Width: =80
+            X: =300
+            Y: =36
+            ZIndex: =4
+
+        DashboardLeadSeparator As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            OnSelect: =Set(varSelectedLead, If(!IsBlank(varSelectedLead) And varSelectedLead.ID = ThisItem.ID, Blank(), ThisItem))
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =95
+            ZIndex: =5
+
+    DashboardPreviewPanel As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =480
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Visible: =false
+        Width: =288
+        X: =832
+        Y: =288
+        ZIndex: =1
+    DashboardPreviewHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        Size: =11
+        Text: ="SELECTED LEAD"
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =304
+        ZIndex: =2
+    DashboardPreviewName As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =16
+        Text: =Coalesce(varSelectedLead.Title, "")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =328
+        ZIndex: =2
+    DashboardPreviewPhone As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        Size: =12
+        Text: =Coalesce(varSelectedLead.'Phone Number', "")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =360
+        ZIndex: =2
+    DashboardPreviewRiskAddress As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        Size: =11
+        Text: =Coalesce(varSelectedLead.'Risk Address', "")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =384
+        ZIndex: =2
+    DashboardPreviewStatus As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        Size: =12
+        Text: ="Status: " & Coalesce(varSelectedLead.Status.Value, "—")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =412
+        ZIndex: =2
+    DashboardPreviewAgent As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        Size: =12
+        Text: ="Agent: " & Coalesce(varSelectedLead.Agent.DisplayName, "Unassigned")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =436
+        ZIndex: =2
+    DashboardPreviewSource As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        Size: =12
+        Text: ="Source: " & Coalesce(varSelectedLead.Source.Value, "—")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =460
+        ZIndex: =2
+    DashboardPreviewQuoteID As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        Size: =12
+        Text: ="Quote ID: " & Coalesce(varSelectedLead.QuoteID, "")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =484
+        ZIndex: =2
+    DashboardPreviewNotes As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =56
+        Size: =11
+        Text: ="Notes: " & Coalesce(varSelectedLead.Notes, "")
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =508
+        ZIndex: =2
+    DashboardPreviewOpenDetailButton As button:
+        BorderColor: =BrandRed
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Navigate(LeadsScreen, ScreenTransition.None)
+        Size: =13
+        Text: ="Open Detail"
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =580
+        ZIndex: =2
+    DashboardPreviewNewQuoteButton As button:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Navigate(LeadsScreen, ScreenTransition.None)
+        Size: =13
+        Text: ="+ New Quote"
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =624
+        ZIndex: =2
+    DashboardPreviewOpenPDFButton As button:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextSecondary
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Normal
+        Height: =36
+        OnSelect: =Notify("PDF lookup pending Quote Documents data source", NotificationType.Information)
+        Size: =13
+        Text: ="Open PDF"
+        Visible: =false
+        Width: =256
+        X: =848
+        Y: =668
+        ZIndex: =2
+    DashboardLeadDrawerPanel As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =If(IsBlank(varSelectedLead), 0, 620)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadsGallery.Width
+        X: =DashboardLeadsGallery.X
+        Y: =DashboardLeadsGallery.Y + DashboardLeadsGallery.Height + 12
+        ZIndex: =3
+    DashboardLeadDrawerAccent As rectangle:
+        Fill: =BrandRed
+        Height: =DashboardLeadDrawerPanel.Height
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =4
+        X: =DashboardLeadDrawerPanel.X
+        Y: =DashboardLeadDrawerPanel.Y
+        ZIndex: =4
+    DashboardLeadDrawerHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =16
+        PaddingLeft: =0
+        Size: =10
+        Text: ="LEAD DETAILS"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =300
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 14
+        ZIndex: =5
+    DashboardLeadDrawerName As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =26
+        PaddingLeft: =0
+        Size: =14
+        Text: =Coalesce(varSelectedLead.Title, "")
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =900
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 34
+        ZIndex: =5
+    DashboardLeadDrawerSeparator As rectangle:
+        Fill: =BorderSoft
+        Height: =1
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadDrawerPanel.Width - 48
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 68
+        ZIndex: =5
+    DashboardLeadDrawerContactHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =16
+        PaddingLeft: =0
+        Size: =10
+        Text: ="CONTACT"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 86
+        ZIndex: =5
+    DashboardLeadDrawerPhone As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =18
+        PaddingLeft: =0
+        Size: =12
+        Text: =Coalesce(varSelectedLead.'Phone Number', "")
+        Visible: =!IsBlank(varSelectedLead) && !IsBlank(varSelectedLead.'Phone Number')
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 108
+        ZIndex: =5
+    DashboardLeadDrawerEmail As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =18
+        PaddingLeft: =0
+        Size: =12
+        Text: =Coalesce(varSelectedLead.Email, "")
+        Visible: =!IsBlank(varSelectedLead) && !IsBlank(varSelectedLead.Email)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 128
+        ZIndex: =5
+    DashboardLeadDrawerAddress As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =40
+        PaddingLeft: =0
+        Size: =11
+        Text: =Coalesce(varSelectedLead.'Risk Address', "")
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =!IsBlank(varSelectedLead) && !IsBlank(varSelectedLead.'Risk Address')
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        Wrap: =true
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 148
+        ZIndex: =5
+    DashboardLeadDrawerLeadInfoHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =16
+        PaddingLeft: =0
+        Size: =10
+        Text: ="LEAD INFO"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 228
+        ZIndex: =5
+    DashboardLeadDrawerType As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =18
+        PaddingLeft: =0
+        Size: =11
+        Text: ="Type: " & If(IsBlank(varSelectedLead.Products), "—", With({p: Concat(varSelectedLead.Products, Value, " + ")}, Switch(true, "Auto" in p And "Home" in p, "Alfa Home + Auto", "Auto" in p, "Alfa Auto", "Home" in p, "Alfa Home", "Life" in p, "Alfa Life", p)))
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 250
+        ZIndex: =5
+    DashboardLeadDrawerSource As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =18
+        PaddingLeft: =0
+        Size: =11
+        Text: ="Source: " & Coalesce(varSelectedLead.Source.Value, "—")
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 270
+        ZIndex: =5
+    DashboardLeadDrawerAgent As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =18
+        PaddingLeft: =0
+        Size: =11
+        Text: ="Agent: " & Coalesce(varSelectedLead.Agent.DisplayName, "Unassigned")
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 290
+        ZIndex: =5
+    DashboardLeadDrawerQuoteID As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =18
+        PaddingLeft: =0
+        Size: =11
+        Text: ="Quote ID: " & Coalesce(varSelectedLead.QuoteID, "")
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + 310
+        ZIndex: =5
+    DashboardLeadDrawerActivityHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =16
+        Size: =10
+        Text: ="ACTIVITY TIMELINE"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 36 + ((DashboardLeadDrawerPanel.Width - 72) / 3)
+        Y: =DashboardLeadDrawerPanel.Y + 86
+        ZIndex: =5
+    DashboardLeadDrawerActivityBox As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(250, 249, 245, 1)
+        Height: =116
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 36 + ((DashboardLeadDrawerPanel.Width - 72) / 3)
+        Y: =DashboardLeadDrawerPanel.Y + 108
+        ZIndex: =5
+    DashboardLeadDrawerActivityPlaceholder As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontStyle: =FontStyle.Italic
+        Height: =20
+        Size: =11
+        Text: ="No activity yet"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadDrawerActivityBox.Width
+        X: =DashboardLeadDrawerActivityBox.X
+        Y: =DashboardLeadDrawerActivityBox.Y + 48
+        ZIndex: =6
+    DashboardDrawerLogCallButton As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        HoverColor: =BrandRed
+        HoverFill: =BrandSoft
+        OnSelect: =Patch(Activities, Defaults(Activities), {Title: "Called " & varSelectedLead.Title, EventDate: Now()}); Notify("Call logged for " & varSelectedLead.Title, NotificationType.Information)
+        PaddingLeft: =8
+        PaddingRight: =8
+        Size: =11
+        Text: ="Call"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =70
+        X: =DashboardLeadDrawerActivityBox.X
+        Y: =DashboardLeadDrawerActivityBox.Y + DashboardLeadDrawerActivityBox.Height + 14
+        ZIndex: =5
+    DashboardDrawerLogTextButton As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        HoverColor: =BrandRed
+        HoverFill: =BrandSoft
+        OnSelect: =Patch(Activities, Defaults(Activities), {Title: "Texted " & varSelectedLead.Title, EventDate: Now()}); Notify("Text logged for " & varSelectedLead.Title, NotificationType.Information)
+        PaddingLeft: =8
+        PaddingRight: =8
+        Size: =11
+        Text: ="Text"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =70
+        X: =DashboardLeadDrawerActivityBox.X + 76
+        Y: =DashboardDrawerLogCallButton.Y
+        ZIndex: =5
+    DashboardDrawerLogEmailButton As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        HoverColor: =BrandRed
+        HoverFill: =BrandSoft
+        OnSelect: =Patch(Activities, Defaults(Activities), {Title: "Emailed " & varSelectedLead.Title, EventDate: Now()}); Notify("Email logged for " & varSelectedLead.Title, NotificationType.Information)
+        PaddingLeft: =8
+        PaddingRight: =8
+        Size: =11
+        Text: ="Email"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =70
+        X: =DashboardLeadDrawerActivityBox.X + 152
+        Y: =DashboardDrawerLogCallButton.Y
+        ZIndex: =5
+    DashboardDrawerLogMeetButton As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        HoverColor: =BrandRed
+        HoverFill: =BrandSoft
+        OnSelect: =Patch(Activities, Defaults(Activities), {Title: "Met with " & varSelectedLead.Title, EventDate: Now()}); Notify("Meeting logged for " & varSelectedLead.Title, NotificationType.Information)
+        PaddingLeft: =8
+        PaddingRight: =8
+        Size: =11
+        Text: ="Meet"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =70
+        X: =DashboardLeadDrawerActivityBox.X + 228
+        Y: =DashboardDrawerLogCallButton.Y
+        ZIndex: =5
+    DashboardDrawerLogNoteButton As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        HoverColor: =BrandRed
+        HoverFill: =BrandSoft
+        OnSelect: =Notify("Log Note wiring next", NotificationType.Information)
+        PaddingLeft: =8
+        PaddingRight: =8
+        Size: =11
+        Text: ="Note"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =70
+        X: =DashboardLeadDrawerActivityBox.X + 304
+        Y: =DashboardDrawerLogCallButton.Y
+        ZIndex: =5
+    DashboardLeadDrawerNotesHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =16
+        Size: =10
+        Text: ="NOTES"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =(DashboardLeadDrawerPanel.Width - 72) / 3
+        X: =DashboardLeadDrawerPanel.X + 48 + (2 * ((DashboardLeadDrawerPanel.Width - 72) / 3))
+        Y: =DashboardLeadDrawerPanel.Y + 86
+        ZIndex: =5
+    DashboardLeadDrawerNotes As label:
+        Color: =TextPrimary
+        Fill: =RGBA(250, 249, 245, 1)
+        Font: =Font.'Open Sans'
+        Height: =116
+        PaddingLeft: =8
+        PaddingRight: =8
+        PaddingTop: =6
+        Size: =11
+        Text: =Coalesce(varSelectedLead.Notes, "")
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadDrawerNotesHeader.Width
+        Wrap: =true
+        X: =DashboardLeadDrawerNotesHeader.X
+        Y: =DashboardLeadDrawerPanel.Y + 108
+        ZIndex: =5
+    DashboardLeadDrawerTemplatesHeader As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =16
+        Size: =10
+        Text: ="SEND TEMPLATE (" & CountRows(FirstN(SortByColumns('Email Templates', "Title", SortOrder.Ascending), 7)) & " available)"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadDrawerNotesHeader.Width
+        X: =DashboardLeadDrawerNotesHeader.X
+        Y: =DashboardLeadDrawerPanel.Y + 228
+        ZIndex: =5
+    DashboardLeadDrawerTemplatesBox As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =332
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadDrawerNotesHeader.Width
+        X: =DashboardLeadDrawerNotesHeader.X
+        Y: =DashboardLeadDrawerPanel.Y + 250
+        ZIndex: =5
+    "DashboardDrawerTemplatesGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(255, 255, 255, 0)
+        Height: =312
+        Items: =FirstN(SortByColumns(Filter('Email Templates', IsBlank(AssignedAgents) || User().Email in Concat(AssignedAgents, Email, ";")), "Title", SortOrder.Ascending), 7)
+        Layout: =Layout.Vertical
+        ShowScrollbar: =true
+        TemplateFill: =RGBA(255, 255, 255, 0)
+        TemplatePadding: =0
+        TemplateSize: =46
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =DashboardLeadDrawerTemplatesBox.Width - 20
+        X: =DashboardLeadDrawerTemplatesBox.X + 10
+        Y: =DashboardLeadDrawerTemplatesBox.Y + 10
+        ZIndex: =6
+
+        TemplateRowTitle As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: =ThisItem.Title
+            Width: =Parent.TemplateWidth - 88
+            X: =10
+            Y: =9
+            ZIndex: =1
+
+        TemplateRowSendButton As button:
+            BorderThickness: =0
+            Color: =RGBA(255, 255, 255, 1)
+            Cursor: =Cursor.Hand
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverFill: =BrandRedDark
+            OnSelect: =Notify("Send wiring coming in Pass I", NotificationType.Information)
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Size: =11
+            Text: ="Send"
+            Width: =58
+            X: =Parent.TemplateWidth - 68
+            Y: =9
+            ZIndex: =3
+
+    DashboardDrawerOpenDetailButton As button:
+        BorderColor: =BrandRed
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Launch("https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY/_layouts/15/listform.aspx?PageType=8&ListId=%7B8B827CB2-70B9-475C-843F-E500F13ED030%7D&ContentTypeId=0x01002D479C01AB1DC44988DA57E08C8DFACE&Title=" & EncodeUrl(Coalesce(varSelectedLead.Title, "")))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Size: =11
+        Text: ="Open in SharePoint"
+        Visible: =true
+        Width: =140
+        X: =DashboardLeadDrawerPanel.X + 24
+        Y: =DashboardLeadDrawerPanel.Y + DashboardLeadDrawerPanel.Height - 48
+        ZIndex: =5
+    DashboardDrawerNewQuoteButton As button:
+        BorderColor: =BrandRed
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Launch("https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY/_layouts/15/listform.aspx?PageType=8&ListId=%7B8B827CB2-70B9-475C-843F-E500F13ED030%7D&ContentTypeId=0x01002D479C01AB1DC44988DA57E08C8DFACE&Title=" & EncodeUrl(Coalesce(varSelectedLead.Title, "")))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Size: =11
+        Text: ="+ New Quote"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =140
+        X: =DashboardDrawerOpenDetailButton.X + DashboardDrawerOpenDetailButton.Width + 12
+        Y: =DashboardDrawerOpenDetailButton.Y
+        ZIndex: =5
+    DashboardDrawerOpenPDFButton As button:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Notify("PDF lookup pending Quote Documents data source", NotificationType.Information)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Size: =11
+        Text: ="Open PDF"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =120
+        X: =DashboardDrawerNewQuoteButton.X + DashboardDrawerNewQuoteButton.Width + 12
+        Y: =DashboardDrawerOpenDetailButton.Y
+        ZIndex: =5
+    DashboardDrawerMarkBoundButton As button:
+        BorderColor: =BrandRed
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =IfError(Patch(Leads, varSelectedLead, {Status: {Value: "Bound"}}), Patch(Leads, varSelectedLead, {Status: "Bound"})); Set(varSelectedLead, LookUp(Leads, ID = varSelectedLead.ID)); Patch(Activities, Defaults(Activities), {Title: "Marked Bound: " & varSelectedLead.Title, EventDate: Now()}); Notify("Marked Bound - " & varSelectedLead.Title, NotificationType.Success)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Size: =11
+        Text: ="Mark Bound"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =140
+        X: =DashboardDrawerOpenPDFButton.X + DashboardDrawerOpenPDFButton.Width + 12
+        Y: =DashboardDrawerOpenDetailButton.Y
+        ZIndex: =5
+    DashboardDrawerCloseButton As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderThickness: =1
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        OnSelect: =Set(varSelectedLead, Blank())
+        Size: =11
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Text: ="Close"
+        Visible: =!IsBlank(varSelectedLead)
+        Width: =72
+        X: =DashboardLeadDrawerPanel.X + DashboardLeadDrawerPanel.Width - 96
+        Y: =DashboardLeadDrawerPanel.Y + 14
+        ZIndex: =5
+    DashboardEmptyState As label:
+        Align: =Align.Center
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontStyle: =FontStyle.Italic
+        Height: =40
+        Size: =14
+        Text: ="No leads match your filters"
+        Visible: =CountRows(DashboardLeadsGallery.AllItems)=0
+        Width: =DashboardLeadsGallery.Width
+        X: =DashboardLeadsGallery.X
+        Y: =DashboardLeadsGallery.Y + 220
+        ZIndex: =9
+    DashboardPaginationFooter As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =24
+        PaddingLeft: =16
+        Size: =11
+        Text: ="Showing " & CountRows(DashboardLeadsGallery.AllItems) & " of " & LookUp(colLeadCounts, Status="Total").Count & " leads"
+        Visible: =true
+        Width: =400
+        X: =DashboardLeadsGallery.X
+        Y: =If(IsBlank(varSelectedLead), DashboardLeadsGallery.Y + DashboardLeadsGallery.Height + 12, DashboardLeadDrawerPanel.Y + DashboardLeadDrawerPanel.Height + 12)
+        ZIndex: =5
+

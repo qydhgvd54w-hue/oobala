@@ -1,0 +1,48 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://msmanaged-na.azure-apim.net/apim/powerappsnotificationv2" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="PowerAppsNotificationV2" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="Power Apps Notification V2">Send push notifications to apps created with Power Apps, Field Service, and Sales. Trigger them from Flows or other apps.</doc>
+  <grammars>
+    <jsonTypes targetNamespace="https://msmanaged-na.azure-apim.net/apim/powerappsnotificationv2" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="SendPushNotificationV2_param_payload_def_playerType_def" />
+      <string name="SendPushNotificationV2_param_payload_def_app_def" />
+      <string name="SendPushNotificationV2_param_payload_def_recipients_def_items_def" />
+      <array type="string" name="SendPushNotificationV2_param_payload_def_recipients_def" />
+      <string name="SendPushNotificationV2_param_payload_def_message_def" />
+      <boolean name="SendPushNotificationV2_param_payload_def_openApp_def" />
+      <untypedObject name="SendPushNotificationV2_param_payload_def_dynamicParams_def" />
+      <object name="SendPushNotificationV2_param_payload_def">
+        <property name="playerType" type="string" />
+        <property name="app" type="string" />
+        <property name="recipients" typeRef="SendPushNotificationV2_param_payload_def_recipients_def" />
+        <property name="message" type="string" />
+        <property name="openApp" type="boolean" />
+        <property name="dynamicParams" typeRef="SendPushNotificationV2_param_payload_def_dynamicParams_def" />
+      </object>
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://msmanaged-na.azure-apim.net/apim/powerappsnotificationv2">
+    <resource path="/{connectionId}/providers/Microsoft.PowerApps/scopes/connector/environments/apps/sendPushNotification">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="SendPushNotificationV2" actionName="SendPushNotificationV2" siena:isDeprecated="false">
+        <doc title="Send push notification V2&#xA;Send a push notification to any app created in Power Apps, Field Service, or Sales." />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="playerType" path="/playerType" type="xs:string" required="true" />
+            <param style="plain" name="app" path="/app" type="xs:string" required="true" />
+            <param style="plain" name="recipients" path="/recipients" type="service:SendPushNotificationV2_param_payload_def_recipients_def" required="true" />
+            <param style="plain" name="message" path="/message" type="xs:string" required="true" />
+            <param style="plain" name="openApp" path="/openApp" type="xs:boolean" required="true" />
+            <param style="plain" name="dynamicParams" path="/dynamicParams" type="service:SendPushNotificationV2_param_payload_def_dynamicParams_def" required="true" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="shared_powerappsnotificationv2" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

@@ -1,0 +1,509 @@
+ActivitiesScreen As screen:
+    Fill: =BgCream2
+    ActSidebarBackground As rectangle:
+        Fill: =RGBA(247, 247, 250, 1)
+        Height: =Parent.Height
+        Width: =200
+        X: =0
+        Y: =0
+        ZIndex: =1
+    ActSidebarLogoLabel As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        PaddingLeft: =16
+        Size: =16
+        Text: ="Adams Cosby"
+        Width: =200
+        X: =0
+        Y: =16
+        ZIndex: =2
+    ActSidebarNavItemDashboard As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Dashboard"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =3
+    ActSidebarNavItemDashboardAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Dashboard"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =72
+        ZIndex: =4
+    ActSidebarNavItemDashboardIcon As icon.Home:
+        Color: =If("Dashboard"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Home
+        Width: =20
+        X: =16
+        Y: =82
+        ZIndex: =5
+    ActSidebarNavItemDashboardLabel As label:
+        Color: =If("Dashboard"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Dashboard"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Dashboard"
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =5
+    ActSidebarNavItemLeads As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Leads"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Leads screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =3
+    ActSidebarNavItemLeadsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Leads"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =112
+        ZIndex: =4
+    ActSidebarNavItemLeadsIcon As icon.People:
+        Color: =If("Leads"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.People
+        Width: =20
+        X: =16
+        Y: =122
+        ZIndex: =5
+    ActSidebarNavItemLeadsLabel As label:
+        Color: =If("Leads"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Leads"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Leads screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Leads"
+        Width: =200
+        X: =0
+        Y: =112
+        ZIndex: =5
+    ActSidebarNavItemActivities As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Activities"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("You're on Activities", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =3
+    ActSidebarNavItemActivitiesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Activities"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =152
+        ZIndex: =4
+    ActSidebarNavItemActivitiesIcon As icon.Phone:
+        Color: =If("Activities"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Phone
+        Width: =20
+        X: =16
+        Y: =162
+        ZIndex: =5
+    ActSidebarNavItemActivitiesLabel As label:
+        Color: =If("Activities"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Activities"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("You're on Activities", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Activities"
+        Width: =200
+        X: =0
+        Y: =152
+        ZIndex: =5
+    ActSidebarNavItemCalendar As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Calendar"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =3
+    ActSidebarNavItemCalendarAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Calendar"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =192
+        ZIndex: =4
+    ActSidebarNavItemCalendarIcon As icon.CalendarBlank:
+        Color: =If("Calendar"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.CalendarBlank
+        Width: =20
+        X: =16
+        Y: =202
+        ZIndex: =5
+    ActSidebarNavItemCalendarLabel As label:
+        Color: =If("Calendar"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Calendar"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Calendar"
+        Width: =200
+        X: =0
+        Y: =192
+        ZIndex: =5
+    ActSidebarNavItemTasks As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Tasks"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =3
+    ActSidebarNavItemTasksAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Tasks"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =232
+        ZIndex: =4
+    ActSidebarNavItemTasksIcon As icon.Check:
+        Color: =If("Tasks"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Check
+        Width: =20
+        X: =16
+        Y: =242
+        ZIndex: =5
+    ActSidebarNavItemTasksLabel As label:
+        Color: =If("Tasks"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Tasks"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Tasks"
+        Width: =200
+        X: =0
+        Y: =232
+        ZIndex: =5
+    ActSidebarNavItemTemplates As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Templates"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =3
+    ActSidebarNavItemTemplatesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Templates"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =272
+        ZIndex: =4
+    ActSidebarNavItemTemplatesIcon As icon.Mail:
+        Color: =If("Templates"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Mail
+        Width: =20
+        X: =16
+        Y: =282
+        ZIndex: =5
+    ActSidebarNavItemTemplatesLabel As label:
+        Color: =If("Templates"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Templates"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Templates"
+        Width: =200
+        X: =0
+        Y: =272
+        ZIndex: =5
+    ActSidebarNavItemReports As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Reports"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =3
+    ActSidebarNavItemReportsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Reports"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =312
+        ZIndex: =4
+    ActSidebarNavItemReportsIcon As icon.Trending:
+        Color: =If("Reports"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Trending
+        Width: =20
+        X: =16
+        Y: =322
+        ZIndex: =5
+    ActSidebarNavItemReportsLabel As label:
+        Color: =If("Reports"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Reports"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Reports"
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =5
+    ActSidebarNavItemFiles As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Files"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =3
+    ActSidebarNavItemFilesAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Files"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =352
+        ZIndex: =4
+    ActSidebarNavItemFilesIcon As icon.Folder:
+        Color: =If("Files"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Folder
+        Width: =20
+        X: =16
+        Y: =362
+        ZIndex: =5
+    ActSidebarNavItemFilesLabel As label:
+        Color: =If("Files"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Files"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Files"
+        Width: =200
+        X: =0
+        Y: =352
+        ZIndex: =5
+    ActSidebarNavItemSettings As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Settings"="Activities", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =3
+    ActSidebarNavItemSettingsAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Settings"="Activities", true, false)
+        Width: =3
+        X: =0
+        Y: =392
+        ZIndex: =4
+    ActSidebarNavItemSettingsIcon As icon.Settings:
+        Color: =If("Settings"="Activities", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Settings
+        Width: =20
+        X: =16
+        Y: =402
+        ZIndex: =5
+    ActSidebarNavItemSettingsLabel As label:
+        Color: =If("Settings"="Activities", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Settings"="Activities", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Settings"
+        Width: =200
+        X: =0
+        Y: =392
+        ZIndex: =5
+    ActHeaderRect As rectangle:
+        Fill: =BrandRed
+        Height: =80
+        Width: =Parent.Width - 200
+        X: =200
+        Y: =0
+        ZIndex: =2
+    ActHeaderLabel As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        Size: =20
+        Text: ="Activities"
+        Width: =400
+        X: =232
+        Y: =20
+        ZIndex: =3
+    ActBackButton As button:
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PressedFill: =RGBA(255, 255, 255, 0.25)
+        Size: =13
+        Text: ="← Dashboard"
+        Width: =120
+        X: =Parent.Width - 136
+        Y: =22
+        ZIndex: =100
+    ActSearchBox As text:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Default: =""
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =36
+        HintText: ="Search activity notes"
+        OnChange: =Set(varActivitySearch, Self.Text)
+        Size: =13
+        Width: =400
+        X: =232
+        Y: =104
+        ZIndex: =4
+    "ActListGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =BorderSoft
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 200
+        Items: =SortByColumns(Filter(Activities, IsBlank(varActivitySearch) || StartsWith(ActivityNotes, varActivitySearch)), "EventDate", SortOrder.Descending)
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =72
+        Width: =Parent.Width - 264
+        X: =232
+        Y: =152
+        ZIndex: =5
+
+        ActRowIcon As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =32
+            Size: =18
+            Text: =Switch(ThisItem.ActivityType.Value, "Phone Call", "📞", "Text", "💬", "Email", "📨", "Meeting", "🤝", "Note", "📝", "Status Change", "🔄", "Created", "✨", "📌")
+            Width: =32
+            X: =8
+            Y: =8
+            ZIndex: =1
+
+        ActRowTitle As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            Size: =12
+            Text: =If(IsBlank(ThisItem.Lead), Coalesce(ThisItem.ActivityType.Value, ThisItem.Title), ThisItem.Lead.Value & " — " & Coalesce(ThisItem.ActivityType.Value, ""))
+            Width: =Parent.TemplateWidth - 200
+            X: =48
+            Y: =8
+            ZIndex: =2
+
+        ActRowNotes As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =14
+            Size: =10
+            Text: =Coalesce(ThisItem.ActivityNotes, "")
+            Width: =Parent.TemplateWidth - 200
+            X: =48
+            Y: =28
+            ZIndex: =3
+
+        ActRowDate As label:
+            Align: =Align.Right
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =18
+            Size: =10
+            Text: =Text(ThisItem.EventDate, "[$-en-US]m/d/yy h:mm AM/PM")
+            Width: =160
+            X: =Parent.TemplateWidth - 180
+            Y: =8
+            ZIndex: =4
+
+        ActRowSeparator As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =71
+            ZIndex: =5

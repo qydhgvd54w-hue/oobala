@@ -1,0 +1,156 @@
+{
+  "02b7df32-172c-45ca-ac2e-09e3c392ce27": {
+    "connectionRef": {
+      "displayName": "Power Apps Notification V2",
+      "executionRestrictions": {
+        "apiId": "/providers/microsoft.powerapps/apis/shared_powerappsnotificationv2",
+        "appVer": "3.26042.14",
+        "modifiedOn": "2026-05-02 23:51:59",
+        "policy": "{\"type\":\"unused\"}",
+        "version": 1
+      },
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1778/1.0.1778.4417/powerappsnotificationv2/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_powerappsnotificationv2",
+      "sharedConnectionId": "/providers/microsoft.powerapps/apis/shared_powerappsnotificationv2/connections/70fbe992220e48bfb251fcf53ba14464"
+    },
+    "datasets": {},
+    "dataSources": [
+      "PowerAppsNotificationV2"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "02b7df32-172c-45ca-ac2e-09e3c392ce27"
+  },
+  "032de0f5-8762-4b4c-a61c-03a773884550": {
+    "connectionRef": {
+      "displayName": "Microsoft Teams",
+      "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1800/1.0.1800.4665/teams/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_teams"
+    },
+    "datasets": {},
+    "dataSources": [
+      "MicrosoftTeams"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "032de0f5-8762-4b4c-a61c-03a773884550"
+  },
+  "2bee0209-f143-4da9-8be9-4bdd61ee175c": {
+    "connectionRef": {
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1802/1.0.1802.4700/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365"
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "2bee0209-f143-4da9-8be9-4bdd61ee175c"
+  },
+  "3d0d0039-9505-41e6-8166-62dcd080d021": {
+    "connectionRef": {
+      "displayName": "Office 365 Users",
+      "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1807/1.0.1807.4725/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users"
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "3d0d0039-9505-41e6-8166-62dcd080d021"
+  },
+  "3f87c485-b251-4acf-a81b-d46ca5cfe8cb": {
+    "connectionRef": {
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1769/1.0.1769.4361/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+    },
+    "datasets": {
+      "https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY": {
+        "dataSources": {
+          "Activities": {
+            "tableName": "cae1d193-f1b2-4dc4-acdd-94631247d5fc"
+          },
+          "Audit Log": {
+            "tableName": "9f7e1701-f9a2-493f-97d8-40fa446adb90"
+          },
+          "Calendar Events": {
+            "tableName": "8d2334cd-f059-441d-bfea-e7a226af27c8"
+          },
+          "Document Library": {
+            "tableName": "ae3c0820-06f7-4ce2-a1c6-5bf5a98a17dd"
+          },
+          "Documents": {
+            "tableName": "4ca40b9b-fce8-45b0-9897-cbc88a8b556d"
+          },
+          "Email Templates": {
+            "tableName": "244565c9-b684-47e4-82e9-ca9cb54de635"
+          },
+          "Home Quotes": {
+            "tableName": "8b827cb2-70b9-475c-843f-e500f13ed030"
+          },
+          "Leads": {
+            "tableName": "7cbfdbb0-3ee1-4f38-a089-a0f45d5587f1"
+          },
+          "Quote Documents": {
+            "tableName": "6e00c33f-0726-4ed3-8877-7d6b42b29117"
+          },
+          "Rotation Intake": {
+            "tableName": "d520882c-c7ba-4133-8010-f5d999dfc213"
+          },
+          "Rotation Log": {
+            "tableName": "af8da2bc-3649-49e9-8e42-fbdd2759c241"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Home Quotes",
+      "Leads",
+      "Activities",
+      "Audit Log",
+      "Calendar Events",
+      "Document Library",
+      "Documents",
+      "Email Templates",
+      "Quote Documents",
+      "Rotation Intake",
+      "Rotation Log"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "3f87c485-b251-4acf-a81b-d46ca5cfe8cb"
+  },
+  "42b8af5e-7e17-4209-b592-d985baa0e676": {
+    "connectionRef": {
+      "displayName": "Microsoft To-Do (Business)",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4628/todo/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_todo"
+    },
+    "datasets": {},
+    "dataSources": [
+      "MicrosoftTo-Do(Business)"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "42b8af5e-7e17-4209-b592-d985baa0e676"
+  },
+  "6a435eb1-0e1b-49e4-b267-cd0f05a7def9": {
+    "connectionRef": {
+      "displayName": "Planner",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4634/planner/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_planner"
+    },
+    "datasets": {},
+    "dataSources": [
+      "Planner"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "6a435eb1-0e1b-49e4-b267-cd0f05a7def9"
+  }
+}

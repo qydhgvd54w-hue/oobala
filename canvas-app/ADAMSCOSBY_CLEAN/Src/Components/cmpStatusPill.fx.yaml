@@ -1,0 +1,8 @@
+cmpStatusPill As CanvasComponent:
+    Fill: =RGBA(252, 235, 235, 1)
+    Height: =24
+    Width: =80
+    X: =0
+    Y: =0
+    ZIndex: =1
+
