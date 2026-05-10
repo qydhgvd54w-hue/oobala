@@ -1,0 +1,2310 @@
+Screens:
+  DashboardScreen_M3:
+    Properties:
+      Fill: =RGBA(249, 250, 251, 1)
+      LoadingSpinnerColor: =BrandRed
+      OnVisible: |-
+        =If(IsBlank(varSelectedLeadM3), Set(varSelectedLeadM3, First(Leads)));
+        Set(varSourceFilterM3, "All Sources");
+        Set(varProducerFilterM3, "All Producers");
+        Set(varStatusFilterM3, "Follow-up");
+        Set(varSearchM3, "");
+        ClearCollect(colStatusCardsM3,
+            {Key:"New",         Label:"New",         Count: CountRows(Filter(Leads, Status.Value = "New")),         Tint: RGBA(37, 99, 235, 1),  TintSoft: RGBA(232, 240, 254, 1)},
+            {Key:"In Progress", Label:"In Progress", Count: CountRows(Filter(Leads, Status.Value = "In Progress")), Tint: RGBA(217, 119, 6, 1),  TintSoft: RGBA(254, 243, 199, 1)},
+            {Key:"Quoted",      Label:"Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted")),      Tint: RGBA(22, 163, 74, 1),  TintSoft: RGBA(220, 252, 231, 1)},
+            {Key:"Bound",       Label:"Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound")),       Tint: RGBA(13, 148, 136, 1), TintSoft: RGBA(204, 251, 241, 1)},
+            {Key:"Lost",        Label:"Lost",        Count: CountRows(Filter(Leads, Status.Value = "Lost")),        Tint: RGBA(107, 114, 128, 1),TintSoft: RGBA(243, 244, 246, 1)},
+            {Key:"Follow-up",   Label:"Follow-up",   Count: CountRows(Filter(Leads, Status.Value = "Follow-up")),   Tint: BrandRed,              TintSoft: RGBA(254, 226, 226, 1)}
+        );
+        ClearCollect(colStagesM3,
+            {Key:"New",         Order: 1, Label:"New"},
+            {Key:"In Progress", Order: 2, Label:"In Progress"},
+            {Key:"Quoted",      Order: 3, Label:"Quoted"},
+            {Key:"Bound",       Order: 4, Label:"Bound"},
+            {Key:"Lost",        Order: 5, Label:"Lost"}
+        );
+        ClearCollect(colActionRailM3,
+            {Key:"call",     Label:"Call",        Icon: Icon.Phone},
+            {Key:"email",    Label:"Email",       Icon: Icon.Mail},
+            {Key:"text",     Label:"Text",        Icon: Icon.Message},
+            {Key:"note",     Label:"Add Note",    Icon: Icon.Edit},
+            {Key:"task",     Label:"Create Task", Icon: Icon.AddDocument},
+            {Key:"upload",   Label:"Upload File", Icon: Icon.Folder},
+            {Key:"quote",    Label:"Create Quote",Icon: Icon.DocumentPDF}
+        );
+        ClearCollect(colNavM3,
+            {Key:"home",       Label:"Home",       Icon: Icon.Home,           Active: false, OnSelectKey: "home"},
+            {Key:"leads",      Label:"Leads",      Icon: Icon.People,         Active: true,  OnSelectKey: "leads"},
+            {Key:"accounts",   Label:"Accounts",   Icon: Icon.PersonAccount,  Active: false, OnSelectKey: "accounts"},
+            {Key:"policies",   Label:"Policies",   Icon: Icon.Shop,           Active: false, OnSelectKey: "policies"},
+            {Key:"activities", Label:"Activities", Icon: Icon.CheckBadge,     Active: false, OnSelectKey: "activities"},
+            {Key:"documents",  Label:"Documents",  Icon: Icon.Folder,         Active: false, OnSelectKey: "documents"},
+            {Key:"reports",    Label:"Reports",    Icon: Icon.Trending,       Active: false, OnSelectKey: "reports"},
+            {Key:"dashboards", Label:"Dashboards", Icon: Icon.Items,          Active: false, OnSelectKey: "dashboards"}
+        )
+    Children:
+      - HeaderBar_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =BrandRed
+            Height: =64
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+      - HeaderAppsIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =22
+            Icon: =Icon.Waffle
+            Width: =22
+            X: =24
+            Y: =21
+      - HeaderTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =64
+            PaddingLeft: =16
+            PaddingTop: =18
+            Size: =20
+            Text: ="Adam's CRM"
+            Width: =220
+            X: =60
+            Y: =0
+      - HeaderSearchBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 0)
+            BorderThickness: =0
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Width: =540
+            X: =(Parent.Width - 540) / 2
+            Y: =12
+      - HeaderSearchIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =BrandRed
+            Height: =16
+            Icon: =Icon.Search
+            Width: =16
+            X: =((Parent.Width - 540) / 2) + 14
+            Y: =24
+      - HeaderSearchInput_M3:
+          Control: Classic/TextInput@2.3.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Color: =TextPrimary
+            Default: =""
+            DisabledFill: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =40
+            HintText: ="Search leads, contacts, policies..."
+            HoverFill: =RGBA(255, 255, 255, 1)
+            PaddingLeft: =12
+            Size: =12
+            Width: =480
+            X: =((Parent.Width - 540) / 2) + 40
+            Y: =12
+      - HeaderBellIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =22
+            Icon: =Icon.Bell
+            Width: =22
+            X: =Parent.Width - 200
+            Y: =21
+      - HeaderSettingsIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =22
+            Icon: =Icon.Settings
+            Width: =22
+            X: =Parent.Width - 160
+            Y: =21
+      - HeaderHelpIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =22
+            Icon: =Icon.Help
+            Width: =22
+            X: =Parent.Width - 120
+            Y: =21
+      - HeaderUserAvatarBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =36
+            Width: =36
+            X: =Parent.Width - 70
+            Y: =14
+      - HeaderUserAvatarInitials_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            PaddingTop: =10
+            Size: =11
+            Text: =Upper(Left(User().FullName, 1) & Mid(User().FullName & " ", Find(" ", User().FullName & " ") + 1, 1))
+            Width: =36
+            X: =Parent.Width - 70
+            Y: =14
+      - SidebarBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 64
+            Width: =120
+            X: =0
+            Y: =64
+      - SidebarNavGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =440
+            Items: =colNavM3
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =56
+            Width: =120
+            X: =0
+            Y: =80
+          Children:
+            - NavRowActiveBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: =If(ThisItem.Active, RGBA(254, 226, 226, 1), Color.Transparent)
+                  Height: =48
+                  Width: =104
+                  X: =8
+                  Y: =4
+            - NavRowIcon_M3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =If(ThisItem.Active, BrandRed, TextSecondary)
+                  Height: =22
+                  Icon: =ThisItem.Icon
+                  Width: =22
+                  X: =49
+                  Y: =8
+            - NavRowLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =If(ThisItem.Active, BrandRed, TextPrimary)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.Active, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =20
+                  Size: =11
+                  Text: =ThisItem.Label
+                  Width: =120
+                  X: =0
+                  Y: =34
+      - SidebarAlfaBox_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =BrandRed
+            Height: =80
+            Width: =80
+            X: =20
+            Y: =Parent.Height - 156
+      - SidebarAlfaTop_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            PaddingTop: =12
+            Size: =18
+            Text: ="ALFA"
+            Width: =80
+            X: =20
+            Y: =Parent.Height - 156
+      - SidebarAlfaSub_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Size: =9
+            Text: ="INSURANCE"
+            Width: =80
+            X: =20
+            Y: =Parent.Height - 112
+      - SidebarCollapseIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =14
+            Icon: =Icon.Back
+            OnSelect: =Notify("Collapse sidebar coming soon", NotificationType.Information)
+            Width: =14
+            X: =20
+            Y: =Parent.Height - 36
+      - SidebarCollapseLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =20
+            OnSelect: =Notify("Collapse sidebar coming soon", NotificationType.Information)
+            PaddingLeft: =4
+            Size: =11
+            Text: ="Collapse"
+            Width: =80
+            X: =38
+            Y: =Parent.Height - 38
+      - LeadsPanelBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 64
+            Width: =380
+            X: =120
+            Y: =64
+      - LeadsPanelTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            PaddingLeft: =24
+            PaddingTop: =4
+            Size: =22
+            Text: ="Leads"
+            Width: =200
+            X: =120
+            Y: =88
+      - LeadsPanelCount_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =20
+            PaddingLeft: =24
+            Size: =11
+            Text: =Text(CountRows(Leads)) & " leads"
+            Width: =200
+            X: =120
+            Y: =122
+      - LeadsStatusGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Horizontal
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =68
+            Items: =colStatusCardsM3
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =56
+            Width: =356
+            X: =136
+            Y: =152
+          Children:
+            - LeadsStatusBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =If(varStatusFilterM3 = ThisItem.Key, BrandRed, BorderSoft)
+                  BorderThickness: =If(varStatusFilterM3 = ThisItem.Key, 2, 1)
+                  Fill: =If(varStatusFilterM3 = ThisItem.Key, RGBA(254, 242, 242, 1), RGBA(255, 255, 255, 1))
+                  Height: =64
+                  OnSelect: =Set(varStatusFilterM3, If(varStatusFilterM3 = ThisItem.Key, "All", ThisItem.Key))
+                  Width: =52
+                  X: =2
+                  Y: =2
+            - LeadsStatusLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =If(varStatusFilterM3 = ThisItem.Key, BrandRed, TextSecondary)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =18
+                  PaddingTop: =2
+                  Size: =9
+                  Text: =ThisItem.Label
+                  Width: =52
+                  X: =2
+                  Y: =8
+            - LeadsStatusVal_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =26
+                  PaddingTop: =0
+                  Size: =16
+                  Text: =Text(ThisItem.Count)
+                  Width: =52
+                  X: =2
+                  Y: =28
+      - LeadsSourceLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =16
+            PaddingLeft: =24
+            Size: =9
+            Text: ="SOURCE"
+            Width: =80
+            X: =120
+            Y: =240
+      - LeadsSourceBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =36
+            Width: =110
+            X: =136
+            Y: =258
+      - LeadsSourceVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            Height: =36
+            PaddingLeft: =10
+            PaddingTop: =10
+            Size: =11
+            Text: =varSourceFilterM3
+            Width: =94
+            X: =136
+            Y: =258
+      - LeadsSourceChevron_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =12
+            Icon: =Icon.ChevronDown
+            Width: =12
+            X: =230
+            Y: =270
+      - LeadsProducerLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =16
+            Size: =9
+            Text: ="PRODUCER"
+            Width: =90
+            X: =252
+            Y: =240
+      - LeadsProducerBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =36
+            Width: =110
+            X: =252
+            Y: =258
+      - LeadsProducerVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            Height: =36
+            PaddingLeft: =10
+            PaddingTop: =10
+            Size: =11
+            Text: =varProducerFilterM3
+            Width: =94
+            X: =252
+            Y: =258
+      - LeadsProducerChevron_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =12
+            Icon: =Icon.ChevronDown
+            Width: =12
+            X: =346
+            Y: =270
+      - LeadsClearLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            OnSelect: |-
+              =Set(varStatusFilterM3, "All");
+              Set(varSourceFilterM3, "All Sources");
+              Set(varProducerFilterM3, "All Producers");
+              Set(varSearchM3, "")
+            PaddingLeft: =4
+            PaddingTop: =10
+            Size: =11
+            Text: ="Clear filters"
+            Width: =100
+            X: =380
+            Y: =258
+      - LeadsSearchBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(249, 250, 251, 1)
+            Height: =40
+            Width: =356
+            X: =136
+            Y: =308
+      - LeadsSearchIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =16
+            Icon: =Icon.Search
+            Width: =16
+            X: =150
+            Y: =320
+      - LeadsSearchInput_M3:
+          Control: Classic/TextInput@2.3.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Color: =TextPrimary
+            Default: =""
+            DisabledFill: =Color.Transparent
+            Fill: =Color.Transparent
+            Font: =Font.'Open Sans'
+            Height: =40
+            HintText: ="Search leads..."
+            HoverFill: =Color.Transparent
+            OnChange: =Set(varSearchM3, Self.Text)
+            PaddingLeft: =10
+            Size: =12
+            Width: =290
+            X: =172
+            Y: =308
+      - LeadsSearchFilterIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =16
+            Icon: =Icon.Filter
+            OnSelect: =Notify("Filter dialog coming soon", NotificationType.Information)
+            Width: =16
+            X: =468
+            Y: =320
+      - LeadsListGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 460
+            Items: |-
+              =SortByColumns(
+                  Filter(Leads,
+                      (varStatusFilterM3 = "All" || Status.Value = varStatusFilterM3),
+                      (varSourceFilterM3 = "All Sources" || Source.Value = varSourceFilterM3),
+                      (varProducerFilterM3 = "All Producers" || Agent.DisplayName = varProducerFilterM3),
+                      (IsBlank(varSearchM3) || StartsWith(Lower(Coalesce(FullName, Title, "")), Lower(varSearchM3)))
+                  ),
+                  "Modified", SortOrder.Descending
+              )
+            ShowScrollbar: =true
+            TemplatePadding: =0
+            TemplateSize: =80
+            Width: =380
+            X: =120
+            Y: =360
+          Children:
+            - LeadCardSelBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =If(varSelectedLeadM3.ID = ThisItem.ID, BrandRed, RGBA(0, 0, 0, 0))
+                  BorderThickness: =If(varSelectedLeadM3.ID = ThisItem.ID, 2, 0)
+                  Fill: =If(varSelectedLeadM3.ID = ThisItem.ID, RGBA(254, 242, 242, 1), RGBA(255, 255, 255, 1))
+                  Height: =76
+                  OnSelect: =Set(varSelectedLeadM3, ThisItem)
+                  Width: =356
+                  X: =12
+                  Y: =2
+            - LeadCardAvatarBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: =BrandRed
+                  Height: =40
+                  Width: =40
+                  X: =24
+                  Y: =20
+            - LeadCardAvatarInitials_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =40
+                  PaddingTop: =11
+                  Size: =13
+                  Text: =Upper(Left(Coalesce(ThisItem.FullName, ThisItem.Title, "?"), 1) & Mid(Coalesce(ThisItem.FullName, ThisItem.Title, "?") & " ", Find(" ", Coalesce(ThisItem.FullName, ThisItem.Title, "?") & " ") + 1, 1))
+                  Width: =40
+                  X: =24
+                  Y: =20
+            - LeadCardName_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =4
+                  Size: =12
+                  Text: =Coalesce(ThisItem.FullName, ThisItem.Title, "Unnamed")
+                  Width: =160
+                  X: =72
+                  Y: =14
+            - LeadCardType_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextSecondary
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  PaddingLeft: =4
+                  Size: =11
+                  Text: =Coalesce(ThisItem.LineOfBusiness.Value, ThisItem.Products, "—")
+                  Width: =140
+                  X: =72
+                  Y: =34
+            - LeadCardSource_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextMuted
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  PaddingLeft: =4
+                  Size: =10
+                  Text: =Coalesce(ThisItem.Source.Value, "—")
+                  Width: =140
+                  X: =72
+                  Y: =52
+            - LeadCardPremium_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =20
+                  PaddingRight: =16
+                  Size: =12
+                  Text: =If(IsBlank(ThisItem.QuotedPremium), "—", "$" & Text(ThisItem.QuotedPremium, "[$-en-US]#,###"))
+                  Width: =110
+                  X: =240
+                  Y: =14
+            - LeadCardStatusBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: |
+                    =Switch(ThisItem.Status.Value,
+                        "New",         RGBA(232, 240, 254, 1),
+                        "In Progress", RGBA(254, 243, 199, 1),
+                        "Quoted",      RGBA(220, 252, 231, 1),
+                        "Follow-up",   RGBA(254, 226, 226, 1),
+                        "Bound",       RGBA(204, 251, 241, 1),
+                        "Lost",        RGBA(243, 244, 246, 1),
+                        RGBA(243, 244, 246, 1)
+                    )
+                  Height: =22
+                  Width: =86
+                  X: =252
+                  Y: =34
+            - LeadCardStatusLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: |
+                    =Switch(ThisItem.Status.Value,
+                        "New",         RGBA(37, 99, 235, 1),
+                        "In Progress", RGBA(180, 95, 0, 1),
+                        "Quoted",      RGBA(22, 163, 74, 1),
+                        "Follow-up",   BrandRed,
+                        "Bound",       RGBA(13, 148, 136, 1),
+                        "Lost",        RGBA(107, 114, 128, 1),
+                        TextSecondary
+                    )
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  PaddingTop: =4
+                  Size: =9
+                  Text: =Coalesce(ThisItem.Status.Value, "—")
+                  Width: =86
+                  X: =252
+                  Y: =34
+            - LeadCardDate_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =TextMuted
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  PaddingRight: =16
+                  Size: =10
+                  Text: =If(IsBlank(ThisItem.Created), "—", Text(ThisItem.Created, "[$-en-US]m/d/yyyy"))
+                  Width: =100
+                  X: =250
+                  Y: =56
+      - LeadsPagingLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =40
+            PaddingLeft: =24
+            PaddingTop: =12
+            Size: =11
+            Text: ="1-8 of " & Text(CountRows(Leads))
+            Width: =120
+            X: =120
+            Y: =Parent.Height - 56
+      - DetailPaneBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(249, 250, 251, 1)
+            Height: =Parent.Height - 64
+            Width: =Parent.Width - 500 - 128
+            X: =500
+            Y: =64
+      - LeadHeaderCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =100
+            Width: =Parent.Width - 500 - 128 - 32
+            X: =516
+            Y: =80
+      - LeadHeaderAvatarBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =BrandRed
+            Height: =56
+            Width: =56
+            X: =534
+            Y: =102
+      - LeadHeaderAvatarInitials_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =56
+            PaddingTop: =17
+            Size: =16
+            Text: =Upper(Left(Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "?"), 1) & Mid(Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "?") & " ", Find(" ", Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "?") & " ") + 1, 1))
+            Width: =56
+            X: =534
+            Y: =102
+      - LeadHeaderName_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            PaddingLeft: =12
+            Size: =22
+            Text: =Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "Select a lead")
+            Width: =320
+            X: =600
+            Y: =100
+      - LeadHeaderStarIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =18
+            Icon: =Icon.Star
+            OnSelect: |-
+              =Patch(Leads, varSelectedLeadM3, {Pinned: !varSelectedLeadM3.Pinned})
+            Width: =18
+            X: =920
+            Y: =108
+      - LeadHeaderPhoneIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =12
+            Icon: =Icon.Phone
+            Width: =12
+            X: =614
+            Y: =142
+      - LeadHeaderPhone_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =4
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.Phone, "—")
+            Width: =140
+            X: =628
+            Y: =138
+      - LeadHeaderEmailIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =12
+            Icon: =Icon.Mail
+            Width: =12
+            X: =770
+            Y: =142
+      - LeadHeaderEmail_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            Height: =20
+            PaddingLeft: =4
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.Email, "—")
+            Width: =220
+            X: =784
+            Y: =138
+      - LeadHeaderLocIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =12
+            Icon: =Icon.LocationArrow
+            Width: =12
+            X: =1010
+            Y: =142
+      - LeadHeaderLoc_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            Height: =20
+            PaddingLeft: =4
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.City & ", " & varSelectedLeadM3.State, varSelectedLeadM3.MailingAddress, "—")
+            Width: =180
+            X: =1024
+            Y: =138
+      - LeadHeaderIDLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingRight: =16
+            Size: =10
+            Text: ="Lead ID"
+            Width: =80
+            X: =Parent.Width - 500 - 128 - 32 + 320
+            Y: =100
+      - LeadHeaderIDVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingRight: =16
+            Size: =12
+            Text: ="L-" & Text(Coalesce(varSelectedLeadM3.ID, 0), "[$-en-US]000000")
+            Width: =100
+            X: =Parent.Width - 500 - 128 - 32 + 300
+            Y: =120
+      - LeadHeaderOwnerLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            Size: =10
+            Text: ="Owner"
+            Width: =80
+            X: =Parent.Width - 500 - 128 - 32 + 432
+            Y: =100
+      - LeadHeaderOwnerAvatarBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(229, 231, 235, 1)
+            Height: =28
+            Width: =28
+            X: =Parent.Width - 500 - 128 - 32 + 432
+            Y: =124
+      - LeadHeaderOwnerInitials_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            PaddingTop: =8
+            Size: =9
+            Text: =Upper(Left(Coalesce(varSelectedLeadM3.Agent.DisplayName, "Unassigned"), 1) & Mid(Coalesce(varSelectedLeadM3.Agent.DisplayName, "Unassigned") & " ", Find(" ", Coalesce(varSelectedLeadM3.Agent.DisplayName, "Unassigned") & " ") + 1, 1))
+            Width: =28
+            X: =Parent.Width - 500 - 128 - 32 + 432
+            Y: =124
+      - LeadHeaderOwnerName_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            PaddingLeft: =6
+            PaddingTop: =8
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.Agent.DisplayName, "Unassigned")
+            Width: =120
+            X: =Parent.Width - 500 - 128 - 32 + 464
+            Y: =124
+      - LeadHeaderMoreIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =TextSecondary
+            Height: =16
+            Icon: =Icon.More
+            OnSelect: =Notify("Row actions menu coming soon", NotificationType.Information)
+            Width: =16
+            X: =Parent.Width - 500 - 128 - 32 + 596
+            Y: =132
+      - StageStepperGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Horizontal
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =72
+            Items: =colStagesM3
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =(Parent.Width - 500 - 128 - 32) / 5
+            Width: =Parent.Width - 500 - 128 - 32
+            X: =516
+            Y: =200
+          Children:
+            - StepperBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =If(ThisItem.Key = varSelectedLeadM3.Status.Value, BrandRed, BorderSoft)
+                  BorderThickness: =If(ThisItem.Key = varSelectedLeadM3.Status.Value, 2, 1)
+                  Fill: =If(ThisItem.Key = varSelectedLeadM3.Status.Value, BrandRed, RGBA(255, 255, 255, 1))
+                  Height: =68
+                  OnSelect: |-
+                    =Patch(Leads, varSelectedLeadM3, {Status: {Value: ThisItem.Key}})
+                  Width: =Parent.TemplateWidth - 8
+                  X: =4
+                  Y: =2
+            - StepperCheckIcon_M3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: |
+                    =If(ThisItem.Key = varSelectedLeadM3.Status.Value, RGBA(255, 255, 255, 1),
+                        If(LookUp(colStagesM3, Key = varSelectedLeadM3.Status.Value).Order > ThisItem.Order, RGBA(22, 163, 74, 1), TextMuted))
+                  Height: =18
+                  Icon: =If(LookUp(colStagesM3, Key = varSelectedLeadM3.Status.Value).Order >= ThisItem.Order, Icon.CheckBadge, Icon.RadialSelection)
+                  Width: =18
+                  X: =16
+                  Y: =14
+            - StepperLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =If(ThisItem.Key = varSelectedLeadM3.Status.Value, RGBA(255, 255, 255, 1), TextPrimary)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  PaddingLeft: =6
+                  PaddingTop: =4
+                  Size: =13
+                  Text: =ThisItem.Label
+                  Width: =Parent.TemplateWidth - 56
+                  X: =40
+                  Y: =12
+            - StepperMetaLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =If(ThisItem.Key = varSelectedLeadM3.Status.Value, RGBA(255, 255, 255, 0.85), TextMuted)
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  PaddingLeft: =6
+                  Size: =10
+                  Text: |
+                    =If(ThisItem.Key = varSelectedLeadM3.Status.Value, "Current",
+                        If(LookUp(colStagesM3, Key = varSelectedLeadM3.Status.Value).Order > ThisItem.Order,
+                            Text(varSelectedLeadM3.Created, "[$-en-US]m/d/yyyy"),
+                            ""))
+                  Width: =Parent.TemplateWidth - 56
+                  X: =40
+                  Y: =36
+      - TabsBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.Width - 500 - 128 - 32
+            X: =516
+            Y: =320
+      - TabOverviewLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            PaddingTop: =10
+            Size: =13
+            Text: ="Overview"
+            Width: =80
+            X: =528
+            Y: =282
+      - TabOverviewAccent_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =BrandRed
+            Height: =3
+            Width: =80
+            X: =528
+            Y: =319
+      - TabQuotesLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =40
+            OnSelect: =Notify("Quotes tab", NotificationType.Information)
+            PaddingTop: =10
+            Size: =13
+            Text: ="Quotes"
+            Width: =60
+            X: =612
+            Y: =282
+      - TabQuotesBadge_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            PaddingTop: =10
+            Size: =11
+            Text: =Text(CountRows(Filter(Quotes, LeadID = varSelectedLeadM3.ID)))
+            Width: =24
+            X: =666
+            Y: =282
+      - TabTasksLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =40
+            OnSelect: =Notify("Tasks tab", NotificationType.Information)
+            PaddingTop: =10
+            Size: =13
+            Text: ="Tasks"
+            Width: =50
+            X: =702
+            Y: =282
+      - TabTasksBadge_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            PaddingTop: =10
+            Size: =11
+            Text: ="3"
+            Width: =20
+            X: =746
+            Y: =282
+      - TabNotesLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =40
+            OnSelect: =Notify("Notes tab", NotificationType.Information)
+            PaddingTop: =10
+            Size: =13
+            Text: ="Notes"
+            Width: =50
+            X: =778
+            Y: =282
+      - TabNotesBadge_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            PaddingTop: =10
+            Size: =11
+            Text: =Text(CountRows(Filter(LeadNotes, LeadID = varSelectedLeadM3.ID)))
+            Width: =20
+            X: =822
+            Y: =282
+      - TabActivityLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =40
+            OnSelect: =Notify("Activity tab", NotificationType.Information)
+            PaddingTop: =10
+            Size: =13
+            Text: ="Activity"
+            Width: =60
+            X: =854
+            Y: =282
+      - TabDocsLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =40
+            OnSelect: =Notify("Documents tab", NotificationType.Information)
+            PaddingTop: =10
+            Size: =13
+            Text: ="Documents"
+            Width: =86
+            X: =924
+            Y: =282
+      - TabDocsBadge_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            PaddingTop: =10
+            Size: =11
+            Text: ="1"
+            Width: =20
+            X: =1006
+            Y: =282
+      - InfoContactCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =200
+            Width: =(Parent.Width - 500 - 128 - 64) / 3
+            X: =516
+            Y: =340
+      - InfoContactIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =BrandRed
+            Height: =16
+            Icon: =Icon.Person
+            Width: =16
+            X: =532
+            Y: =354
+      - InfoContactTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =6
+            Size: =12
+            Text: ="Contact Information"
+            Width: =200
+            X: =550
+            Y: =350
+      - InfoContactFullLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Full Name"
+            Width: =110
+            X: =516
+            Y: =384
+      - InfoContactFullVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "—")
+            Width: =160
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) - 176
+            Y: =384
+      - InfoContactPhoneLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Phone"
+            Width: =100
+            X: =516
+            Y: =410
+      - InfoContactPhoneVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.Phone, "—")
+            Width: =160
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) - 176
+            Y: =410
+      - InfoContactEmailLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Email"
+            Width: =100
+            X: =516
+            Y: =436
+      - InfoContactEmailVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.Email, "—")
+            Width: =180
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) - 196
+            Y: =436
+      - InfoContactPrefLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Preferred Contact"
+            Width: =140
+            X: =516
+            Y: =462
+      - InfoContactPrefVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: ="Email"
+            Width: =100
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) - 116
+            Y: =462
+      - InfoContactLinkLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            OnSelect: =Navigate(LeadsScreen, ScreenTransition.None)
+            PaddingLeft: =16
+            Size: =11
+            Text: ="View full contact record →"
+            Width: =200
+            X: =516
+            Y: =510
+      - InfoHouseholdCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =200
+            Width: =(Parent.Width - 500 - 128 - 64) / 3
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =340
+      - InfoHouseIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =BrandRed
+            Height: =16
+            Icon: =Icon.Home
+            Width: =16
+            X: =532 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =354
+      - InfoHouseTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =6
+            Size: =12
+            Text: ="Household Details"
+            Width: =200
+            X: =550 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =350
+      - InfoHouseAddrLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Address"
+            Width: =100
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =384
+      - InfoHouseAddrVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            Height: =36
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.MailingAddress, varSelectedLeadM3.City & ", " & varSelectedLeadM3.State & " " & varSelectedLeadM3.Zip, "—")
+            Width: =180
+            X: =516 + 2*((Parent.Width - 500 - 128 - 64) / 3) - 180
+            Y: =384
+      - InfoHouseTypeLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Type"
+            Width: =100
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =432
+      - InfoHouseTypeVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: ="Single Family"
+            Width: =120
+            X: =516 + 2*((Parent.Width - 500 - 128 - 64) / 3) - 136
+            Y: =432
+      - InfoHouseYearLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Year Built"
+            Width: =100
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =458
+      - InfoHouseYearVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: ="—"
+            Width: =100
+            X: =516 + 2*((Parent.Width - 500 - 128 - 64) / 3) - 116
+            Y: =458
+      - InfoHouseCarrierLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Current Carrier"
+            Width: =120
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =484
+      - InfoHouseCarrierVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.CurrentCarrier, "—")
+            Width: =160
+            X: =516 + 2*((Parent.Width - 500 - 128 - 64) / 3) - 176
+            Y: =484
+      - InfoHouseLinkLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            OnSelect: =Notify("Accounts screen coming soon", NotificationType.Information)
+            PaddingLeft: =16
+            Size: =11
+            Text: ="View account (if exists) →"
+            Width: =200
+            X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) + 16
+            Y: =510
+      - InfoLeadCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =200
+            Width: =(Parent.Width - 500 - 128 - 64) / 3
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =340
+      - InfoLeadIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =BrandRed
+            Height: =16
+            Icon: =Icon.Information
+            Width: =16
+            X: =532 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =354
+      - InfoLeadTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =6
+            Size: =12
+            Text: ="Lead Information"
+            Width: =200
+            X: =550 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =350
+      - InfoLeadSourceLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Source"
+            Width: =100
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =384
+      - InfoLeadSourceVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.Source.Value, "—")
+            Width: =140
+            X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 156
+            Y: =384
+      - InfoLeadDateLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Date Received"
+            Width: =120
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =410
+      - InfoLeadDateVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =If(IsBlank(varSelectedLeadM3.Created), "—", Text(varSelectedLeadM3.Created, "[$-en-US]m/d/yyyy"))
+            Width: =120
+            X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 136
+            Y: =410
+      - InfoLeadProducerLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Producer"
+            Width: =100
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =436
+      - InfoLeadProducerVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.Agent.DisplayName, "Unassigned")
+            Width: =160
+            X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 176
+            Y: =436
+      - InfoLeadStatusLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Status"
+            Width: =100
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =462
+      - InfoLeadStatusBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: |
+              =Switch(varSelectedLeadM3.Status.Value,
+                  "New",         RGBA(232, 240, 254, 1),
+                  "In Progress", RGBA(254, 243, 199, 1),
+                  "Quoted",      RGBA(220, 252, 231, 1),
+                  "Follow-up",   RGBA(254, 226, 226, 1),
+                  "Bound",       RGBA(204, 251, 241, 1),
+                  "Lost",        RGBA(243, 244, 246, 1),
+                  RGBA(243, 244, 246, 1)
+              )
+            Height: =22
+            Width: =110
+            X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 126
+            Y: =460
+      - InfoLeadStatusVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: |
+              =Switch(varSelectedLeadM3.Status.Value,
+                  "New",         RGBA(37, 99, 235, 1),
+                  "In Progress", RGBA(180, 95, 0, 1),
+                  "Quoted",      RGBA(22, 163, 74, 1),
+                  "Follow-up",   BrandRed,
+                  "Bound",       RGBA(13, 148, 136, 1),
+                  "Lost",        RGBA(107, 114, 128, 1),
+                  TextSecondary
+              )
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            PaddingTop: =4
+            Size: =10
+            Text: =Coalesce(varSelectedLeadM3.Status.Value, "—")
+            Width: =110
+            X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 126
+            Y: =460
+      - InfoLeadPremLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Premium Target"
+            Width: =130
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =494
+      - InfoLeadPremVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =18
+            PaddingRight: =16
+            Size: =11
+            Text: =If(IsBlank(varSelectedLeadM3.QuotedPremium), "—", "$" & Text(varSelectedLeadM3.QuotedPremium, "[$-en-US]#,###"))
+            Width: =120
+            X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 136
+            Y: =494
+      - PolicyInterestCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =164
+            Width: =Parent.Width - 500 - 128 - 32
+            X: =516
+            Y: =556
+      - PolicyInterestIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =BrandRed
+            Height: =16
+            Icon: =Icon.Shop
+            Width: =16
+            X: =532
+            Y: =570
+      - PolicyInterestTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =6
+            Size: =12
+            Text: ="Policy Interest"
+            Width: =200
+            X: =550
+            Y: =566
+      - PolicyLOBLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Line of Business"
+            Width: =120
+            X: =516
+            Y: =600
+      - PolicyLOBVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.LineOfBusiness.Value, "—")
+            Width: =180
+            X: =516
+            Y: =620
+      - PolicyTypeLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            Size: =10
+            Text: ="Type of Coverage"
+            Width: =140
+            X: =660
+            Y: =600
+      - PolicyTypeVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.Products, "—")
+            Width: =180
+            X: =660
+            Y: =620
+      - PolicyInterestLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            Size: =10
+            Text: ="Interest"
+            Width: =120
+            X: =820
+            Y: =600
+      - PolicyInterestVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.SourceDetail, "—")
+            Width: =180
+            X: =820
+            Y: =620
+      - PolicyCurrentLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            Size: =10
+            Text: ="Current Carrier"
+            Width: =120
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =600
+      - PolicyCurrentVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =12
+            Text: =Coalesce(varSelectedLeadM3.CurrentCarrier, "—")
+            Width: =180
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =620
+      - PolicyNotesLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =16
+            Size: =10
+            Text: ="Notes"
+            Width: =100
+            X: =516
+            Y: =660
+      - PolicyNotesVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            Height: =40
+            PaddingLeft: =16
+            Size: =11
+            Text: =Coalesce(varSelectedLeadM3.Notes, "Looking for better rates and roadside assistance coverage.")
+            Width: =Parent.Width - 500 - 128 - 32 - 240
+            X: =516
+            Y: =680
+      - PolicyTargetLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Height: =18
+            Size: =10
+            Text: ="Target Effective Date"
+            Width: =180
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =660
+      - PolicyTargetVal_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =12
+            Text: =If(IsBlank(varSelectedLeadM3.FollowUpDate), "—", Text(varSelectedLeadM3.FollowUpDate, "[$-en-US]m/d/yyyy"))
+            Width: =180
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
+            Y: =680
+      - PolicyEditLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            OnSelect: =Notify("Edit Policy Interest coming soon", NotificationType.Information)
+            PaddingRight: =20
+            Size: =11
+            Text: ="Edit Policy Interest ✎"
+            Width: =200
+            X: =Parent.Width - 500 - 128 - 32 + 516 - 220
+            Y: =698
+      - QuotesCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =260
+            Width: =((Parent.Width - 500 - 128 - 48) / 2)
+            X: =516
+            Y: =740
+      - QuotesTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =26
+            PaddingLeft: =20
+            PaddingTop: =6
+            Size: =14
+            Text: ="Quotes (" & Text(CountRows(Filter(Quotes, LeadID = varSelectedLeadM3.ID))) & ")"
+            Width: =200
+            X: =516
+            Y: =752
+      - QuotesNewBtnLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =26
+            OnSelect: =Notify("New quote screen coming soon", NotificationType.Information)
+            PaddingRight: =20
+            PaddingTop: =8
+            Size: =11
+            Text: ="+ New Quote"
+            Width: =110
+            X: =516 + ((Parent.Width - 500 - 128 - 48) / 2) - 110
+            Y: =752
+      - QuotesHdrRow_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =1
+            Width: =((Parent.Width - 500 - 128 - 48) / 2) - 32
+            X: =532
+            Y: =810
+      - QuotesHdrNumLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextMuted
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =9
+            Text: ="Quote Number"
+            Width: =100
+            X: =532
+            Y: =788
+      - QuotesHdrCarrierLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextMuted
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =9
+            Text: ="Carrier"
+            Width: =70
+            X: =644
+            Y: =788
+      - QuotesHdrLineLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextMuted
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =9
+            Text: ="Line"
+            Width: =50
+            X: =714
+            Y: =788
+      - QuotesHdrPremLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextMuted
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =9
+            Text: ="Premium"
+            Width: =70
+            X: =770
+            Y: =788
+      - QuotesHdrStatusLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextMuted
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =16
+            Size: =9
+            Text: ="Status"
+            Width: =70
+            X: =848
+            Y: =788
+      - QuotesHdrDateLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =TextMuted
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =9
+            Text: ="Created On"
+            Width: =80
+            X: =516 + ((Parent.Width - 500 - 128 - 48) / 2) - 100
+            Y: =788
+      - QuotesGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =160
+            Items: =SortByColumns(Filter(Quotes, LeadID = varSelectedLeadM3.ID), "Created", SortOrder.Descending)
+            ShowScrollbar: =true
+            TemplatePadding: =0
+            TemplateSize: =42
+            Width: =((Parent.Width - 500 - 128 - 48) / 2) - 32
+            X: =532
+            Y: =820
+          Children:
+            - QuoteRowNum_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =BrandRed
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =40
+                  PaddingTop: =12
+                  Size: =11
+                  Text: =Coalesce(ThisItem.QuoteNumber, "Q-000000")
+                  Width: =100
+                  X: =0
+                  Y: =0
+            - QuoteRowCarrier_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  Height: =40
+                  PaddingTop: =12
+                  Size: =11
+                  Text: =Coalesce(ThisItem.Carrier, "—")
+                  Width: =70
+                  X: =112
+                  Y: =0
+            - QuoteRowLine_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  Height: =40
+                  PaddingTop: =12
+                  Size: =11
+                  Text: =Coalesce(ThisItem.Product, "—")
+                  Width: =50
+                  X: =182
+                  Y: =0
+            - QuoteRowPrem_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =40
+                  PaddingTop: =12
+                  Size: =11
+                  Text: =If(IsBlank(ThisItem.Premium), "—", "$" & Text(ThisItem.Premium, "[$-en-US]#,###"))
+                  Width: =70
+                  X: =238
+                  Y: =0
+            - QuoteRowStatusBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: |
+                    =Switch(ThisItem.QuoteStatus,
+                        "Pending",  RGBA(254, 243, 199, 1),
+                        "Sent",     RGBA(232, 240, 254, 1),
+                        "Declined", RGBA(254, 226, 226, 1),
+                        "Bound",    RGBA(204, 251, 241, 1),
+                        RGBA(243, 244, 246, 1)
+                    )
+                  Height: =22
+                  Width: =72
+                  X: =316
+                  Y: =10
+            - QuoteRowStatusLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: |
+                    =Switch(ThisItem.QuoteStatus,
+                        "Pending",  RGBA(180, 95, 0, 1),
+                        "Sent",     RGBA(37, 99, 235, 1),
+                        "Declined", BrandRed,
+                        "Bound",    RGBA(13, 148, 136, 1),
+                        TextSecondary
+                    )
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  PaddingTop: =4
+                  Size: =9
+                  Text: =Coalesce(ThisItem.QuoteStatus, "—")
+                  Width: =72
+                  X: =316
+                  Y: =10
+            - QuoteRowDate_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =TextSecondary
+                  Font: =Font.'Open Sans'
+                  Height: =40
+                  PaddingTop: =12
+                  Size: =11
+                  Text: =If(IsBlank(ThisItem.Created), "—", Text(ThisItem.Created, "[$-en-US]m/d/yyyy"))
+                  Width: =80
+                  X: =Parent.Width - 80
+                  Y: =0
+      - QuotesViewAllLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            OnSelect: =Notify("Quotes screen coming soon", NotificationType.Information)
+            PaddingRight: =20
+            Size: =11
+            Text: ="View all quotes →"
+            Width: =160
+            X: =516 + ((Parent.Width - 500 - 128 - 48) / 2) - 160
+            Y: =980 - 24
+      - ActivitiesCard_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =260
+            Width: =((Parent.Width - 500 - 128 - 48) / 2)
+            X: =516 + ((Parent.Width - 500 - 128 - 48) / 2) + 16
+            Y: =740
+      - ActivitiesTitle_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =26
+            PaddingLeft: =20
+            PaddingTop: =6
+            Size: =14
+            Text: ="Recent Activities"
+            Width: =200
+            X: =516 + ((Parent.Width - 500 - 128 - 48) / 2) + 16
+            Y: =752
+      - ActivitiesNewBtnLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =26
+            OnSelect: =Notify("Log activity coming soon", NotificationType.Information)
+            PaddingRight: =20
+            PaddingTop: =8
+            Size: =11
+            Text: ="+ New Activity"
+            Width: =120
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 48) / 2) + 16) - 136
+            Y: =752
+      - ActivitiesGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =188
+            Items: =SortByColumns(Filter(AuditLog, Lead.Id = varSelectedLeadM3.ID), "Timestamp", SortOrder.Descending)
+            ShowScrollbar: =true
+            TemplatePadding: =0
+            TemplateSize: =60
+            Width: =((Parent.Width - 500 - 128 - 48) / 2) - 32
+            X: =516 + ((Parent.Width - 500 - 128 - 48) / 2) + 32
+            Y: =788
+          Children:
+            - ActIconBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: =RGBA(254, 226, 226, 1)
+                  Height: =32
+                  Width: =32
+                  X: =0
+                  Y: =12
+            - ActIcon_M3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =BrandRed
+                  Height: =16
+                  Icon: |
+                    =Switch(ThisItem.What.Value,
+                        "Reassign",     Icon.PersonAccount,
+                        "StatusChange", Icon.Reload,
+                        "EditBound",    Icon.Edit,
+                        "LostReason",   Icon.Cancel,
+                        Icon.Information
+                    )
+                  Width: =16
+                  X: =8
+                  Y: =20
+            - ActSummary_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =6
+                  Size: =11
+                  Text: =Coalesce(ThisItem.Summary, ThisItem.What.Value, "Activity")
+                  Width: =Parent.Width - 160
+                  X: =40
+                  Y: =6
+            - ActNote_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextSecondary
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  PaddingLeft: =6
+                  Size: =10
+                  Text: ="from " & Coalesce(ThisItem.OldValue, "—") & " → " & Coalesce(ThisItem.NewValue, "—")
+                  Width: =Parent.Width - 160
+                  X: =40
+                  Y: =26
+            - ActWhen_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =TextMuted
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  Size: =10
+                  Text: =If(IsBlank(ThisItem.Timestamp), "", Text(ThisItem.Timestamp, "[$-en-US]m/d/yyyy h:mm AM/PM"))
+                  Width: =110
+                  X: =Parent.Width - 116
+                  Y: =6
+            - ActWho_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =TextSecondary
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  Size: =10
+                  Text: =Coalesce(ThisItem.Who.DisplayName, "System")
+                  Width: =110
+                  X: =Parent.Width - 116
+                  Y: =26
+      - ActivitiesViewAllLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            OnSelect: =Notify("Activities screen coming soon", NotificationType.Information)
+            PaddingRight: =20
+            Size: =11
+            Text: ="View all activities →"
+            Width: =180
+            X: =516 + 2*(((Parent.Width - 500 - 128 - 48) / 2) + 16) - 196
+            Y: =980 - 24
+      - ActionRailBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 64
+            Width: =128
+            X: =Parent.Width - 128
+            Y: =64
+      - ActionRailGallery_M3:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Color.Transparent
+            Height: =560
+            Items: =colActionRailM3
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =72
+            Width: =128
+            X: =Parent.Width - 128
+            Y: =96
+          Children:
+            - RailRowBg_M3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =BorderSoft
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =56
+                  HoverFill: =RGBA(249, 250, 251, 1)
+                  OnSelect: |-
+                    =Switch(ThisItem.Key,
+                        "call",   Notify("Calling " & varSelectedLeadM3.Phone, NotificationType.Information),
+                        "email",  Notify("Composing email to " & varSelectedLeadM3.Email, NotificationType.Information),
+                        "text",   Notify("Texting " & varSelectedLeadM3.Phone, NotificationType.Information),
+                        "note",   Notify("Add note coming soon", NotificationType.Information),
+                        "task",   Notify("Create task coming soon", NotificationType.Information),
+                        "upload", Notify("Upload file coming soon", NotificationType.Information),
+                        "quote",  Notify("Create quote coming soon", NotificationType.Information)
+                    )
+                  Width: =96
+                  X: =16
+                  Y: =8
+            - RailRowIcon_M3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =BrandRed
+                  Height: =18
+                  Icon: =ThisItem.Icon
+                  Width: =18
+                  X: =28
+                  Y: =27
+            - RailRowLbl_M3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =TextPrimary
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =56
+                  PaddingLeft: =6
+                  PaddingTop: =20
+                  Size: =11
+                  Text: =ThisItem.Label
+                  Width: =60
+                  X: =52
+                  Y: =8
+      - ActionRailMoreBg_M3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =56
+            OnSelect: =Notify("More actions menu coming soon", NotificationType.Information)
+            Width: =96
+            X: =Parent.Width - 112
+            Y: =672
+      - ActionRailMoreIcon_M3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Color: =BrandRed
+            Height: =18
+            Icon: =Icon.More
+            Width: =18
+            X: =Parent.Width - 100
+            Y: =691
+      - ActionRailMoreLbl_M3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =56
+            PaddingLeft: =6
+            PaddingTop: =20
+            Size: =11
+            Text: ="More Actions ▾"
+            Width: =60
+            X: =Parent.Width - 76
+            Y: =672
