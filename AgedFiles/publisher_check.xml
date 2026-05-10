@@ -1,0 +1,12 @@
+<fetch>
+  <entity name="publisher">
+    <attribute name="publisherid" />
+    <attribute name="uniquename" />
+    <attribute name="friendlyname" />
+    <attribute name="customizationprefix" />
+    <attribute name="customizationoptionvalueprefix" />
+    <filter>
+      <condition attribute="customizationprefix" operator="eq" value="ac" />
+    </filter>
+  </entity>
+</fetch>

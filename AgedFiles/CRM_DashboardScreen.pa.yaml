@@ -1,0 +1,1191 @@
+Screens:
+  DashboardScreen:
+    Properties:
+      Fill: =BgApp
+      LoadingSpinnerColor: =BrandPrimary
+      Width: =App.Width
+      Height: =App.Height
+      OnVisible: |
+        Set(varActiveScreen, "Dashboard");
+        ClearCollect(colLeadCounts,
+          {Status: "Active",      Count: CountRows(Filter(Leads, Status.Value = "Active"))},
+          {Status: "Working",     Count: CountRows(Filter(Leads, Status.Value = "Working"))},
+          {Status: "Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted"))},
+          {Status: "Negotiating", Count: CountRows(Filter(Leads, Status.Value = "Negotiating"))},
+          {Status: "Contacted",   Count: CountRows(Filter(Leads, Status.Value = "Contacted"))},
+          {Status: "Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound"))},
+          {Status: "Lost",        Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))},
+          {Status: "Overdue",     Count: CountRows(Filter(Leads, Today() > DateAdd(Modified, 7, Days) && Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")))},
+          {Status: "Total",       Count: CountRows(Leads)}
+        );
+        Set(varBoundPremium,    Sum(Filter(Leads, Status.Value = "Bound"),                                       'Current Premiums'));
+        Set(varPipelinePremium, Sum(Filter(Leads, Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")), 'Current Premiums'));
+        Set(varConversionRate,
+          If(LookUp(colLeadCounts, Status = "Total").Count > 0,
+            Round(LookUp(colLeadCounts, Status = "Bound").Count / LookUp(colLeadCounts, Status = "Total").Count * 100, 1),
+            0)
+        );
+        ClearCollect(colRecentLeads, FirstN(SortByColumns(Leads, "Modified", Descending), 10))
+    Children:
+  
+      # ─────────────────────────────────────────────────────────
+      # SIDEBAR
+      # ─────────────────────────────────────────────────────────
+      - SidebarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            Width: =240
+            Height: =App.Height
+            X: =0
+            Y: =0
+  
+      - SidebarAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =4
+            Height: =App.Height
+            X: =0
+            Y: =0
+  
+      - SidebarBorder:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =1
+            Height: =App.Height
+            X: =239
+            Y: =0
+  
+      - AppLogoCircle:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =36
+            Height: =36
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =20
+            Y: =20
+  
+      - AppLogoText:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextInverse
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+            Width: =36
+            Height: =36
+            X: =20
+            Y: =20
+  
+      - AppTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA Agency CRM"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextPrimary
+            X: =64
+            Y: =24
+  
+      - AppSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Sales Workspace"
+            Size: =10
+            Color: =TextSecondary
+            X: =64
+            Y: =44
+  
+      - NavDivider1:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =200
+            Height: =1
+            X: =20
+            Y: =74
+  
+      - NavDashboardBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Dashboard"
+            Fill: =If(varActiveScreen = "Dashboard", BrandSoft, RGBA(0,0,0,0))
+            HoverFill: =BrandSoft
+            PressedFill: =BrandSoft
+            BorderThickness: =0
+            Color: =If(varActiveScreen = "Dashboard", BrandPrimary, TextSecondary)
+            FontWeight: =If(varActiveScreen = "Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =88
+  
+      - NavDashboardIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Home
+            Color: =If(varActiveScreen = "Dashboard", BrandPrimary, TextSecondary)
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =101
+  
+      - NavLeadsBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Leads"
+            Fill: =If(varActiveScreen = "Leads", BrandSoft, RGBA(0,0,0,0))
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =If(varActiveScreen = "Leads", BrandPrimary, TextSecondary)
+            FontWeight: =If(varActiveScreen = "Leads", FontWeight.Semibold, FontWeight.Normal)
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =140
+            OnSelect: =Navigate(LeadsListScreen_V3, ScreenTransition.None)
+  
+      - NavLeadsIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.People
+            Color: =If(varActiveScreen = "Leads", BrandPrimary, TextSecondary)
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =153
+  
+      - NavNewLeadBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  New Lead"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =TextSecondary
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =192
+            OnSelect: |
+              Set(varSelectedQuote, Blank());
+              Navigate(NewLeadScreen, ScreenTransition.None)
+  
+      - NavNewLeadIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Add
+            Color: =TextSecondary
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =205
+  
+      - NavEmailBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Email"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =TextSecondary
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =244
+            OnSelect: =Navigate(EmailScreen, ScreenTransition.None)
+  
+      - NavEmailIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Mail
+            Color: =TextSecondary
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =257
+  
+      - NavDivider2:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =200
+            Height: =1
+            X: =20
+            Y: =300
+  
+      - SidebarOverdueCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(254, 242, 242, 1)
+            BorderColor: =RGBA(252, 165, 165, 1)
+            BorderThickness: =1
+            Width: =200
+            Height: =64
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =20
+            Y: =316
+            Visible: =LookUp(colLeadCounts, Status = "Overdue").Count > 0
+  
+      - SidebarOverdueTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="⚠ Overdue Follow-ups"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =RGBA(185, 28, 28, 1)
+            X: =32
+            Y: =326
+            Visible: =LookUp(colLeadCounts, Status = "Overdue").Count > 0
+  
+      - SidebarOverdueCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =LookUp(colLeadCounts, Status = "Overdue").Count & " leads need attention"
+            Size: =11
+            Color: =RGBA(220, 38, 38, 1)
+            FontWeight: =FontWeight.Bold
+            X: =32
+            Y: =346
+            Visible: =LookUp(colLeadCounts, Status = "Overdue").Count > 0
+  
+      - SidebarUserCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgApp
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =200
+            Height: =64
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =20
+            Y: =App.Height - 84
+  
+      - SidebarUserAvatar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =36
+            Height: =36
+            RadiusBottomLeft: =18
+            RadiusBottomRight: =18
+            RadiusTopLeft: =18
+            RadiusTopRight: =18
+            X: =32
+            Y: =App.Height - 66
+  
+      - SidebarUserInitial:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Left(User().FullName, 1)
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextInverse
+            Width: =36
+            Height: =36
+            X: =32
+            Y: =App.Height - 66
+  
+      - SidebarUserName:
+          Control: Label@2.5.1
+          Properties:
+            Text: =User().FullName
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =76
+            Y: =App.Height - 66
+            Width: =130
+  
+      - SidebarUserEmail:
+          Control: Label@2.5.1
+          Properties:
+            Text: =User().Email
+            Size: =9
+            Color: =TextSecondary
+            X: =76
+            Y: =App.Height - 50
+            Width: =130
+  
+      # ─────────────────────────────────────────────────────────
+      # HEADER
+      # ─────────────────────────────────────────────────────────
+      - HeaderBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            Width: =App.Width - 240
+            Height: =72
+            X: =240
+            Y: =0
+  
+      - HeaderBorder:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 240
+            Height: =1
+            X: =240
+            Y: =71
+  
+      - PageTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Dashboard"
+            FontWeight: =FontWeight.Bold
+            Size: =22
+            Color: =TextPrimary
+            X: =272
+            Y: =14
+  
+      - PageGreeting:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Concatenate("Good ", If(Hour(Now()) < 12, "morning", If(Hour(Now()) < 17, "afternoon", "evening")), ", ", First(Split(User().FullName, " ")).Value)
+            Size: =11
+            Color: =TextSecondary
+            X: =272
+            Y: =44
+  
+      - HeaderDate:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(Today(), "[$-en-US]dddd, mmmm d, yyyy")
+            Size: =11
+            Color: =TextSecondary
+            X: =App.Width - 360
+            Y: =30
+  
+      - HeaderNewLeadBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="+ New Lead"
+            Fill: =BrandPrimary
+            HoverFill: =BrandPrimaryDark
+            PressedFill: =RGBA(125, 11, 25, 1)
+            BorderThickness: =0
+            Color: =TextInverse
+            FontWeight: =FontWeight.Semibold
+            Width: =140
+            Height: =40
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =App.Width - 184
+            Y: =16
+            OnSelect: |
+              Set(varSelectedQuote, Blank());
+              Navigate(NewLeadScreen, ScreenTransition.None)
+  
+      # ─────────────────────────────────────────────────────────
+      # SUMMARY METRIC CARDS ROW
+      # ─────────────────────────────────────────────────────────
+      - MetricTotalCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =220
+            Height: =100
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =272
+            Y: =92
+  
+      - MetricTotalLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Total Leads"
+            Size: =11
+            Color: =RGBA(255,255,255,0.75)
+            FontWeight: =FontWeight.Semibold
+            X: =292
+            Y: =104
+  
+      - MetricTotalNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Total").Count, "0")
+            FontWeight: =FontWeight.Bold
+            Size: =36
+            Color: =TextInverse
+            X: =292
+            Y: =122
+  
+      - MetricTotalIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.People
+            Color: =RGBA(255,255,255,0.5)
+            Width: =28
+            Height: =28
+            X: =456
+            Y: =118
+  
+      - MetricBoundCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =220
+            Height: =100
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =508
+            Y: =92
+  
+      - MetricBoundAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Bound
+            Width: =4
+            Height: =60
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            X: =508
+            Y: =112
+  
+      - MetricBoundLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Bound Premium"
+            Size: =11
+            Color: =TextSecondary
+            X: =524
+            Y: =104
+  
+      - MetricBoundNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="$" & Text(varBoundPremium, "#,##0")
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Color: =TextPrimary
+            X: =524
+            Y: =126
+  
+      - MetricBoundSub:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Bound").Count, "0") & " policies bound"
+            Size: =10
+            Color: =TextSecondary
+            X: =524
+            Y: =158
+  
+      - MetricPipelineCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =220
+            Height: =100
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =744
+            Y: =92
+  
+      - MetricPipelineAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Active
+            Width: =4
+            Height: =60
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            X: =744
+            Y: =112
+  
+      - MetricPipelineLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Pipeline Value"
+            Size: =11
+            Color: =TextSecondary
+            X: =760
+            Y: =104
+  
+      - MetricPipelineNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="$" & Text(varPipelinePremium, "#,##0")
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Color: =TextPrimary
+            X: =760
+            Y: =126
+  
+      - MetricPipelineSub:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Active opportunities"
+            Size: =10
+            Color: =TextSecondary
+            X: =760
+            Y: =158
+  
+      - MetricConvCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =220
+            Height: =100
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =980
+            Y: =92
+  
+      - MetricConvAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Quoted
+            Width: =4
+            Height: =60
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            X: =980
+            Y: =112
+  
+      - MetricConvLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Conversion Rate"
+            Size: =11
+            Color: =TextSecondary
+            X: =996
+            Y: =104
+  
+      - MetricConvNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(varConversionRate, "0.0") & "%"
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Color: =TextPrimary
+            X: =996
+            Y: =126
+  
+      - MetricConvSub:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Leads converted to bound"
+            Size: =10
+            Color: =TextSecondary
+            X: =996
+            Y: =158
+  
+      # ─────────────────────────────────────────────────────────
+      # PIPELINE FUNNEL
+      # ─────────────────────────────────────────────────────────
+      - PipelineCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =560
+            Height: =App.Height - 340
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =272
+            Y: =212
+  
+      - PipelineTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Pipeline by Status"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextPrimary
+            X: =296
+            Y: =228
+  
+      - PipelineSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Lead distribution across all stages"
+            Size: =11
+            Color: =TextSecondary
+            X: =296
+            Y: =252
+  
+      - PipelineDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =520
+            Height: =1
+            X: =292
+            Y: =272
+  
+      # ACTIVE BAR
+      - FunnelActiveLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Active"
+            Size: =11
+            Color: =TextPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            X: =296
+            Y: =288
+  
+      - FunnelActiveTrack:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(226, 232, 240, 1)
+            Width: =320
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =288
+  
+      - FunnelActiveBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Active
+            Width: =If(LookUp(colLeadCounts, Status = "Total").Count > 0, (LookUp(colLeadCounts, Status = "Active").Count / LookUp(colLeadCounts, Status = "Total").Count) * 320, 0)
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =288
+  
+      - FunnelActiveCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Active").Count, "0")
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =730
+            Y: =288
+  
+      # WORKING BAR
+      - FunnelWorkingLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Working"
+            Size: =11
+            Color: =TextPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            X: =296
+            Y: =322
+  
+      - FunnelWorkingTrack:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(226, 232, 240, 1)
+            Width: =320
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =322
+  
+      - FunnelWorkingBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Working
+            Width: =If(LookUp(colLeadCounts, Status = "Total").Count > 0, (LookUp(colLeadCounts, Status = "Working").Count / LookUp(colLeadCounts, Status = "Total").Count) * 320, 0)
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =322
+  
+      - FunnelWorkingCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Working").Count, "0")
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =730
+            Y: =322
+  
+      # QUOTED BAR
+      - FunnelQuotedLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Quoted"
+            Size: =11
+            Color: =TextPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            X: =296
+            Y: =356
+  
+      - FunnelQuotedTrack:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(226, 232, 240, 1)
+            Width: =320
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =356
+  
+      - FunnelQuotedBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Quoted
+            Width: =If(LookUp(colLeadCounts, Status = "Total").Count > 0, (LookUp(colLeadCounts, Status = "Quoted").Count / LookUp(colLeadCounts, Status = "Total").Count) * 320, 0)
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =356
+  
+      - FunnelQuotedCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Quoted").Count, "0")
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =730
+            Y: =356
+  
+      # NEGOTIATING BAR
+      - FunnelNegLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Negotiating"
+            Size: =11
+            Color: =TextPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            X: =296
+            Y: =390
+  
+      - FunnelNegTrack:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(226, 232, 240, 1)
+            Width: =320
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =390
+  
+      - FunnelNegBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Negotiating
+            Width: =If(LookUp(colLeadCounts, Status = "Total").Count > 0, (LookUp(colLeadCounts, Status = "Negotiating").Count / LookUp(colLeadCounts, Status = "Total").Count) * 320, 0)
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =390
+  
+      - FunnelNegCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Negotiating").Count, "0")
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =730
+            Y: =390
+  
+      # BOUND BAR
+      - FunnelBoundLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Bound"
+            Size: =11
+            Color: =TextPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            X: =296
+            Y: =424
+  
+      - FunnelBoundTrack:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(226, 232, 240, 1)
+            Width: =320
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =424
+  
+      - FunnelBoundBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Bound
+            Width: =If(LookUp(colLeadCounts, Status = "Total").Count > 0, (LookUp(colLeadCounts, Status = "Bound").Count / LookUp(colLeadCounts, Status = "Total").Count) * 320, 0)
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =424
+  
+      - FunnelBoundCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Bound").Count, "0")
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =730
+            Y: =424
+  
+      # LOST BAR
+      - FunnelLostLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Lost"
+            Size: =11
+            Color: =TextPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            X: =296
+            Y: =458
+  
+      - FunnelLostTrack:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(226, 232, 240, 1)
+            Width: =320
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =458
+  
+      - FunnelLostBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Lost
+            Width: =If(LookUp(colLeadCounts, Status = "Total").Count > 0, (LookUp(colLeadCounts, Status = "Lost").Count / LookUp(colLeadCounts, Status = "Total").Count) * 320, 0)
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            X: =400
+            Y: =458
+  
+      - FunnelLostCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Lost").Count, "0")
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =730
+            Y: =458
+  
+      - PipelineViewAllBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="View All Leads →"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =BrandPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =160
+            Height: =36
+            X: =296
+            Y: =App.Height - 116
+            OnSelect: =Navigate(LeadsListScreen_V3, ScreenTransition.None)
+  
+      # ─────────────────────────────────────────────────────────
+      # RECENT LEADS
+      # ─────────────────────────────────────────────────────────
+      - RecentCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =App.Width - 872
+            Height: =App.Height - 340
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =848
+            Y: =212
+  
+      - RecentTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Recent Activity"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextPrimary
+            X: =872
+            Y: =228
+  
+      - RecentSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Last 10 modified leads"
+            Size: =11
+            Color: =TextSecondary
+            X: =872
+            Y: =252
+  
+      - RecentDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 912
+            Height: =1
+            X: =868
+            Y: =272
+  
+      - RecentGallery:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            X: =848
+            Y: =278
+            Width: =App.Width - 872
+            Height: =App.Height - 430
+            BorderThickness: =0
+            Fill: =RGBA(0,0,0,0)
+            TemplateSize: =64
+            TemplateFill: =RGBA(255,255,255,1)
+            Items: =colRecentLeads
+          Children:
+            - RecentRowDivider:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =BorderSoft
+                  Width: =Parent.TemplateWidth
+                  Height: =1
+                  X: =0
+                  Y: =63
+  
+            - RecentRowBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Text: =""
+                  Fill: =RGBA(0,0,0,0)
+                  HoverFill: =BrandSoft
+                  BorderThickness: =0
+                  Width: =Parent.TemplateWidth
+                  Height: =64
+                  OnSelect: |
+                    Set(varSelectedLead, ThisItem);
+                    Set(varDetailTab, "Overview");
+                    Navigate(LeadDetailScreen, ScreenTransition.None)
+  
+            - RecentStatusDot:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =Switch(ThisItem.Status.Value,
+                    "Active",      ColorStatus.Active,
+                    "Bound",       ColorStatus.Bound,
+                    "Working",     ColorStatus.Working,
+                    "Lost",        ColorStatus.Lost,
+                    "Quoted",      ColorStatus.Quoted,
+                    "Contacted",   ColorStatus.Contacted,
+                    "Negotiating", ColorStatus.Negotiating,
+                    ColorStatus.Default)
+                  Width: =8
+                  Height: =8
+                  RadiusBottomLeft: =4
+                  RadiusBottomRight: =4
+                  RadiusTopLeft: =4
+                  RadiusTopRight: =4
+                  X: =20
+                  Y: =28
+  
+            - RecentLeadName:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =ThisItem.Title
+                  FontWeight: =FontWeight.Semibold
+                  Size: =12
+                  Color: =TextPrimary
+                  X: =36
+                  Y: =14
+                  Width: =Parent.TemplateWidth - 120
+  
+            - RecentLeadStatus:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Coalesce(ThisItem.Status.Value, "Unknown")
+                  Size: =10
+                  Color: =TextSecondary
+                  X: =36
+                  Y: =36
+                  Width: =160
+  
+            - RecentLeadModified:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Text(ThisItem.Modified, "[$-en-US]mmm d")
+                  Size: =10
+                  Color: =TextSecondary
+                  Align: =Align.Right
+                  X: =Parent.TemplateWidth - 80
+                  Y: =24
+                  Width: =60
+  
+      - RecentViewAllBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="View All →"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =BrandPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =120
+            Height: =36
+            X: =App.Width - 160
+            Y: =App.Height - 116
+            OnSelect: =Navigate(LeadsListScreen_V3, ScreenTransition.None)
+  
+      # ─────────────────────────────────────────────────────────
+      # FOOTER
+      # ─────────────────────────────────────────────────────────
+      - FooterBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =App.Width - 300
+            Height: =52
+            X: =272
+            Y: =App.Height - 52
+  
+      - FooterDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 300
+            Height: =1
+            X: =272
+            Y: =App.Height - 53
+  
+      - FooterText:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA Agency CRM  •  Data as of " & Text(Now(), "[$-en-US]mmm d, yyyy h:mm AM/PM")
+            Size: =11
+            Color: =TextSecondary
+            X: =292
+            Y: =App.Height - 38
+  
+      - FooterRefreshBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="↻ Refresh"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BgApp
+            BorderThickness: =0
+            Color: =BrandPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            Height: =36
+            X: =App.Width - 184
+            Y: =App.Height - 44
+            OnSelect: |
+              ClearCollect(colLeadCounts,
+                {Status: "Active",      Count: CountRows(Filter(Leads, Status.Value = "Active"))},
+                {Status: "Working",     Count: CountRows(Filter(Leads, Status.Value = "Working"))},
+                {Status: "Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted"))},
+                {Status: "Negotiating", Count: CountRows(Filter(Leads, Status.Value = "Negotiating"))},
+                {Status: "Contacted",   Count: CountRows(Filter(Leads, Status.Value = "Contacted"))},
+                {Status: "Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound"))},
+                {Status: "Lost",        Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))},
+                {Status: "Overdue",     Count: CountRows(Filter(Leads, Today() > DateAdd(Modified, 7, Days) && Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")))},
+                {Status: "Total",       Count: CountRows(Leads)}
+              );
+              Set(varBoundPremium,    Sum(Filter(Leads, Status.Value = "Bound"),                                       'Current Premiums'));
+              Set(varPipelinePremium, Sum(Filter(Leads, Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")), 'Current Premiums'));
+              ClearCollect(colRecentLeads, FirstN(SortByColumns(Leads, "Modified", Descending), 10));
+              Notify("Dashboard refreshed", NotificationType.Success, 1500)

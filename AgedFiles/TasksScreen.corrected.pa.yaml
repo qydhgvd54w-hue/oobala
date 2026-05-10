@@ -1,0 +1,1011 @@
+Screens:
+  TasksScreen:
+    Properties:
+      Fill: =RGBA(245, 247, 250, 1)
+      LoadingSpinner: =LoadingSpinner.None
+      OnVisible: |
+        =Set(gblMyId, Office365Users.MyProfileV2().id);
+        ClearCollect(
+            colPlannerTasks,
+            Filter(
+                MicrosoftPlanner.ListTasksV3("d3d6d36a-2fdd-4cea-ac61-bdd8e0a132d3","TIYlGCM_vkSWPKmEYDdSVGQAD_j5").value,
+                gblMyId in Text(assignments)
+            )
+        );
+        Set(gblSelectedTask, Blank());
+        Set(gblShowAddPanel, false);
+        Set(gblFilterStatus, "All")
+    Children:
+      - rectSidebarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =0
+            Y: =0
+            Width: =220
+            Height: =Parent.Height
+            Fill: =RGBA(30, 41, 59, 1)
+
+      - lblAppName:
+          Control: Label@2.5.1
+          Properties:
+            X: =16
+            Y: =20
+            Width: =188
+            Height: =40
+            Text: ="Task Manager"
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =17
+            VerticalAlign: =VerticalAlign.Middle
+
+      - lblNavTasks:
+          Control: Label@2.5.1
+          Properties:
+            X: =0
+            Y: =80
+            Width: =220
+            Height: =48
+            Text: ="  Tasks"
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(59, 130, 246, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            PaddingLeft: =24
+            VerticalAlign: =VerticalAlign.Middle
+
+      - lblNavDashboard:
+          Control: Label@2.5.1
+          Properties:
+            X: =0
+            Y: =132
+            Width: =220
+            Height: =48
+            Text: ="  Dashboard"
+            Color: =RGBA(203, 213, 225, 1)
+            Fill: =RGBA(30, 41, 59, 1)
+            Size: =14
+            PaddingLeft: =24
+            VerticalAlign: =VerticalAlign.Middle
+            OnSelect: =Navigate(DashboardScreen, ScreenTransition.Fade)
+
+      - lblNavCalendar:
+          Control: Label@2.5.1
+          Properties:
+            X: =0
+            Y: =184
+            Width: =220
+            Height: =48
+            Text: ="  Calendar"
+            Color: =RGBA(203, 213, 225, 1)
+            Fill: =RGBA(30, 41, 59, 1)
+            Size: =14
+            PaddingLeft: =24
+            VerticalAlign: =VerticalAlign.Middle
+            OnSelect: =Navigate(CalendarScreen, ScreenTransition.Fade)
+
+      - lblNavReports:
+          Control: Label@2.5.1
+          Properties:
+            X: =0
+            Y: =236
+            Width: =220
+            Height: =48
+            Text: ="  Reports"
+            Color: =RGBA(203, 213, 225, 1)
+            Fill: =RGBA(30, 41, 59, 1)
+            Size: =14
+            PaddingLeft: =24
+            VerticalAlign: =VerticalAlign.Middle
+            OnSelect: =Navigate(ReportsScreen, ScreenTransition.Fade)
+
+      - lblNavSettings:
+          Control: Label@2.5.1
+          Properties:
+            X: =0
+            Y: =Parent.Height - 64
+            Width: =220
+            Height: =48
+            Text: ="  Settings"
+            Color: =RGBA(203, 213, 225, 1)
+            Fill: =RGBA(30, 41, 59, 1)
+            Size: =14
+            PaddingLeft: =24
+            VerticalAlign: =VerticalAlign.Middle
+            OnSelect: =Navigate(SettingsScreen, ScreenTransition.Fade)
+
+      # ===== HEADER BAR =====
+
+      - rectHeader:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =220
+            Y: =0
+            Width: =Parent.Width - 220
+            Height: =64
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - lblPageTitle:
+          Control: Label@2.5.1
+          Properties:
+            X: =244
+            Y: =0
+            Width: =280
+            Height: =64
+            Text: ="Tasks"
+            Color: =RGBA(15, 23, 42, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =22
+            VerticalAlign: =VerticalAlign.Middle
+
+      - txtSearch:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =Parent.Width - 460
+            Y: =12
+            Width: =236
+            Height: =40
+            HintText: ="Search tasks..."
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(248, 250, 252, 1)
+            Color: =RGBA(15, 23, 42, 1)
+            Size: =13
+
+      - btnRefresh:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =Parent.Width - 52
+            Y: =12
+            Width: =40
+            Height: =40
+            Text: ="R"
+            Fill: =RGBA(241, 245, 249, 1)
+            HoverFill: =RGBA(226, 232, 240, 1)
+            Color: =RGBA(100, 116, 139, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =16
+            BorderThickness: =1
+            BorderColor: =RGBA(203, 213, 225, 1)
+            OnSelect: |
+              =ClearCollect(
+                  colPlannerTasks,
+                  Filter(
+                      MicrosoftPlanner.ListTasksV3("d3d6d36a-2fdd-4cea-ac61-bdd8e0a132d3","TIYlGCM_vkSWPKmEYDdSVGQAD_j5").value,
+                      gblMyId in Text(assignments)
+                  )
+              )
+
+      # ===== FILTER CHIP BAR =====
+
+      - rectFilterBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =220
+            Y: =64
+            Width: =Parent.Width - 220
+            Height: =52
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - btnFilterAll:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =240
+            Y: =76
+            Width: =60
+            Height: =28
+            Text: ="All"
+            Fill: =If(gblFilterStatus = "All", RGBA(59,130,246,1), RGBA(241,245,249,1))
+            HoverFill: =RGBA(219, 234, 254, 1)
+            Color: =If(gblFilterStatus = "All", RGBA(255,255,255,1), RGBA(71,85,105,1))
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+            BorderThickness: =0
+            OnSelect: =Set(gblFilterStatus, "All")
+
+      - btnFilterNotStarted:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =308
+            Y: =76
+            Width: =108
+            Height: =28
+            Text: ="Not Started"
+            Fill: =If(gblFilterStatus = "Not Started", RGBA(59,130,246,1), RGBA(241,245,249,1))
+            HoverFill: =RGBA(219, 234, 254, 1)
+            Color: =If(gblFilterStatus = "Not Started", RGBA(255,255,255,1), RGBA(71,85,105,1))
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+            BorderThickness: =0
+            OnSelect: =Set(gblFilterStatus, "Not Started")
+
+      - btnFilterInProgress:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =424
+            Y: =76
+            Width: =100
+            Height: =28
+            Text: ="In Progress"
+            Fill: =If(gblFilterStatus = "In Progress", RGBA(59,130,246,1), RGBA(241,245,249,1))
+            HoverFill: =RGBA(219, 234, 254, 1)
+            Color: =If(gblFilterStatus = "In Progress", RGBA(255,255,255,1), RGBA(71,85,105,1))
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+            BorderThickness: =0
+            OnSelect: =Set(gblFilterStatus, "In Progress")
+
+      - btnFilterCompleted:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =532
+            Y: =76
+            Width: =96
+            Height: =28
+            Text: ="Completed"
+            Fill: =If(gblFilterStatus = "Completed", RGBA(59,130,246,1), RGBA(241,245,249,1))
+            HoverFill: =RGBA(219, 234, 254, 1)
+            Color: =If(gblFilterStatus = "Completed", RGBA(255,255,255,1), RGBA(71,85,105,1))
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+            BorderThickness: =0
+            OnSelect: =Set(gblFilterStatus, "Completed")
+
+      # ===== KPI SUMMARY CARDS =====
+
+      - rectCardTotal:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =240
+            Y: =132
+            Width: =156
+            Height: =80
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - lblCardTotalNum:
+          Control: Label@2.5.1
+          Properties:
+            X: =240
+            Y: =144
+            Width: =156
+            Height: =32
+            Text: =Text(CountRows(colPlannerTasks))
+            Color: =RGBA(15, 23, 42, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Align: =Align.Center
+
+      - lblCardTotalLabel:
+          Control: Label@2.5.1
+          Properties:
+            X: =240
+            Y: =178
+            Width: =156
+            Height: =24
+            Text: ="Total Tasks"
+            Color: =RGBA(100, 116, 139, 1)
+            Size: =12
+            Align: =Align.Center
+
+      - rectCardNotStarted:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =412
+            Y: =132
+            Width: =156
+            Height: =80
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - lblCardNSNum:
+          Control: Label@2.5.1
+          Properties:
+            X: =412
+            Y: =144
+            Width: =156
+            Height: =32
+            Text: =Text(CountRows(Filter(colPlannerTasks, percentComplete = 0)))
+            Color: =RGBA(239, 68, 68, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Align: =Align.Center
+
+      - lblCardNSLabel:
+          Control: Label@2.5.1
+          Properties:
+            X: =412
+            Y: =178
+            Width: =156
+            Height: =24
+            Text: ="Not Started"
+            Color: =RGBA(100, 116, 139, 1)
+            Size: =12
+            Align: =Align.Center
+
+      - rectCardInProgress:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =584
+            Y: =132
+            Width: =156
+            Height: =80
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - lblCardIPNum:
+          Control: Label@2.5.1
+          Properties:
+            X: =584
+            Y: =144
+            Width: =156
+            Height: =32
+            Text: =Text(CountRows(Filter(colPlannerTasks, percentComplete > 0 && percentComplete < 100)))
+            Color: =RGBA(245, 158, 11, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Align: =Align.Center
+
+      - lblCardIPLabel:
+          Control: Label@2.5.1
+          Properties:
+            X: =584
+            Y: =178
+            Width: =156
+            Height: =24
+            Text: ="In Progress"
+            Color: =RGBA(100, 116, 139, 1)
+            Size: =12
+            Align: =Align.Center
+
+      - rectCardCompleted:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =756
+            Y: =132
+            Width: =156
+            Height: =80
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - lblCardCompNum:
+          Control: Label@2.5.1
+          Properties:
+            X: =756
+            Y: =144
+            Width: =156
+            Height: =32
+            Text: =Text(CountRows(Filter(colPlannerTasks, percentComplete = 100)))
+            Color: =RGBA(34, 197, 94, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =24
+            Align: =Align.Center
+
+      - lblCardCompLabel:
+          Control: Label@2.5.1
+          Properties:
+            X: =756
+            Y: =178
+            Width: =156
+            Height: =24
+            Text: ="Completed"
+            Color: =RGBA(100, 116, 139, 1)
+            Size: =12
+            Align: =Align.Center
+
+      # ===== COLUMN HEADERS =====
+
+      - rectColHeaders:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =220
+            Y: =228
+            Width: =Parent.Width - 220
+            Height: =36
+            Fill: =RGBA(248, 250, 252, 1)
+            BorderColor: =RGBA(226, 232, 240, 1)
+            BorderThickness: =1
+
+      - lblColTitle:
+          Control: Label@2.5.1
+          Properties:
+            X: =248
+            Y: =234
+            Width: =256
+            Height: =24
+            Text: ="Task Title"
+            Color: =RGBA(71, 85, 105, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+
+      - lblColAssignee:
+          Control: Label@2.5.1
+          Properties:
+            X: =516
+            Y: =234
+            Width: =156
+            Height: =24
+            Text: ="Assigned To"
+            Color: =RGBA(71, 85, 105, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+
+      - lblColDue:
+          Control: Label@2.5.1
+          Properties:
+            X: =684
+            Y: =234
+            Width: =140
+            Height: =24
+            Text: ="Due Date"
+            Color: =RGBA(71, 85, 105, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+
+      - lblColStatus:
+          Control: Label@2.5.1
+          Properties:
+            X: =836
+            Y: =234
+            Width: =116
+            Height: =24
+            Text: ="Status"
+            Color: =RGBA(71, 85, 105, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+
+      - lblColActions:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 116
+            Y: =234
+            Width: =100
+            Height: =24
+            Text: ="Actions"
+            Color: =RGBA(71, 85, 105, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =12
+            Align: =Align.Center
+
+      # ===== TASKS GALLERY =====
+
+      - galTasks:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            X: =220
+            Y: =264
+            Width: =Parent.Width - 220
+            Height: =Parent.Height - 264
+            BorderThickness: =0
+            TemplateSize: =72
+            ShowScrollbar: =true
+            ShowNavigation: =false
+            Items: |
+              =Sort(
+                  Filter(
+                      colPlannerTasks,
+                      (gblFilterStatus = "All"
+                       || (gblFilterStatus = "Not Started" && percentComplete = 0)
+                       || (gblFilterStatus = "In Progress" && percentComplete > 0 && percentComplete < 100)
+                       || (gblFilterStatus = "Completed"   && percentComplete = 100)
+                      )
+                      && (Len(Trim(txtSearch.Text)) = 0 || title in txtSearch.Text)
+                  ),
+                  dueDateTime,
+                  SortOrder.Ascending
+              )
+          Children:
+            - rectRowBg:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =0
+                  Y: =0
+                  Width: =Parent.TemplateWidth
+                  Height: =Parent.TemplateHeight
+                  Fill: =If(ThisItem.IsSelected, RGBA(239,246,255,1), RGBA(255,255,255,1))
+
+            - rectRowBorder:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =0
+                  Y: =Parent.TemplateHeight - 1
+                  Width: =Parent.TemplateWidth
+                  Height: =1
+                  Fill: =RGBA(226, 232, 240, 1)
+
+            - chkComplete:
+                Control: Classic/CheckBox@2.1.0
+                Properties:
+                  X: =12
+                  Y: =24
+                  Width: =24
+                  Height: =24
+                  Default: =ThisItem.percentComplete = 100
+                  CheckboxBackgroundFill: =RGBA(59, 130, 246, 1)
+                  OnCheck: |
+                    =Patch(colPlannerTasks, ThisItem, {percentComplete: 100});
+                    MicrosoftPlanner.UpdateTaskV2(ThisItem.id, {percentComplete: 100})
+                  OnUncheck: |
+                    =Patch(colPlannerTasks, ThisItem, {percentComplete: 0});
+                    MicrosoftPlanner.UpdateTaskV2(ThisItem.id, {percentComplete: 0})
+
+            - lblTitle:
+                Control: Label@2.5.1
+                Properties:
+                  X: =44
+                  Y: =10
+                  Width: =256
+                  Height: =28
+                  Text: =Coalesce(ThisItem.title, "Untitled")
+                  Color: =If(ThisItem.percentComplete = 100, RGBA(148,163,184,1), RGBA(15,23,42,1))
+                  FontWeight: =FontWeight.Semibold
+                  Size: =13
+                  Overflow: =Overflow.Hidden
+
+            - lblBucket:
+                Control: Label@2.5.1
+                Properties:
+                  X: =44
+                  Y: =40
+                  Width: =256
+                  Height: =20
+                  Text: |
+                    =If(IsBlank(ThisItem.bucketId), "No bucket", Concatenate("Bucket: ", ThisItem.bucketId))
+                  Color: =RGBA(100, 116, 139, 1)
+                  Size: =11
+                  Overflow: =Overflow.Hidden
+
+            - lblAssignee:
+                Control: Label@2.5.1
+                Properties:
+                  X: =312
+                  Y: =24
+                  Width: =160
+                  Height: =24
+                  Text: =If(IsBlank(ThisItem.assignments), "Unassigned", "Assigned")
+                  Color: =RGBA(71, 85, 105, 1)
+                  Size: =13
+
+            - lblDueDate:
+                Control: Label@2.5.1
+                Properties:
+                  X: =484
+                  Y: =24
+                  Width: =148
+                  Height: =24
+                  Text: =If(IsBlank(ThisItem.dueDateTime), "No due date", Text(DateValue(Left(Coalesce(ThisItem.dueDateTime,""), 10)), "[$-en-US]mmm d, yyyy"))
+                  Color: =If(!IsBlank(ThisItem.dueDateTime) && DateValue(Left(Coalesce(ThisItem.dueDateTime,""), 10)) < Today() && ThisItem.percentComplete < 100, RGBA(239,68,68,1), RGBA(71,85,105,1))
+                  Size: =13
+
+            - rectStatusChip:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =644
+                  Y: =20
+                  Width: =112
+                  Height: =28
+                  Fill: =Switch(true, ThisItem.percentComplete = 100, RGBA(220,252,231,1), ThisItem.percentComplete > 0, RGBA(254,243,199,1), RGBA(254,226,226,1))
+
+            - lblStatus:
+                Control: Label@2.5.1
+                Properties:
+                  X: =644
+                  Y: =20
+                  Width: =112
+                  Height: =28
+                  Text: =Switch(true, ThisItem.percentComplete = 100, "Completed", ThisItem.percentComplete > 0, "In Progress", "Not Started")
+                  Color: =Switch(true, ThisItem.percentComplete = 100, RGBA(22,163,74,1), ThisItem.percentComplete > 0, RGBA(180,83,9,1), RGBA(185,28,28,1))
+                  FontWeight: =FontWeight.Semibold
+                  Size: =11
+                  Align: =Align.Center
+                  VerticalAlign: =VerticalAlign.Middle
+                  PaddingLeft: =8
+                  PaddingRight: =8
+
+            - rectProgBg:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =644
+                  Y: =54
+                  Width: =112
+                  Height: =6
+                  Fill: =RGBA(226, 232, 240, 1)
+
+            - rectProgFill:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =644
+                  Y: =54
+                  Width: =112 * (ThisItem.percentComplete / 100)
+                  Height: =6
+                  Fill: =Switch(true, ThisItem.percentComplete = 100, RGBA(34,197,94,1), ThisItem.percentComplete > 0, RGBA(245,158,11,1), RGBA(239,68,68,1))
+
+            - btnEdit:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =Parent.TemplateWidth - 108
+                  Y: =20
+                  Width: =48
+                  Height: =28
+                  Text: ="Edit"
+                  Fill: =RGBA(241, 245, 249, 1)
+                  HoverFill: =RGBA(219, 234, 254, 1)
+                  Color: =RGBA(59, 130, 246, 1)
+                  FontWeight: =FontWeight.Semibold
+                  Size: =12
+                  BorderThickness: =1
+                  BorderColor: =RGBA(147, 197, 253, 1)
+                  OnSelect: |
+                    =Set(gblSelectedTask, ThisItem);
+                    Set(gblShowAddPanel, true)
+
+            - btnDelete:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =Parent.TemplateWidth - 52
+                  Y: =20
+                  Width: =44
+                  Height: =28
+                  Text: ="Del"
+                  Fill: =RGBA(255, 255, 255, 1)
+                  HoverFill: =RGBA(254, 226, 226, 1)
+                  Color: =RGBA(239, 68, 68, 1)
+                  FontWeight: =FontWeight.Semibold
+                  Size: =12
+                  BorderThickness: =1
+                  BorderColor: =RGBA(252, 165, 165, 1)
+                  OnSelect: |
+                    =Remove(colPlannerTasks, ThisItem);
+                    MicrosoftPlanner.DeleteTaskV2(ThisItem.id)
+
+      # ===== EMPTY STATE =====
+
+      - lblEmptyState:
+          Control: Label@2.5.1
+          Properties:
+            X: =220
+            Y: =(Parent.Height / 2) + 60
+            Width: =Parent.Width - 220
+            Height: =48
+            Text: ="No tasks found. Click '+ Add Task' to get started."
+            Color: =RGBA(148, 163, 184, 1)
+            Size: =15
+            Align: =Align.Center
+            Visible: =CountRows(galTasks.AllItems) = 0
+
+      # ===== PANEL OVERLAY =====
+
+      - rectOverlay:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Height: =Parent.Height
+            Fill: =RGBA(0, 0, 0, 0.45)
+            Visible: =gblShowAddPanel
+            OnSelect: =Set(gblShowAddPanel, false)
+
+      # ===== ADD / EDIT TASK PANEL =====
+
+      - rectPanel:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =Parent.Width - 440
+            Y: =0
+            Width: =440
+            Height: =Parent.Height
+            Fill: =RGBA(255, 255, 255, 1)
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Visible: =gblShowAddPanel
+
+      - lblPanelHeading:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =20
+            Width: =340
+            Height: =36
+            Text: =If(IsBlank(gblSelectedTask), "Add New Task", "Edit Task")
+            Color: =RGBA(15, 23, 42, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =18
+            VerticalAlign: =VerticalAlign.Middle
+            Visible: =gblShowAddPanel
+
+      - btnClosePanel:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =Parent.Width - 68
+            Y: =20
+            Width: =36
+            Height: =36
+            Text: ="X"
+            Fill: =RGBA(241, 245, 249, 1)
+            HoverFill: =RGBA(226, 232, 240, 1)
+            Color: =RGBA(100, 116, 139, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            BorderThickness: =0
+            Visible: =gblShowAddPanel
+            OnSelect: =Set(gblShowAddPanel, false)
+
+      - lblFldTitle:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =72
+            Width: =408
+            Height: =22
+            Text: ="Task Title *"
+            Color: =RGBA(51, 65, 85, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - txtNewTitle:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =Parent.Width - 432
+            Y: =96
+            Width: =408
+            Height: =40
+            HintText: ="Enter task title"
+            Default: =Coalesce(gblSelectedTask.title, "")
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(248, 250, 252, 1)
+            Color: =RGBA(15, 23, 42, 1)
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - lblFldAssignee:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =148
+            Width: =408
+            Height: =22
+            Text: ="Assign To (Azure AD User ID)"
+            Color: =RGBA(51, 65, 85, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - txtNewAssignee:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =Parent.Width - 432
+            Y: =172
+            Width: =408
+            Height: =40
+            HintText: ="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            Default: =Coalesce(gblSelectedTask.assignments, "")
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(248, 250, 252, 1)
+            Color: =RGBA(15, 23, 42, 1)
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - lblFldDue:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =224
+            Width: =408
+            Height: =22
+            Text: ="Due Date (YYYY-MM-DD)"
+            Color: =RGBA(51, 65, 85, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - txtNewDueDate:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =Parent.Width - 432
+            Y: =248
+            Width: =408
+            Height: =40
+            HintText: ="2026-06-30"
+            Default: =If(IsBlank(gblSelectedTask), "", Left(Coalesce(gblSelectedTask.dueDateTime,""), 10))
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(248, 250, 252, 1)
+            Color: =RGBA(15, 23, 42, 1)
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - lblFldStatus:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =300
+            Width: =408
+            Height: =22
+            Text: ="Status"
+            Color: =RGBA(51, 65, 85, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - ddNewStatus:
+          Control: Classic/ComboBox@2.4.0
+          Properties:
+            X: =Parent.Width - 432
+            Y: =324
+            Width: =408
+            Height: =40
+            Items: =["Not Started", "In Progress", "Completed"]
+            DefaultSelectedItems: =If(IsBlank(gblSelectedTask), ["Not Started"], [Switch(true, gblSelectedTask.percentComplete = 100, "Completed", gblSelectedTask.percentComplete > 0, "In Progress", "Not Started")])
+            SelectMultiple: =false
+            IsSearchable: =false
+            BorderColor: =RGBA(203, 213, 225, 1)
+            Visible: =gblShowAddPanel
+
+      - lblFldBucket:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =376
+            Width: =408
+            Height: =22
+            Text: ="Bucket ID"
+            Color: =RGBA(51, 65, 85, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - txtNewBucket:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =Parent.Width - 432
+            Y: =400
+            Width: =408
+            Height: =40
+            HintText: ="Paste Planner bucket ID"
+            Default: =Coalesce(gblSelectedTask.bucketId, "")
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(248, 250, 252, 1)
+            Color: =RGBA(15, 23, 42, 1)
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - lblFldDesc:
+          Control: Label@2.5.1
+          Properties:
+            X: =Parent.Width - 432
+            Y: =452
+            Width: =408
+            Height: =22
+            Text: ="Description (optional)"
+            Color: =RGBA(51, 65, 85, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - txtNewDesc:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =Parent.Width - 432
+            Y: =476
+            Width: =408
+            Height: =80
+            HintText: ="Add notes..."
+            Mode: =TextMode.MultiLine
+            Default: =Coalesce(gblSelectedTask.description, "")
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(248, 250, 252, 1)
+            Color: =RGBA(15, 23, 42, 1)
+            Size: =13
+            Visible: =gblShowAddPanel
+
+      - btnSaveTask:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =Parent.Width - 432
+            Y: =Parent.Height - 64
+            Width: =200
+            Height: =44
+            Text: =If(IsBlank(gblSelectedTask), "Create Task", "Save Changes")
+            Fill: =RGBA(59, 130, 246, 1)
+            HoverFill: =RGBA(37, 99, 235, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            BorderThickness: =0
+            Visible: =gblShowAddPanel
+            OnSelect: |
+              =If(
+                  IsBlank(gblSelectedTask),
+                  Collect(
+                      colPlannerTasks,
+                      MicrosoftPlanner.CreateTaskV3(
+                          "d3d6d36a-2fdd-4cea-ac61-bdd8e0a132d3",
+                          "TIYlGCM_vkSWPKmEYDdSVGQAD_j5",
+                          {
+                              title: txtNewTitle.Text,
+                              bucketId: txtNewBucket.Text,
+                              dueDateTime: If(
+                                  Len(Trim(txtNewDueDate.Text)) > 0,
+                                  Concatenate(txtNewDueDate.Text, "T00:00:00Z"),
+                                  Blank()
+                              ),
+                              percentComplete: Switch(
+                                  First(ddNewStatus.SelectedItems).Value,
+                                  "Completed", 100,
+                                  "In Progress", 50,
+                                  0
+                              )
+                          }
+                      )
+                  ),
+                  Patch(
+                      colPlannerTasks,
+                      gblSelectedTask,
+                      {
+                          title: txtNewTitle.Text,
+                          bucketId: txtNewBucket.Text,
+                          dueDateTime: If(
+                              Len(Trim(txtNewDueDate.Text)) > 0,
+                              Concatenate(txtNewDueDate.Text, "T00:00:00Z"),
+                              Blank()
+                          ),
+                          percentComplete: Switch(
+                              First(ddNewStatus.SelectedItems).Value,
+                              "Completed", 100,
+                              "In Progress", 50,
+                              0
+                          )
+                      }
+                  );
+                  MicrosoftPlanner.UpdateTaskV2(
+                      gblSelectedTask.id,
+                      {
+                          title: txtNewTitle.Text,
+                          bucketId: txtNewBucket.Text,
+                          dueDateTime: If(
+                              Len(Trim(txtNewDueDate.Text)) > 0,
+                              Concatenate(txtNewDueDate.Text, "T00:00:00Z"),
+                              Blank()
+                          ),
+                          percentComplete: Switch(
+                              First(ddNewStatus.SelectedItems).Value,
+                              "Completed", 100,
+                              "In Progress", 50,
+                              0
+                          )
+                      }
+                  )
+              );
+              Set(gblShowAddPanel, false)
+
+      - btnCancelPanel:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =Parent.Width - 224
+            Y: =Parent.Height - 64
+            Width: =184
+            Height: =44
+            Text: ="Cancel"
+            Fill: =RGBA(241, 245, 249, 1)
+            HoverFill: =RGBA(226, 232, 240, 1)
+            Color: =RGBA(71, 85, 105, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            BorderThickness: =1
+            BorderColor: =RGBA(203, 213, 225, 1)
+            Visible: =gblShowAddPanel
+            OnSelect: =Set(gblShowAddPanel, false)

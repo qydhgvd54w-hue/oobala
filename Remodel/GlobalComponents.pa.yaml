@@ -1,0 +1,1359 @@
+Screens:
+  Screen2:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - cmpTotalLeadsDashboard_1:
+          Control: CanvasComponent
+          ComponentName: cmpTotalLeadsDashboard
+          Properties:
+            AnimationEffect: ="Pop"
+            ColumnsLayout: "={\n      Mobile: 1,\n      Tablet: 2,\n      Desktop: 4,\n      MobileBreakpoint:  IfError(Index(App.SizeBreakpoints, 1).Value, 640),\n      TabletBreakpoint:  IfError(Index(App.SizeBreakpoints, 2).Value, 1024),\n      DesktopBreakpoint: IfError(Index(App.SizeBreakpoints, 3).Value, 1366)\n  }\n\n  "
+            Data: |-
+              =Table(
+                  {ID: 1, Icon: "Users", Value: 1284, Label: "Total Leads", PercentChange: 18, PercentLabel: "vs last month", IconBg: "#EBF5FF", IconColor: "#2196F3", SparklineData: "620,710,780,830,900,980,1100,1180,1240,1284", isHidden: false},
+                  {ID: 2, Icon: "Target", Value: 437, Label: "Qualified Leads", PercentChange: 11, PercentLabel: "vs last month", IconBg: "#F0FDF4", IconColor: "#22C55E", SparklineData: "210,245,270,295,320,355,380,400,420,437", isHidden: false},
+                  {ID: 3, Icon: "Shield", Value: 198, Label: "Policies Closed", PercentChange: 23, PercentLabel: "vs last month", IconBg: "#FDF4FF", IconColor: "#A855F7", SparklineData: "80,95,108,120,135,150,162,175,188,198", isHidden: false},
+                  {ID: 4, Icon: "Clock", Value: 4, Label: "Avg. Response", PercentChange: -12, PercentLabel: "vs last month", IconBg: "#FFF7ED", IconColor: "#F97316", SparklineData: "9,8,8,7,7,6,6,5,5,4", isHidden: false}
+              )
+            Height: |-
+              =With(
+                  {
+                      bp: cmpTotalLeadsDashboard_1.ColumnsLayout,
+                      w: App.Width,
+                      cardCount: CountRows(Filter(cmpTotalLeadsDashboard_1.Data, !IfError(isHidden, false)))
+                  },
+                  With(
+                      {
+                          cols: Max(1, If(
+                              w < bp.MobileBreakpoint, bp.Mobile,
+                              w < bp.TabletBreakpoint, bp.Tablet,
+                              bp.Desktop
+                          ))
+                      },
+                      With(
+                          {
+                              rows: RoundUp(cardCount / cols, 0)
+                          },
+                          If(
+                              Or(cmpTotalLeadsDashboard_1.Style = "Compact", cmpTotalLeadsDashboard_1.Style = "Minimal"),
+                              rows * (96 + cmpTotalLeadsDashboard_1.StyleConfig.space.md) + cmpTotalLeadsDashboard_1.StyleConfig.space.md,
+                              rows * (cmpTotalLeadsDashboard_1.StyleConfig.heights.statsCardMax + cmpTotalLeadsDashboard_1.StyleConfig.space.lg) + cmpTotalLeadsDashboard_1.StyleConfig.space.lg
+                          )
+                      )
+                  )
+              )
+            Icons: |-
+              =Table(
+                  {
+                      Name: "Box",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/><polyline points='3.29 7 12 12 20.71 7'/><line x1='12' y1='22' x2='12' y2='12'/></svg>"
+                  },
+                  {
+                      Name: "TrendLines",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='22 12 18 12 15 21 9 3 6 12 2 12'/></svg>"
+                  },
+                  {
+                      Name: "Package",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M16.5 9.4l-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/><polyline points='3.29 7 12 12 20.71 7'/><line x1='12' y1='22' x2='12' y2='12'/></svg>"
+                  },
+                  {
+                      Name: "Warning",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/><line x1='12' y1='9' x2='12' y2='13'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>"
+                  },
+                  {
+                      Name: "Dollar",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='1' x2='12' y2='23'/><path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/></svg>"
+                  },
+                  {
+                      Name: "Quantity",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='6' x2='21' y2='6'/><line x1='8' y1='12' x2='21' y2='12'/><line x1='8' y1='18' x2='21' y2='18'/><line x1='3' y1='6' x2='3.01' y2='6'/><line x1='3' y1='12' x2='3.01' y2='12'/><line x1='3' y1='18' x2='3.01' y2='18'/></svg>"
+                  },
+                  {
+                      Name: "BarChart",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/></svg>"
+                  },
+                  {
+                      Name: "Users",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>"
+                  },
+                  {
+                      Name: "Clock",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg>"
+                  },
+                  {
+                      Name: "Heart",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/></svg>"
+                  },
+                  {
+                      Name: "HeartFilled",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='#E53E3E' stroke='#E53E3E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/></svg>"
+                  },
+                  {
+                      Name: "Shield",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>"
+                  },
+                  {
+                      Name: "Target",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/></svg>"
+                  },
+                  {
+                      Name: "Activity",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'/><polyline points='17 6 23 6 23 12'/></svg>"
+                  },
+                  {
+                      Name: "Percent",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='19' y1='5' x2='5' y2='19'/><circle cx='6.5' cy='6.5' r='2.5'/><circle cx='17.5' cy='17.5' r='2.5'/></svg>"
+                  },
+                  {
+                      Name: "Calendar",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg>"
+                  },
+                  {
+                      Name: "Mail",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22 6 12 13 2 6'/></svg>"
+                  },
+                  {
+                      Name: "Star",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+                  }
+              )
+            IsLoading: =false
+            OnCardClick: =
+            Style: ="Standard"
+            StyleConfig: |-
+              ={
+                      colors: {
+                          cardBg: ColorValue("#FFFFFF"),
+                          border: ColorValue("#E5E7EB"),
+                          text: ColorValue("#111827"),
+                          textMuted: ColorValue("#6B7280"),
+                          positive: ColorValue("#22C55E"),
+                          negative: ColorValue("#EF4444"),
+                          neutral: ColorValue("#9E9E9E"),
+                          skeletonBase: ColorValue("#E5E7EB"),
+                          skeletonShine: ColorValue("#F3F4F6")
+                      },
+                      space: {
+                          xs: 4,
+                          sm: 8,
+                          md: 12,
+                          lg: 16,
+                          xl: 24
+                      },
+                      radius: {
+                          md: 8,
+                          lg: 12
+                      },
+                      type: {
+                          value: {
+                              size: 32,
+                              sizeCompact: 20
+                          },
+                          label: {
+                              size: 12
+                          },
+                          body: {
+                              size: 12
+                          }
+                      },
+                      heights: {
+                          statsCardMax: 190
+                      },
+                      abbreviateThreshold: 10000
+                  }
+            Width: =App.Width
+            Y: =1078
+      - cmpSidebar_2:
+          Control: CanvasComponent
+          ComponentName: cmpSidebar
+          Properties:
+            AccentColor: =RGBA(79, 142, 247, 1)
+            AppLogo: =Blank()
+            AppName: ="PowerApps"
+            AppNameAccent: ="UI"
+            Expanded: =true
+            Height: =App.Height
+            Icons: |-
+              =Table(
+                {Name:"Grid", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7' rx='1'/><rect x='14' y='3' width='7' height='7' rx='1'/><rect x='3' y='14' width='7' height='7' rx='1'/><rect x='14' y='14' width='7' height='7' rx='1'/></svg>"},
+                {Name:"Layers", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2L2 7l10 5 10-5-10-5z'/><path d='M2 17l10 5 10-5'/><path d='M2 12l10 5 10-5'/></svg>"},
+                {Name:"File", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='16' y1='13' x2='8' y2='13'/><line x1='16' y1='17' x2='8' y2='17'/></svg>"},
+                {Name:"User", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>"},
+                {Name:"Settings", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>"},
+                {Name:"Home", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>"},
+                {Name:"Dashboard", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/></svg>"},
+                {Name:"Bell", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/><path d='M13.73 21a2 2 0 0 1-3.46 0'/></svg>"},
+                {Name:"Chart", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/></svg>"},
+                {Name:"Users", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>"},
+                {Name:"Database", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><ellipse cx='12' cy='5' rx='9' ry='3'/><path d='M21 12c0 1.66-4 3-9 3s-9-1.34-9-3'/><path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/></svg>"},
+                {Name:"Box", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/><polyline points='3.29 7 12 12 20.71 7'/><line x1='12' y1='22' x2='12' y2='12'/></svg>"},
+                {Name:"Shield", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>"},
+                {Name:"Code", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='16 18 22 12 16 6'/><polyline points='8 6 2 12 8 18'/></svg>"},
+                {Name:"Help", SVG:"<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>"}
+              )
+            Items: |-
+              =Table(
+                {ID:0,  Title:"Library",      Icon:"",          Letter:"", Badge:0, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:true,  ParentID:-1, Visible:true},
+                {ID:1,  Title:"Components",   Icon:"Grid",      Letter:"", Badge:0, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:false, ParentID:-1, Visible:true},
+                {ID:11, Title:"Canvas",       Icon:"",          Letter:"", Badge:0, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:false, ParentID:1,  Visible:true},
+                {ID:12, Title:"PCF",          Icon:"",          Letter:"", Badge:2, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:false, ParentID:1,  Visible:true},
+                {ID:2,  Title:"Starter Kits", Icon:"Layers",    Letter:"", Badge:3, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:false, ParentID:-1, Visible:true},
+                {ID:3,  Title:"Changelog",    Icon:"File",      Letter:"", Badge:1, BadgeColor:RGBA(34,197,94,1), BadgeDot:true,  IsSection:false, ParentID:-1, Visible:true},
+                {ID:10, Title:"Account",      Icon:"",          Letter:"", Badge:0, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:true,  ParentID:-1, Visible:true},
+                {ID:4,  Title:"Profile",      Icon:"User",      Letter:"", Badge:1, BadgeColor:RGBA(239,68,68,1), BadgeDot:true,  IsSection:false, ParentID:-1, Visible:true},
+                {ID:5,  Title:"Settings",     Icon:"Settings",  Letter:"", Badge:0, BadgeColor:RGBA(0,0,0,0),     BadgeDot:false, IsSection:false, ParentID:-1, Visible:true}
+              )
+            OnFooterSettings: =""
+            OnHelp: =""
+            OnNavSelect: =""
+            OnThemeToggle: =""
+            OnToggle: =""
+            ShowFooterMenu: =true
+            ShowHeader: =true
+            ShowSearch: =false
+            ShowToggle: =true
+            ShowUser: =true
+            Theme: ="Dark"
+            Width: =If(_cmpNavIsExpanded, 260, 64)
+      - cmpSegmentedControl_1:
+          Control: CanvasComponent
+          ComponentName: cmpSegmentedControl
+          Properties:
+            DefaultValue: ="list"
+            Disabled: =false
+            DisplayMode: ="Both"
+            EqualWidth: =false
+            Height: |-
+              =Switch(
+                  cmpSegmentedControl_1.Size,
+                  "Small", 32,
+                  "Medium", 40,
+                  "Large", 48,
+                  40
+              )
+            IconPosition: ="Left"
+            OnChange: =false
+            Options: |-
+              =Table(
+                  {
+                      Value: "list",
+                      Label: "List",
+                      Icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='8' x2='21' y1='6' y2='6'/%3E%3Cline x1='8' x2='21' y1='12' y2='12'/%3E%3Cline x1='8' x2='21' y1='18' y2='18'/%3E%3Cline x1='3' x2='3.01' y1='6' y2='6'/%3E%3Cline x1='3' x2='3.01' y1='12' y2='12'/%3E%3Cline x1='3' x2='3.01' y1='18' y2='18'/%3E%3C/svg%3E"
+                  },
+                  {
+                      Value: "grid",
+                      Label: "Grid",
+                      Icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='7' x='3' y='3' rx='1'/%3E%3Crect width='7' height='7' x='14' y='3' rx='1'/%3E%3Crect width='7' height='7' x='3' y='14' rx='1'/%3E%3Crect width='7' height='7' x='14' y='14' rx='1'/%3E%3C/svg%3E"
+                  },
+                  {
+                      Value: "table",
+                      Label: "Table",
+                      Icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v18'/%3E%3Crect width='18' height='18' x='3' y='3' rx='2'/%3E%3Cpath d='M3 9h18'/%3E%3Cpath d='M3 15h18'/%3E%3C/svg%3E"
+                  }
+              )
+            Size: ="Medium"
+            Theme: ="Light"
+            Width: |-
+              =If(
+                  cmpSegmentedControl_1.DisplayMode = "Icons" && !cmpSegmentedControl_1.EqualWidth,
+                  Switch(cmpSegmentedControl_1.Size, "Small", 32, "Medium", 40, "Large", 48, 40)
+                      * CountRows(cmpSegmentedControl_1.Options) + 4,
+                  cmpSegmentedControl_1.DisplayMode = "Text",
+                  Switch(cmpSegmentedControl_1.Size, "Small", 72, "Medium", 88, "Large", 104, 88)
+                      * CountRows(cmpSegmentedControl_1.Options) + 4,
+                  Switch(cmpSegmentedControl_1.Size, "Small", 96, "Medium", 112, "Large", 132, 112)
+                      * CountRows(cmpSegmentedControl_1.Options) + 4
+              )
+            X: =1160
+            Y: =630
+      - cmpSalesPipeline_1:
+          Control: CanvasComponent
+          ComponentName: cmpSalesPipeline
+          Properties:
+            CharWidths: |-
+              =Table(
+                  {CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:" ",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"!",Size:0.408},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"""",Size:0.585},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"#",Size:0.788},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"$",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"%",Size:1.123},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"&",Size:0.954},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"'",Size:0.346},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"(",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:")",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"*",Size:0.581},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"+",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:",",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"-",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:".",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"/",Size:0.554},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"0",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"1",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"2",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"3",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"4",Size:0.769},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"5",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"6",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"7",Size:0.715},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"8",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"9",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:":",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:";",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"<",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"=",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:">",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"?",Size:0.592},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"@",Size:1.273},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"A",Size:0.892},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"B",Size:0.808},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"C",Size:0.792},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"D",Size:0.958},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"E",Size:0.692},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"F",Size:0.673},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"G",Size:0.931},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"H",Size:0.981},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"I",Size:0.392},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"J",Size:0.492},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"K",Size:0.815},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"L",Size:0.654},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"M",Size:1.235},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"N",Size:1.023},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"O",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"P",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Q",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"R",Size:0.831},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"S",Size:0.727},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"T",Size:0.762},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"U",Size:0.938},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"V",Size:0.858},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"W",Size:1.288},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"X",Size:0.823},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Y",Size:0.773},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Z",Size:0.785},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"[",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"]",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"^",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"_",Size:0.55},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"`",Size:0.388},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"a",Size:0.696},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"b",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"c",Size:0.627},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"d",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"e",Size:0.712},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"f",Size:0.462},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"g",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"h",Size:0.777},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"i",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"j",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"k",Size:0.7},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"l",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"m",Size:1.181},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"n",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"o",Size:0.796},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"p",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"q",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"r",Size:0.496},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"s",Size:0.573},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"t",Size:0.485},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"u",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"v",Size:0.677},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"w",Size:1.012},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"x",Size:0.669},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"y",Size:0.681},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"z",Size:0.619},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"{",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"|",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"}",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"~",Size:0.927}
+              )
+            ContextMenuItems: |-
+              =Table(
+                  {ItemKey: "view", ItemDisplayName: "View", ItemIconSvg: "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z'/><circle cx='12' cy='12' r='3'/></svg>", ItemIconColor: "60,60,60,1", ItemEnabled: true, ItemVisible: true},
+                  {ItemKey: "edit", ItemDisplayName: "Edit", ItemIconSvg: "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/><path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/></svg>", ItemIconColor: "60,60,60,1", ItemEnabled: true, ItemVisible: true},
+                  {ItemKey: "delete", ItemDisplayName: "Delete", ItemIconSvg: "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M3 6h18'/><path d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6'/><path d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2'/></svg>", ItemIconColor: "248,113,113,1", ItemEnabled: true, ItemVisible: true}
+              )
+            EnableHover: =true
+            EnableMenu: =true
+            Height: =600
+            Items: |-
+              =Table(
+                  {company: "C-2026-001", dealValue: "VNS Upgrade Project", stage: "In Progress", Progress: "Progress 1", Assignee: "Rodas Yonass", closeDate: Date(2026,1,15), Priority: "High", CompletedSteps: 2, TotalSteps: 4},
+                  {company: "C-2026-002", dealValue: "Budget Review Q1", stage: "In Progress", Progress: "Progress 2", Assignee: "Sarah Johnson", closeDate: Date(2026,1,12), Priority: "High", CompletedSteps: 3, TotalSteps: 5},
+                  {company: "C-2026-005", dealValue: "Crime Scene Tech Training", stage: "Completed", Progress: "Progress 3", Assignee: "Mike Chen", closeDate: Date(2026,1,5), Priority: "Medium", CompletedSteps: 5, TotalSteps: 5},
+                  {company: "C-2025-093", dealValue: "Network Security Audit", stage: "Not Started", Progress: "Progress 4", Assignee: "Emily Parker", closeDate: Date(2026,2,20), Priority: "Low", CompletedSteps: 0, TotalSteps: 3},
+                  {company: "C-2025-098", dealValue: "Database Migration", stage: "In Progress", Progress: "Progress 5", Assignee: "David Martinez", closeDate: Date(2026,1,25), Priority: "High", CompletedSteps: 2, TotalSteps: 4},
+                  {company: "C-2026-003", dealValue: "Mobile App Development", stage: "On Hold", Progress: "Progress 6", Assignee: "Lisa Anderson", closeDate: Date(2026,2,10), Priority: "Medium", CompletedSteps: 1, TotalSteps: 4},
+                  {company: "C-2026-004", dealValue: "Cloud Infrastructure Setup", stage: "Completed", Progress: "Progress 7", Assignee: "James Wilson", closeDate: Date(2026,1,8), Priority: "Low", CompletedSteps: 5, TotalSteps: 5},
+                  {company: "C-2025-089", dealValue: "Compliance Review", stage: "In Progress", Progress: "Progress 8", Assignee: "Maria Garcia", closeDate: Date(2026,2,15), Priority: "High", CompletedSteps: 3, TotalSteps: 5},
+                  {company: "C-2025-095", dealValue: "User Training Program", stage: "Not Started", Progress: "Progress 9", Assignee: "Robert Taylor", closeDate: Date(2026,1,30), Priority: "Medium", CompletedSteps: 0, TotalSteps: 3},
+                  {company: "C-2026-006", dealValue: "Performance Optimization", stage: "In Progress", Progress: "Progress 10", Assignee: "Jennifer Lee", closeDate: Date(2026,2,5), Priority: "High", CompletedSteps: 4, TotalSteps: 5}
+              )
+            OnMenuItemSelect: =
+            OnRowSelect: =
+            OnViewChange: =
+            PriorityConfig: |-
+              =Table(
+                  {PriorityKey: "high",    Background: "254,226,226,1", TextColor: "185,28,28,1"},
+                  {PriorityKey: "medium",  Background: "254,243,199,1", TextColor: "146,64,14,1"},
+                  {PriorityKey: "low",     Background: "220,252,231,1", TextColor: "22,101,52,1"},
+                  {PriorityKey: "default", Background: "243,244,246,1", TextColor: "75,85,99,1"}
+              )
+            ProgressActiveColor: ="2563EB"
+            ProgressInactiveColor: ="E2E8F0"
+            ShowHeader: =true
+            ShowViewToggle: =true
+            StatusConfig: |-
+              =Table(
+                  {StatusKey: "Negotiation", Background: "59,130,246,0.12", TextColor: "59,130,246,1"},
+                  {StatusKey: "Proposal Sent", Background: "245,158,11,0.12", TextColor: "217,119,6,1"},
+                  {StatusKey: "Closed Won", Background: "22,163,74,0.12", TextColor: "22,163,74,1"},
+                  {StatusKey: "Qualified", Background: "139,92,246,0.12", TextColor: "124,58,237,1"},
+                  {StatusKey: "Closed Lost", Background: "107,114,128,0.12", TextColor: "107,114,128,1"},
+                  {StatusKey: "default", Background: "240,240,240,1", TextColor: "96,96,96,1"}
+              )
+            ThemeConfig: |-
+              ={
+                  container: {background: "255,255,255,1", border: "224,224,224,1", borderThickness: 1, radius: 12},
+                  header: {background: "249,250,251,1", border: "224,224,224,1", borderThickness: 2, textColor: "96,96,96,1", fontSize: 11, fontWeight: "Semibold", height: 50},
+                  row: {background: "0,0,0,0", hoverBackground: "248,249,250,0.5", borderColor: "240,240,240,1", borderThickness: 1, height: 60},
+                  card: {background: "255,255,255,1", border: "229,231,235,1", borderThickness: 1, radius: 12, height: 300, gap: 16},
+                  list: {background: "255,255,255,1", border: "229,231,235,1", divider: "243,244,246,1", text: "17,24,39,1", textMuted: "107,114,128,1", radius: 12},
+                  text: {primary: "32,32,32,1", secondary: "96,96,96,1", accent: "37,99,235,1", fontFamily: "Segoe UI", fontSizeNormal: 12, fontSizeSmall: 11},
+                  spacing: {paddingLeft: 20, columnGap: 10}
+              }
+            ViewMode: ="table"
+            Width: =1200
+            X: =1160
+            Y: =441
+      - cmpQuickAdd_1:
+          Control: CanvasComponent
+          ComponentName: cmpQuickAdd
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.45)
+            Height: =578
+            OnCancel: =
+            OnSubmit: =
+            Width: =856
+      - cmpNavClients_1:
+          Control: CanvasComponent
+          ComponentName: cmpNavClients
+          Properties:
+            ActiveColor: =RGBA(37, 99, 235, 1)
+            DropdownColumns: =2
+            DropdownItems: |-
+              =Table(
+                  {MenuID: "clients", Section: "Client Management", Icon: "Users", Label: "All Clients", Description: "Browse and manage full client list", Link: "AllClientsScreen", Column: 1},
+                  {MenuID: "clients", Section: "Client Management", Icon: "Heart", Label: "Client Profiles", Description: "View detailed individual client records", Link: "ClientProfilesScreen", Column: 1},
+                  {MenuID: "clients", Section: "Client Management", Icon: "Bell", Label: "Follow-ups", Description: "Manage scheduled client follow-up tasks", Link: "FollowUpsScreen", Column: 1},
+                  {MenuID: "clients", Section: "Relationships", Icon: "Star", Label: "VIP Clients", Description: "Track high-value priority client accounts", Link: "VIPClientsScreen", Column: 2},
+                  {MenuID: "clients", Section: "Relationships", Icon: "Mail", Label: "Communications", Description: "Log and send client messages and emails", Link: "CommunicationsScreen", Column: 2},
+                  {MenuID: "clients", Section: "Relationships", Icon: "Globe", Label: "Client Portal", Description: "Access external client-facing portal settings", Link: "ClientPortalScreen", Column: 2},
+                  {MenuID: "policies", Section: "Policy Admin", Icon: "FileText", Label: "All Policies", Description: "View and manage all active policies", Link: "AllPoliciesScreen", Column: 1},
+                  {MenuID: "policies", Section: "Policy Admin", Icon: "Layout", Label: "Policy Templates", Description: "Create and edit reusable policy templates", Link: "PolicyTemplatesScreen", Column: 1},
+                  {MenuID: "policies", Section: "Policy Admin", Icon: "Calendar", Label: "Renewals", Description: "Track upcoming policy renewal deadlines", Link: "RenewalsScreen", Column: 1},
+                  {MenuID: "policies", Section: "Coverage", Icon: "Shield", Label: "Coverage Types", Description: "Manage available insurance coverage categories", Link: "CoverageTypesScreen", Column: 2},
+                  {MenuID: "policies", Section: "Coverage", Icon: "Database", Label: "Underwriting", Description: "Review and approve underwriting submissions", Link: "UnderwritingScreen", Column: 2},
+                  {MenuID: "policies", Section: "Coverage", Icon: "Zap", Label: "Endorsements", Description: "Add or modify policy endorsements quickly", Link: "EndorsementsScreen", Column: 2},
+                  {MenuID: "claims", Section: "Claims Processing", Icon: "FileText", Label: "All Claims", Description: "View and manage all submitted claims", Link: "AllClaimsScreen", Column: 1},
+                  {MenuID: "claims", Section: "Claims Processing", Icon: "Rocket", Label: "New Claim", Description: "File and submit a new insurance claim", Link: "NewClaimScreen", Column: 1},
+                  {MenuID: "claims", Section: "Claims Processing", Icon: "Bell", Label: "Pending Review", Description: "Claims awaiting adjuster review and action", Link: "PendingClaimsScreen", Column: 1},
+                  {MenuID: "claims", Section: "Resolution", Icon: "Shield", Label: "Investigations", Description: "Track open fraud and claims investigations", Link: "InvestigationsScreen", Column: 2},
+                  {MenuID: "claims", Section: "Resolution", Icon: "BarChart", Label: "Claims Analytics", Description: "Analyze claims trends and settlement data", Link: "ClaimsAnalyticsScreen", Column: 2},
+                  {MenuID: "claims", Section: "Resolution", Icon: "Star", Label: "Closed Claims", Description: "Review history of resolved closed claims", Link: "ClosedClaimsScreen", Column: 2},
+                  {MenuID: "sales", Section: "Pipeline", Icon: "Rocket", Label: "Opportunities", Description: "Track and manage active sales opportunities", Link: "OpportunitiesScreen", Column: 1},
+                  {MenuID: "sales", Section: "Pipeline", Icon: "Users", Label: "Leads", Description: "View and qualify incoming prospect leads", Link: "LeadsScreen", Column: 1},
+                  {MenuID: "sales", Section: "Pipeline", Icon: "Calendar", Label: "Appointments", Description: "Schedule and manage sales team appointments", Link: "AppointmentsScreen", Column: 1},
+                  {MenuID: "sales", Section: "Performance", Icon: "BarChart", Label: "Sales Reports", Description: "Review agent and team sales performance", Link: "SalesReportsScreen", Column: 2},
+                  {MenuID: "sales", Section: "Performance", Icon: "Star", Label: "Leaderboard", Description: "Compare top performing agents by revenue", Link: "LeaderboardScreen", Column: 2},
+                  {MenuID: "sales", Section: "Performance", Icon: "Zap", Label: "Commissions", Description: "Calculate and track agent commission payouts", Link: "CommissionsScreen", Column: 2}
+              )
+            Fill: =Color.Transparent
+            Height: |-
+              =With(
+                  {_barH: If(cmpNavClients_1.ShowNavScrollbar, 68, 48)},
+                  If(
+                      !IsBlank(_navOpenMenu) && CountRows(Filter(cmpNavClients_1.DropdownItems, MenuID = _navOpenMenu)) > 0,
+                      _barH + 8 + 8 + With(
+                          {
+                              _col1: If(cmpNavClients_1.DropdownColumns > 1 && App.Width > 500, CountRows(Filter(cmpNavClients_1.DropdownItems, MenuID = _navOpenMenu && (Column = 1 || IsBlank(Column) || Column = 0))), CountRows(Filter(cmpNavClients_1.DropdownItems, MenuID = _navOpenMenu))),
+                              _col2: If(cmpNavClients_1.DropdownColumns > 1 && App.Width > 500, CountRows(Filter(cmpNavClients_1.DropdownItems, MenuID = _navOpenMenu && Column = 2)), 0),
+                              _rowH: If(cmpNavClients_1.ShowDescriptions, 80, 56),
+                              _secH: If(!IsBlank(First(Filter(cmpNavClients_1.DropdownItems, MenuID = _navOpenMenu && (Column = 1 || IsBlank(Column) || Column = 0))).Section) && (App.Width > 500 || CountRows(Filter(cmpNavClients_1.DropdownItems, MenuID = _navOpenMenu && Column = 2)) = 0), 24, 0)
+                          },
+                          Max(_col1, _col2) * _rowH + 24 + _secH
+                      ),
+                      _barH
+                  )
+              )
+            MenuItems: |-
+              =Table(
+                  {ID: "dashboard", Label: "Dashboard", HasDropdown: false, Link: "DashboardScreen"},
+                  {ID: "clients", Label: "Clients", HasDropdown: true, Link: ""},
+                  {ID: "policies", Label: "Policies", HasDropdown: true, Link: ""},
+                  {ID: "claims", Label: "Claims", HasDropdown: true, Link: ""},
+                  {ID: "sales", Label: "Sales", HasDropdown: true, Link: ""},
+                  {ID: "reports", Label: "Reports", HasDropdown: false, Link: "ReportsScreen"}
+              )
+            NavAlign: ="Center"
+            OnItemSelect: =false
+            ShowDescriptions: =true
+            ShowDropdownScrollbar: =false
+            ShowIcons: =true
+            ShowNavScrollbar: =false
+            Theme: ="Light"
+            Width: =App.Width
+      - cmpMyTable_1:
+          Control: CanvasComponent
+          ComponentName: cmpMyTable
+          Properties:
+            CharWidths: |-
+              =Table(
+                  {CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:" ",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"!",Size:0.408},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"""",Size:0.585},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"#",Size:0.788},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"$",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"%",Size:1.123},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"&",Size:0.954},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"'",Size:0.346},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"(",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:")",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"*",Size:0.581},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"+",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:",",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"-",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:".",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"/",Size:0.554},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"0",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"1",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"2",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"3",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"4",Size:0.769},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"5",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"6",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"7",Size:0.715},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"8",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"9",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:":",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:";",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"<",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"=",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:">",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"?",Size:0.592},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"@",Size:1.273},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"A",Size:0.892},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"B",Size:0.808},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"C",Size:0.792},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"D",Size:0.958},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"E",Size:0.692},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"F",Size:0.673},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"G",Size:0.931},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"H",Size:0.981},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"I",Size:0.392},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"J",Size:0.492},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"K",Size:0.815},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"L",Size:0.654},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"M",Size:1.235},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"N",Size:1.023},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"O",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"P",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Q",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"R",Size:0.831},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"S",Size:0.727},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"T",Size:0.762},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"U",Size:0.938},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"V",Size:0.858},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"W",Size:1.288},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"X",Size:0.823},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Y",Size:0.773},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Z",Size:0.785},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"[",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"]",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"^",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"_",Size:0.55},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"`",Size:0.388},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"a",Size:0.696},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"b",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"c",Size:0.627},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"d",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"e",Size:0.712},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"f",Size:0.462},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"g",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"h",Size:0.777},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"i",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"j",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"k",Size:0.7},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"l",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"m",Size:1.181},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"n",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"o",Size:0.796},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"p",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"q",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"r",Size:0.496},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"s",Size:0.573},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"t",Size:0.485},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"u",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"v",Size:0.677},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"w",Size:1.012},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"x",Size:0.669},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"y",Size:0.681},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"z",Size:0.619},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"{",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"|",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"}",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"~",Size:0.927}
+              )
+            ContextMenuItems: |-
+              =Table(
+                  {ItemKey: "view", ItemDisplayName: "View", ItemIconSvg: "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z'/><circle cx='12' cy='12' r='3'/></svg>", ItemIconColor: "60,60,60,1", ItemEnabled: true, ItemVisible: true},
+                  {ItemKey: "edit", ItemDisplayName: "Edit", ItemIconSvg: "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/><path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/></svg>", ItemIconColor: "60,60,60,1", ItemEnabled: true, ItemVisible: true},
+                  {ItemKey: "delete", ItemDisplayName: "Delete", ItemIconSvg: "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M3 6h18'/><path d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6'/><path d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2'/></svg>", ItemIconColor: "248,113,113,1", ItemEnabled: true, ItemVisible: true}
+              )
+            EnableHover: =true
+            EnableMenu: =true
+            Height: =600
+            Items: |-
+              =Table(
+                  {CaseID: "C-2026-001", Title: "VNS Upgrade Project", Status: "In Progress", Progress: "Progress 1", Assignee: "Rodas Yonass", DueDate: Date(2026,1,15), Priority: "High", CompletedSteps: 2, TotalSteps: 4},
+                  {CaseID: "C-2026-002", Title: "Budget Review Q1", Status: "In Progress", Progress: "Progress 2", Assignee: "Sarah Johnson", DueDate: Date(2026,1,12), Priority: "High", CompletedSteps: 3, TotalSteps: 5},
+                  {CaseID: "C-2026-005", Title: "Crime Scene Tech Training", Status: "Completed", Progress: "Progress 3", Assignee: "Mike Chen", DueDate: Date(2026,1,5), Priority: "Medium", CompletedSteps: 5, TotalSteps: 5},
+                  {CaseID: "C-2025-093", Title: "Network Security Audit", Status: "Not Started", Progress: "Progress 4", Assignee: "Emily Parker", DueDate: Date(2026,2,20), Priority: "Low", CompletedSteps: 0, TotalSteps: 3},
+                  {CaseID: "C-2025-098", Title: "Database Migration", Status: "In Progress", Progress: "Progress 5", Assignee: "David Martinez", DueDate: Date(2026,1,25), Priority: "High", CompletedSteps: 2, TotalSteps: 4},
+                  {CaseID: "C-2026-003", Title: "Mobile App Development", Status: "On Hold", Progress: "Progress 6", Assignee: "Lisa Anderson", DueDate: Date(2026,2,10), Priority: "Medium", CompletedSteps: 1, TotalSteps: 4},
+                  {CaseID: "C-2026-004", Title: "Cloud Infrastructure Setup", Status: "Completed", Progress: "Progress 7", Assignee: "James Wilson", DueDate: Date(2026,1,8), Priority: "Low", CompletedSteps: 5, TotalSteps: 5},
+                  {CaseID: "C-2025-089", Title: "Compliance Review", Status: "In Progress", Progress: "Progress 8", Assignee: "Maria Garcia", DueDate: Date(2026,2,15), Priority: "High", CompletedSteps: 3, TotalSteps: 5},
+                  {CaseID: "C-2025-095", Title: "User Training Program", Status: "Not Started", Progress: "Progress 9", Assignee: "Robert Taylor", DueDate: Date(2026,1,30), Priority: "Medium", CompletedSteps: 0, TotalSteps: 3},
+                  {CaseID: "C-2026-006", Title: "Performance Optimization", Status: "In Progress", Progress: "Progress 10", Assignee: "Jennifer Lee", DueDate: Date(2026,2,5), Priority: "High", CompletedSteps: 4, TotalSteps: 5}
+              )
+            OnMenuItemSelect: =
+            OnRowSelect: =
+            OnViewChange: =
+            PriorityConfig: |-
+              =Table(
+                  {PriorityKey: "high",    Background: "254,226,226,1", TextColor: "185,28,28,1"},
+                  {PriorityKey: "medium",  Background: "254,243,199,1", TextColor: "146,64,14,1"},
+                  {PriorityKey: "low",     Background: "220,252,231,1", TextColor: "22,101,52,1"},
+                  {PriorityKey: "default", Background: "243,244,246,1", TextColor: "75,85,99,1"}
+              )
+            ProgressActiveColor: ="2563EB"
+            ProgressInactiveColor: ="E2E8F0"
+            ShowHeader: =true
+            ShowViewToggle: =true
+            StatusConfig: |-
+              =Table(
+                  {StatusKey: "in progress", Background: "219,234,254,1", TextColor: "30,64,175,1"},
+                  {StatusKey: "completed",   Background: "212,244,221,1", TextColor: "15,81,50,1"},
+                  {StatusKey: "on hold",     Background: "254,243,199,1", TextColor: "146,64,14,1"},
+                  {StatusKey: "not started", Background: "243,244,246,1", TextColor: "75,85,99,1"},
+                  {StatusKey: "default",     Background: "240,240,240,1", TextColor: "96,96,96,1"}
+              )
+            ThemeConfig: |-
+              ={
+                  container: {background: "255,255,255,1", border: "224,224,224,1", borderThickness: 1, radius: 12},
+                  header: {background: "249,250,251,1", border: "224,224,224,1", borderThickness: 2, textColor: "96,96,96,1", fontSize: 11, fontWeight: "Semibold", height: 50},
+                  row: {background: "0,0,0,0", hoverBackground: "248,249,250,0.5", borderColor: "240,240,240,1", borderThickness: 1, height: 60},
+                  card: {background: "255,255,255,1", border: "229,231,235,1", borderThickness: 1, radius: 12, height: 300, gap: 16},
+                  list: {background: "255,255,255,1", border: "229,231,235,1", divider: "243,244,246,1", text: "17,24,39,1", textMuted: "107,114,128,1", radius: 12},
+                  text: {primary: "32,32,32,1", secondary: "96,96,96,1", accent: "37,99,235,1", fontFamily: "Segoe UI", fontSizeNormal: 12, fontSizeSmall: 11},
+                  spacing: {paddingLeft: 20, columnGap: 10}
+              }
+            ViewMode: ="table"
+            Width: =1200
+            X: =438
+            Y: =142
+      - cmpLoadingSpinner_1:
+          Control: CanvasComponent
+          ComponentName: cmpLoadingSpinner
+          Properties:
+            Fill: =Color.Transparent
+            Height: =App.Height
+            LoadingText: ="Loading..."
+            OverlayOpacity: =0.3
+            ShowBlur: =true
+            Theme: ="Light"
+            Width: =App.Width
+      - cmpLoadingScreen_1:
+          Control: CanvasComponent
+          ComponentName: cmpLoadingScreen
+          Properties:
+            AccentColor: =RGBA(79, 142, 247, 1)
+            AppName: ="PowerApps"
+            AppNameAccent: ="UI"
+            AppSubtitle: ="Component Library"
+            AppVersion: ="v1.0"
+            CompanyName: ="powerappsui.com"
+            CurrentStep: =0
+            ErrorMessage: =""
+            Height: =App.Height
+            LoadingSteps: |-
+              =Table(
+                {msg: "Loading configuration…"   },
+                {msg: "Connecting to SharePoint…"},
+                {msg: "Loading rate tables…"     },
+                {msg: "Preparing workspace…"     }
+              )
+            LogoLetter: ="P"
+            MinDisplayTime: =1500
+            OnReady: =
+            Theme: ="Dark"
+            Width: =App.Width
+      - cmpKPI_1:
+          Control: CanvasComponent
+          ComponentName: cmpKPI
+          Properties:
+            AnimationEffect: ="Pop"
+            ColumnsLayout: "={\n      Mobile: 1,\n      Tablet: 2,\n      Desktop: 4,\n      MobileBreakpoint:  IfError(Index(App.SizeBreakpoints, 1).Value, 640),\n      TabletBreakpoint:  IfError(Index(App.SizeBreakpoints, 2).Value, 1024),\n      DesktopBreakpoint: IfError(Index(App.SizeBreakpoints, 3).Value, 1366)\n  }\n\n  "
+            Data: |-
+              =Table(
+                  {
+                      ID: 1,
+                      Icon: "Box",
+                      Value: 118,
+                      Label: "All Assets",
+                      PercentChange: 14,
+                      PercentLabel: "vs last month",
+                      IconBg: "#EBF5FF",
+                      IconColor: "#2196F3",
+                      SparklineData: "10,25,18,42,38,56,61,70",
+                      isHidden: false
+                  },
+                  {
+                      ID: 2,
+                      Icon: "TrendLines",
+                      Value: 6,
+                      Label: "In Use",
+                      PercentChange: -8,
+                      PercentLabel: "vs last month",
+                      IconBg: "#FFF3E0",
+                      IconColor: "#FF9800",
+                      SparklineData: "50,44,38,30,28,20,14,6"
+                  },
+                  {
+                      ID: 3,
+                      Icon: "Package",
+                      Value: 111,
+                      Label: "Available",
+                      PercentChange: 12,
+                      PercentLabel: "vs last month",
+                      IconBg: "#E8F5E9",
+                      IconColor: "#4CAF50",
+                      SparklineData: "60,70,75,85,90,100,105,111"
+                  },
+                  {
+                      ID: 4,
+                      Icon: "Warning",
+                      Value: 1,
+                      Label: "Expiring Soon",
+                      PercentLabel: "Warranty expiring in less than 30 days",
+                      IconBg: "#FFEBEE",
+                      IconColor: "#F44336",
+                      SparklineData: ""
+                  }
+              )
+            Height: |-
+              =With(
+                  {
+                      bp: cmpKPI_1.ColumnsLayout,
+                      w: App.Width,
+                      cardCount: CountRows(Filter(cmpKPI_1.Data, !IfError(isHidden, false)))
+                  },
+                  With(
+                      {
+                          cols: Max(1, If(
+                              w < bp.MobileBreakpoint, bp.Mobile,
+                              w < bp.TabletBreakpoint, bp.Tablet,
+                              bp.Desktop
+                          ))
+                      },
+                      With(
+                          {
+                              rows: RoundUp(cardCount / cols, 0)
+                          },
+                          If(
+                              Or(cmpKPI_1.Style = "Compact", cmpKPI_1.Style = "Minimal"),
+                              rows * (96 + cmpKPI_1.StyleConfig.space.md) + cmpKPI_1.StyleConfig.space.md,
+                              rows * (cmpKPI_1.StyleConfig.heights.statsCardMax + cmpKPI_1.StyleConfig.space.lg) + cmpKPI_1.StyleConfig.space.lg
+                          )
+                      )
+                  )
+              )
+            Icons: |-
+              =Table(
+                  {
+                      Name: "Box",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/><polyline points='3.29 7 12 12 20.71 7'/><line x1='12' y1='22' x2='12' y2='12'/></svg>"
+                  },
+                  {
+                      Name: "TrendLines",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='22 12 18 12 15 21 9 3 6 12 2 12'/></svg>"
+                  },
+                  {
+                      Name: "Package",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M16.5 9.4l-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/><polyline points='3.29 7 12 12 20.71 7'/><line x1='12' y1='22' x2='12' y2='12'/></svg>"
+                  },
+                  {
+                      Name: "Warning",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/><line x1='12' y1='9' x2='12' y2='13'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>"
+                  },
+                  {
+                      Name: "Dollar",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='1' x2='12' y2='23'/><path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/></svg>"
+                  },
+                  {
+                      Name: "Quantity",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='6' x2='21' y2='6'/><line x1='8' y1='12' x2='21' y2='12'/><line x1='8' y1='18' x2='21' y2='18'/><line x1='3' y1='6' x2='3.01' y2='6'/><line x1='3' y1='12' x2='3.01' y2='12'/><line x1='3' y1='18' x2='3.01' y2='18'/></svg>"
+                  },
+                  {
+                      Name: "BarChart",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/></svg>"
+                  },
+                  {
+                      Name: "Users",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>"
+                  },
+                  {
+                      Name: "Clock",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg>"
+                  },
+                  {
+                      Name: "Heart",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/></svg>"
+                  },
+                  {
+                      Name: "HeartFilled",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='#E53E3E' stroke='#E53E3E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/></svg>"
+                  },
+                  {
+                      Name: "Shield",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>"
+                  },
+                  {
+                      Name: "Target",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/></svg>"
+                  },
+                  {
+                      Name: "Activity",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'/><polyline points='17 6 23 6 23 12'/></svg>"
+                  },
+                  {
+                      Name: "Percent",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='19' y1='5' x2='5' y2='19'/><circle cx='6.5' cy='6.5' r='2.5'/><circle cx='17.5' cy='17.5' r='2.5'/></svg>"
+                  },
+                  {
+                      Name: "Calendar",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg>"
+                  },
+                  {
+                      Name: "Mail",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22 6 12 13 2 6'/></svg>"
+                  },
+                  {
+                      Name: "Star",
+                      SVG: "<svg viewBox='0 0 24 24' width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='COLOR' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+                  }
+              )
+            IsLoading: =false
+            OnCardClick: =
+            Style: ="Standard"
+            StyleConfig: |-
+              ={
+                      colors: {
+                          cardBg: ColorValue("#FFFFFF"),
+                          border: ColorValue("#E5E7EB"),
+                          text: ColorValue("#111827"),
+                          textMuted: ColorValue("#6B7280"),
+                          positive: ColorValue("#22C55E"),
+                          negative: ColorValue("#EF4444"),
+                          neutral: ColorValue("#9E9E9E"),
+                          skeletonBase: ColorValue("#E5E7EB"),
+                          skeletonShine: ColorValue("#F3F4F6")
+                      },
+                      space: {
+                          xs: 4,
+                          sm: 8,
+                          md: 12,
+                          lg: 16,
+                          xl: 24
+                      },
+                      radius: {
+                          md: 8,
+                          lg: 12
+                      },
+                      type: {
+                          value: {
+                              size: 32,
+                              sizeCompact: 20
+                          },
+                          label: {
+                              size: 12
+                          },
+                          body: {
+                              size: 12
+                          }
+                      },
+                      heights: {
+                          statsCardMax: 190
+                      },
+                      abbreviateThreshold: 10000
+                  }
+            Width: =App.Width
+      - cmpFloatingActionButton_1:
+          Control: CanvasComponent
+          ComponentName: cmpFloatingActionButton
+          Properties:
+            Color: =RGBA(37, 99, 235, 1)
+            Disabled: =false
+            Fill: =Color.Transparent
+            Height: |-
+              =With(
+                  {
+                      _fabSize: Switch(
+                          cmpFloatingActionButton_1.Size,
+                          "small", 40,
+                          "regular", 56,
+                          "large", 72,
+                          56
+                      )
+                  },
+                  If(
+                      _fabOpen && CountRows(cmpFloatingActionButton_1.SpeedDialItems) > 0,
+                      _fabSize + 12 + CountRows(cmpFloatingActionButton_1.SpeedDialItems) * cmpFloatingActionButton_1.ItemSize,
+                      _fabSize
+                  )
+              )
+            Icon: ="Plus"
+            IconColor: ="#FFFFFF"
+            ItemSize: =52
+            Label: ="New Report"
+            OnSelect: =false
+            OnSpeedDialSelect: =false
+            Size: ="regular"
+            SpeedDialItems: |-
+              =Table(
+                  {Icon: "Plus",     Label: "New Task",     Color: RGBA(37, 99, 235, 1)},
+                  {Icon: "Edit",     Label: "Quick Note",   Color: RGBA(5, 150, 105, 1)},
+                  {Icon: "Camera",   Label: "Photo",        Color: RGBA(168, 85, 247, 1)},
+                  {Icon: "Upload",   Label: "Upload File",  Color: RGBA(234, 88, 12, 1)},
+                  {Icon: "Search",   Label: "Search",       Color: RGBA(20, 184, 166, 1)},
+                  {Icon: "Settings", Label: "Settings",     Color: RGBA(100, 116, 139, 1)})
+            Style: ="standard"
+            Theme: ="Light"
+            Width: |-
+              =With(
+                  {
+                      _fabSize: Switch(
+                          cmpFloatingActionButton_1.Size,
+                          "small", 40,
+                          "regular", 56,
+                          "large", 72,
+                          56
+                      ),
+                      _circleOffset: 20 + Switch(
+                          cmpFloatingActionButton_1.Size,
+                          "small", 20,
+                          "regular", 28,
+                          "large", 36,
+                          28
+                      ),
+                      _maxLabelChars: If(
+                          CountRows(cmpFloatingActionButton_1.SpeedDialItems) > 0,
+                          Max(cmpFloatingActionButton_1.SpeedDialItems, Len(Label)),
+                          0
+                      ),
+                      _iconSize: Switch(
+                          cmpFloatingActionButton_1.Size,
+                          "small", 20,
+                          "regular", 24,
+                          "large", 36,
+                          24
+                      )
+                  },
+                  If(
+                      _fabOpen && CountRows(cmpFloatingActionButton_1.SpeedDialItems) > 0,
+                      Min(Min(_maxLabelChars * 8 + 64, 240) + Switch(cmpFloatingActionButton_1.Size, "small", 20, "regular", 28, "large", 36, 28) + 20, App.Width),
+                      If(
+                          cmpFloatingActionButton_1.Style = "extended",
+                          16 + _iconSize + 8 + Min(Len(cmpFloatingActionButton_1.Label) * 8, 220) + 20,
+                          _fabSize
+                      )
+                  )
+              )
+            X: =144
+            Y: =414
+      - cmpEnhancedDialog_1:
+          Control: CanvasComponent
+          ComponentName: cmpEnhancedDialog
+          Properties:
+            BorderRadius: =10
+            Buttons: |
+              =Table(
+                {Label: "Cancel", ButtonType: "Secondary", Action: "Cancel", Visible: true}, 
+                {Label: "Confirm", ButtonType: "Primary", Action: "Confirm", Visible: true}
+              )
+            DialogHeight: =0
+            DialogType: ="Confirm"
+            DialogWidth: =400
+            Fill: =Color.Transparent
+            HeaderText: ="Confirm Action"
+            Height: =App.Height
+            IconName: ="Warning"
+            IsTextInputRequired: =false
+            MessageText: ="Are you sure you want to continue?"
+            OnButtonSelect: =
+            OnCloseSelect: =
+            OverlayBlurColor: ="RGBA(0, 0, 0, 0.4)"
+            PlaceholderText: ="Enter text"
+            ShowCloseIcon: =false
+            Theme: ="Light"
+            Width: =App.Width
+      - cmpChips_1:
+          Control: CanvasComponent
+          ComponentName: cmpChips
+          Properties:
+            CharWidths: |-
+              =Table(
+                  {CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:" ",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"!",Size:0.408},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"""",Size:0.585},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"#",Size:0.788},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"$",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"%",Size:1.123},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"&",Size:0.954},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"'",Size:0.346},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"(",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:")",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"*",Size:0.581},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"+",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:",",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"-",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:".",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"/",Size:0.554},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"0",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"1",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"2",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"3",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"4",Size:0.769},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"5",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"6",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"7",Size:0.715},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"8",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"9",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:":",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:";",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"<",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"=",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:">",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"?",Size:0.592},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"@",Size:1.273},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"A",Size:0.892},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"B",Size:0.808},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"C",Size:0.792},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"D",Size:0.958},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"E",Size:0.692},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"F",Size:0.673},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"G",Size:0.931},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"H",Size:0.981},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"I",Size:0.392},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"J",Size:0.492},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"K",Size:0.815},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"L",Size:0.654},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"M",Size:1.235},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"N",Size:1.023},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"O",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"P",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Q",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"R",Size:0.831},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"S",Size:0.727},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"T",Size:0.762},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"U",Size:0.938},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"V",Size:0.858},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"W",Size:1.288},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"X",Size:0.823},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Y",Size:0.773},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Z",Size:0.785},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"[",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"]",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"^",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"_",Size:0.55},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"\`",Size:0.388},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"a",Size:0.696},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"b",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"c",Size:0.627},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"d",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"e",Size:0.712},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"f",Size:0.462},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"g",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"h",Size:0.777},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"i",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"j",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"k",Size:0.7},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"l",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"m",Size:1.181},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"n",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"o",Size:0.796},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"p",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"q",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"r",Size:0.496},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"s",Size:0.573},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"t",Size:0.485},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"u",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"v",Size:0.677},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"w",Size:1.012},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"x",Size:0.669},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"y",Size:0.681},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"z",Size:0.619},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"{",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"|",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"}",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"~",Size:0.927}
+              )
+            ChipType: ="filter"
+            Color: ="secondary"
+            Config: ={Theme:"light",Wrap:false,Closable:true,Disabled:false,Radius:99,Gap:8,MaxVisible:10}
+            CustomColors: ={primary:"",secondary:"",success:"",warning:"",error:""}
+            Height: =Switch(Self.Size, "x-small", 38, "small", 44, "large", 56, "x-large", 62, 50)
+            Icons: ={Prepend:"",Check:"✓"}
+            Items: |-
+              =Table(
+                  {
+                      id: "1",
+                      label: "Approved",
+                      icon: "",
+                      color: "",
+                      variant: "",
+                      selected: false
+                  },
+                  {
+                      id: "2",
+                      label: "Rejected"
+                  },
+                  {
+                      id: "3",
+                      label: "Pending Review"
+                  },
+                  {
+                      id: "4",
+                      label: "Draft"
+                  },
+                  {
+                      id: "5",
+                      label: "New"
+                  },
+                  {
+                      id: "6",
+                      label: "Archived"
+                  },
+                  {
+                      id: "7",
+                      label: "In Progress"
+                  },
+                  {
+                      id: "8",
+                      label: "On Hold"
+                  },
+                  {
+                      id: "9",
+                      label: "Completed"
+                  },
+                  {
+                      id: "10",
+                      label: "Cancelled"
+                  }
+              )
+            OnClose: =
+            OnOverflow: =
+            OnSelect: =
+            Size: ="default"
+            Variant: ="tonal"
+            Width: =800
+            X: =87
+            Y: =417
+      - cmpCallsTimeline_1:
+          Control: CanvasComponent
+          ComponentName: cmpCallsTimeline
+          Properties:
+            CardHeight: =92
+            FilterOptions: |-
+              =Table(
+                  {Value: "All Activities"},
+                  {Value: "Calls"},
+                  {Value: "Emails"},
+                  {Value: "Proposals"},
+                  {Value: "Contracts"}
+              )
+            Height: =630
+            HideHeader: =false
+            IconMap: |-
+              =Table(
+                  {Category: "Calls", IconType: "person", DotColor: RGBA(14, 165, 233, 1), IconColor: "#0EA5E9"},
+                  {Category: "Emails", IconType: "email", DotColor: RGBA(139, 92, 246, 1), IconColor: "#8B5CF6"},
+                  {Category: "Proposals", IconType: "document", DotColor: RGBA(245, 158, 11, 1), IconColor: "#F59E0B"},
+                  {Category: "Contracts", IconType: "checkbadge", DotColor: RGBA(16, 185, 129, 1), IconColor: "#10B981"},
+                  {Category: "default", IconType: "comment", DotColor: RGBA(107, 114, 128, 1), IconColor: "#6B7280"}
+              )
+            IsLoading: =false
+            Items: |-
+              =Table(
+                  {EventTitle: "Contract Signed", EventDescription: "Client signed the enterprise agreement for annual license.", Author: "Michael Torres", DisplayDateTime: "Today 11:15 AM", Category: "Contracts", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Email Sent", EventDescription: "Sent final contract terms and payment schedule to client.", Author: "Sarah Johnson", DisplayDateTime: "Today 9:30 AM", Category: "Emails", HasSubDetail: true, SubTo: "david.chen@acmecorp.com", SubCC: "legal@acmecorp.com", SubPriority: "High", SubMessage: "Please review the attached terms and confirm by end of day."},
+                  {EventTitle: "Proposal Approved", EventDescription: "Client confirmed approval of the revised pricing proposal.", Author: "Michael Torres", DisplayDateTime: "Yesterday 4:45 PM", Category: "Proposals", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Call Completed", EventDescription: "Discovery call held to discuss enterprise package requirements.", Author: "Rachel Kim", DisplayDateTime: "Yesterday 2:00 PM", Category: "Calls", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Email Sent", EventDescription: "Shared updated proposal deck following pricing negotiations.", Author: "Sarah Johnson", DisplayDateTime: "Yesterday 10:15 AM", Category: "Emails", HasSubDetail: true, SubTo: "david.chen@acmecorp.com", SubCC: "finance@acmecorp.com", SubPriority: "Normal", SubMessage: "Attached is the revised proposal reflecting our agreed discounts."},
+                  {EventTitle: "Proposal Submitted", EventDescription: "Initial proposal sent covering three tiered service options.", Author: "Rachel Kim", DisplayDateTime: "Nov 18, 2024 3:30 PM", Category: "Proposals", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Contract Drafted", EventDescription: "Legal team prepared the first draft of the service agreement.", Author: "System", DisplayDateTime: "Nov 17, 2024 1:00 PM", Category: "Contracts", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Call Completed", EventDescription: "Follow-up call to address objections raised after demo session.", Author: "Michael Torres", DisplayDateTime: "Nov 15, 2024 11:45 AM", Category: "Calls", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Call Completed", EventDescription: "Initial qualifying call to assess budget and decision timeline.", Author: "Rachel Kim", DisplayDateTime: "Nov 13, 2024 10:00 AM", Category: "Calls", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""},
+                  {EventTitle: "Proposal Drafted", EventDescription: "Sales team created the first draft of the client proposal.", Author: "System", DisplayDateTime: "Nov 12, 2024 9:00 AM", Category: "Proposals", HasSubDetail: false, SubTo: "", SubCC: "", SubPriority: "", SubMessage: ""}
+              )
+            OnExport: =false
+            OnItemSelect: =false
+            OnPrint: =false
+            ShowScrollbar: =false
+            SubDetailCardHeight: =212
+            Theme: ="Light"
+            ThemeConfig: |-
+              ={
+                Light: {
+                  background:       ColorValue("#F9FAFB"),
+                  surface:          ColorValue("#FFFFFF"),
+                  border:           ColorValue("#E5E7EB"),
+                  rail:             ColorValue("#DCDCE0"),
+                  dotBorder:        ColorValue("#F9FAFB"),
+                  text:             ColorValue("#111827"),
+                  textMuted:        ColorValue("#6B7280"),
+                  textSubtle:       ColorValue("#9CA3AF"),
+                  toolbarSep:       ColorValue("#E5E7EB"),
+                  htmlBg:           "#f9fafb",
+                  htmlBorder:       "#e5e7eb",
+                  htmlText:         "#374151",
+                  htmlTextMuted:    "#9ca3af",
+                  htmlPriorityHigh: "#ef4444"
+                },
+                Dark: {
+                  background:       ColorValue("#111827"),
+                  surface:          ColorValue("#1F2937"),
+                  border:           ColorValue("#374151"),
+                  rail:             ColorValue("#4B5563"),
+                  dotBorder:        ColorValue("#111827"),
+                  text:             ColorValue("#F3F4F6"),
+                  textMuted:        ColorValue("#9CA3AF"),
+                  textSubtle:       ColorValue("#6B7280"),
+                  toolbarSep:       ColorValue("#374151"),
+                  htmlBg:           "#1f2937",
+                  htmlBorder:       "#374151",
+                  htmlText:         "#e5e7eb",
+                  htmlTextMuted:    "#6b7280",
+                  htmlPriorityHigh: "#ef4444"
+                }
+              }
+            Width: =1460
+            X: =940
+            Y: =670
+      - cmpCalendar_1:
+          Control: CanvasComponent
+          ComponentName: cmpCalendar
+          Properties:
+            DarkMode: =false
+            Height: =540
+            OnCancel: =
+            OnChange: =
+            OnClose: =
+            OnConfirm: =
+            Selection: |-
+              ={
+                  DefaultDate: Today(),                              // Initial selected date
+                  DefaultEndDate: Today() + 7,                       // Initial end date (range mode)
+                  DefaultSelection: Table({Value:Date(1899, 1, 1)}), // Initial dates (multi-select mode)
+                  MinDate: Date(1900, 1, 1),                         // Earliest selectable date
+                  MaxDate: Date(2100, 12, 31),                       // Latest selectable date
+                  BlockDates: Table({Value:Date(1899, 1, 1)}),       // Specific dates to block (strikethrough)
+                  DisableWeekends: false,                            // Block Sat/Sun (faded, not clickable)
+                  BlockFederalHolidays: false,                      // Block US holidays (strikethrough)
+                  HighlightDates: Table({Value:Date(1899, 1, 1)}),   // Dates to highlight (highlightFill color)
+                  HighlightFederalHolidays: true                     // Highlight US holidays (federalHolidayFill color)
+              }
+            Settings: |-
+              ={
+                  Title: "Select Date",                 // Header title text
+                  DateFormatting: "ddd dd mmm yy",      // Date display format in header
+                  FirstDayOfWeek: "Sunday",             // Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday
+                  TodayStyle: "circle",                 // circle|bold|none - how to highlight today
+                  ShowHeader: true,                     // Show title and selected date
+                  ShowFooter: true,                     // Show Cancel/OK buttons
+                  ShowCloseButton: true,                // Show X button in header
+                  ShowPadding: true,                    // Show adjacent month dates
+                  ShowTodayButton: true,                // Show "go to today" button
+                  SelectRange: false,                   // Enable start/end date range selection
+                  SelectMultiple: false,                // Enable multi-date selection
+                  AllowEmptySelection: true,            // Allow deselecting by clicking selected date
+                  ShowLegend: true                      // Show color legend below calendar grid
+              }
+            Theme: |-
+              =Table(
+                  {
+                      // DARK MODE
+                      mode:"Dark",
+                      selectionFill:RGBA(59, 130, 246, 1),       // Selected date circle
+                      selectionColour:RGBA(255, 255, 255, 1),   // Text on selected date
+                      todayBorderColour:RGBA(59, 130, 246, 1),  // Today ring color
+                      buttonColour:RGBA(59, 130, 246, 1),       // Cancel/button text
+                      containerFill:RGBA(30, 41, 59, 1),        // Card background
+                      backgroundFill:RGBA(51, 65, 85, 1),       // Range fill background
+                      titleColour:RGBA(248, 250, 252, 1),       // Header/title text
+                      textColour:RGBA(203, 213, 225, 1),        // Day numbers
+                      noteColour:RGBA(148, 163, 184, 1),        // Day headers (S,M,T...) & disabled
+                      lineColour:RGBA(71, 85, 105, 1),          // Borders/dividers
+                      highlightFill:RGBA(251, 191, 36, 0.3),    // HighlightDates circle
+                      federalHolidayFill:RGBA(248, 113, 113, 0.3), // Federal holiday circle
+                      hoverFill:RGBA(59, 130, 246, 0.15),       // Hover state
+                      pressFill:RGBA(59, 130, 246, 0.25),       // Press state
+                      adjacentColour:RGBA(148, 163, 184, 0.4),  // Adjacent month dates
+                      rangeFill:RGBA(59, 130, 246, 0.2),        // Range selection fill
+                      disabledFill:RGBA(51, 65, 85, 0.5),       // Disabled state (unused)
+                      nextIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E",
+                      prevIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E",
+                      upIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 15l-6-6-6 6'/%3E%3C/svg%3E",
+                      downIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E",
+                      closeIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E",
+                      todayIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F8FAFC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3Ccircle cx='12' cy='15' r='2'/%3E%3C/svg%3E"
+                  },
+                  {
+                      // LIGHT MODE
+                      mode:"Light",
+                      selectionFill:RGBA(30, 64, 175, 1),        // Selected date circle
+                      selectionColour:RGBA(255, 255, 255, 1),    // Text on selected date
+                      todayBorderColour:RGBA(30, 64, 175, 1),    // Today ring color
+                      buttonColour:RGBA(30, 64, 175, 1),         // Cancel/button text
+                      containerFill:RGBA(255, 255, 255, 1),      // Card background
+                      backgroundFill:RGBA(226, 232, 240, 1),     // Range fill background
+                      titleColour:RGBA(15, 23, 42, 1),           // Header/title text
+                      textColour:RGBA(51, 65, 85, 1),            // Day numbers
+                      noteColour:RGBA(100, 116, 139, 1),         // Day headers (S,M,T...) & disabled
+                      lineColour:RGBA(203, 213, 225, 1),         // Borders/dividers
+                      highlightFill:RGBA(251, 191, 36, 0.25),    // HighlightDates circle
+                      federalHolidayFill:RGBA(239, 68, 68, 0.2), // Federal holiday circle
+                      hoverFill:RGBA(30, 64, 175, 0.1),          // Hover state
+                      pressFill:RGBA(30, 64, 175, 0.15),         // Press state
+                      adjacentColour:RGBA(148, 163, 184, 0.5),   // Adjacent month dates
+                      rangeFill:RGBA(30, 64, 175, 0.15),         // Range selection fill
+                      disabledFill:RGBA(241, 245, 249, 1),       // Disabled state (unused)
+                      nextIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E3A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E",
+                      prevIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E3A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E",
+                      upIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E3A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 15l-6-6-6 6'/%3E%3C/svg%3E",
+                      downIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E3A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E",
+                      closeIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E3A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E",
+                      todayIcon:"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E3A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3Ccircle cx='12' cy='15' r='2'/%3E%3C/svg%3E"
+                  }
+              )
+            Width: =320
+            X: =1600
+            Y: =19
+      - cmpBreadcrumbs_2:
+          Control: CanvasComponent
+          ComponentName: cmpBreadcrumbs
+          Properties:
+            CharWidths: |-
+              =Table(
+                  {CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:" ",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"!",Size:0.408},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"""",Size:0.585},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"#",Size:0.788},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"$",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"%",Size:1.123},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"&",Size:0.954},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"'",Size:0.346},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"(",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:")",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"*",Size:0.581},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"+",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:",",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"-",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:".",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"/",Size:0.554},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"0",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"1",Size:0.538},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"2",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"3",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"4",Size:0.769},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"5",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"6",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"7",Size:0.715},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"8",Size:0.742},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"9",Size:0.746},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:":",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:";",Size:0.323},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"<",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"=",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:">",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"?",Size:0.592},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"@",Size:1.273},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"A",Size:0.892},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"B",Size:0.808},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"C",Size:0.792},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"D",Size:0.958},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"E",Size:0.692},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"F",Size:0.673},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"G",Size:0.931},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"H",Size:0.981},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"I",Size:0.392},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"J",Size:0.492},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"K",Size:0.815},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"L",Size:0.654},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"M",Size:1.235},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"N",Size:1.023},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"O",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"P",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Q",Size:1.008},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"R",Size:0.831},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"S",Size:0.727},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"T",Size:0.762},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"U",Size:0.938},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"V",Size:0.858},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"W",Size:1.288},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"X",Size:0.823},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Y",Size:0.773},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"Z",Size:0.785},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"[",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"]",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"^",Size:0.927},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"_",Size:0.55},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"\`",Size:0.388},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"a",Size:0.696},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"b",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"c",Size:0.627},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"d",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"e",Size:0.712},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"f",Size:0.462},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"g",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"h",Size:0.777},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"i",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"j",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"k",Size:0.7},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"l",Size:0.35},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"m",Size:1.181},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"n",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"o",Size:0.796},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"p",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"q",Size:0.804},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"r",Size:0.496},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"s",Size:0.573},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"t",Size:0.485},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"u",Size:0.781},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"v",Size:0.677},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"w",Size:1.012},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"x",Size:0.669},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"y",Size:0.681},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"z",Size:0.619},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"{",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"|",Size:0.369},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"}",Size:0.446},{CharFont:Font.'Segoe UI',CharWeight:FontWeight.Semibold,Char:"~",Size:0.927}
+              )
+            Config: ={Theme:"light",SeparatorIcon:"chevron",Gap:4,Size:12,MaxItems:4,ItemsBeforeCollapse:1,ItemsAfterCollapse:2,ActiveLastItem:false,BackButton:false}
+            CurrentColor: ="#111827"
+            Fill: |
+              =If(cmpBreadcrumbs_2.Config.Theme = "dark", RGBA(15, 23, 42, 1), Color.Transparent)
+            Height: =40
+            Icons: ={Home:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z' clip-rule='evenodd'/></svg>",Chevron:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/></svg>",Slash:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'><path stroke='currentColor' stroke-width='1.5' stroke-linecap='round' d='M7 16L13 4'/></svg>",Dot:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><circle cx='10' cy='10' r='2'/></svg>",Back:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z' clip-rule='evenodd'/></svg>",ChevronDown:"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/></svg>"}
+            Items: |-
+              =Table(
+                  {id: "1", label: "Dashboard", icon: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z' clip-rule='evenodd'/></svg>"},
+                  {id: "2", label: "Assets", icon: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path d='M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3H17.25a.75.75 0 0 1 .735.9l-1.6 8A.75.75 0 0 1 15.65 12.5H5.831l.102.512a.25.25 0 0 0 .248.213H15.25a.75.75 0 0 1 0 1.5H6.181a1.75 1.75 0 0 1-1.714-1.406L3.07 4.878a.25.25 0 0 0-.247-.213H1.75A.75.75 0 0 1 1 3.915V1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z'/></svg>", appendIcon: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/></svg>"},
+                  {id: "3", label: "IT Equipment", icon: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M2 4.25A2.25 2.25 0 0 1 4.25 2h11.5A2.25 2.25 0 0 1 18 4.25v8.5A2.25 2.25 0 0 1 15.75 15h-3.105a3.501 3.501 0 0 0 1.1 1.677A.75.75 0 0 1 13.26 18H6.74a.75.75 0 0 1-.484-1.323A3.501 3.501 0 0 0 7.355 15H4.25A2.25 2.25 0 0 1 2 12.75v-8.5Zm1.5 0a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75v-7.5Z' clip-rule='evenodd'/></svg>", appendIcon: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/></svg>"},
+                  {id: "4", label: "MacBook Pro #A-1042", icon: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path d='M16 4H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Zm-1 8H5V6h10v6ZM2 15.5a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Z'/></svg>"},
+                  {id: "5", label: "Checkout History"}
+              )
+            LinkColor: ="#64748B"
+            OnBack: =
+            OnSelect: =
+            Width: =800
+            X: =75
+            Y: =618
+      - cmpBottomNavigation_1:
+          Control: CanvasComponent
+          ComponentName: cmpBottomNavigation
+          Properties:
+            ActiveColor: =RGBA(59, 130, 246, 1)
+            ActiveColorHex: ="3B82F6"
+            ActiveIndicator: ="underline"
+            BadgeColor: =RGBA(220, 38, 38, 1)
+            Fill: =If(cmpBottomNavigation_1.Theme = "Dark", RGBA(39, 39, 42, 1), RGBA(255, 255, 255, 1))
+            Height: =64
+            InactiveColorHex: ="6B7280"
+            Items: |-
+              =Table(
+                  {Icon: "home", Label: "Home", Badge: 0},
+                  {Icon: "search", Label: "Explore", Badge: 0},
+                  {Icon: "bell", Label: "Alerts", Badge: 3},
+                  {Icon: "user", Label: "Profile", Badge: 0}
+              )
+            OnSelect: =
+            SelectedIndex: =1
+            ShowLabels: ="always"
+            Theme: ="Light"
+            Width: =App.Width
+      - Badge_2:
+          Control: CanvasComponent
+          ComponentName: Badge
+          Properties:
+            BadgeColor: =RGBA(220, 38, 38, 1)
+            BadgeCount: =5
+            Fill: =Color.Transparent
+            HasNotifications: =true
+            Height: =Badge_2.Size
+            HoverText: =""
+            IconColor: =""
+            IconSvg: =""
+            OnSelect: =false
+            Size: =45
+            Theme: ="Light"
+            Width: =Badge_2.Size
+      - ScreenContainer2:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - HeaderContainer1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                Children:
+                  - Header2:
+                      Control: Header@0.0.44
+                      Properties:
+                        Title: ="Header"
+            - MainContainer1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =Parent.Fill
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  LayoutWrap: =true
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Width: =1000
+                Children:
+                  - Gallery1:
+                      Control: Gallery@2.15.0
+                      Variant: Vertical
+                      Properties:
+                        AccessibleLabel: ="Items gallery"
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        TabIndex: =0
+                        TemplatePadding: =0
+                        TemplateSize: =320
+                        Transition: =Transition.Pop
+                        WrapCount: =If(Screen2.Size = ScreenSize.ExtraLarge , 3, Screen2.Size = ScreenSize.Large, 2, 1)
+                      Children:
+                        - GalleryContainer1:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Height: =308
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              Width: =If(Screen2.Size = ScreenSize.ExtraLarge, (Parent.Width / 3) - 15, Screen2.Size = ScreenSize.Large, (Parent.Width / 2) - 15 , Parent.Width)
+                              X: =5
+                              Y: =5
+                            Children:
+                              - ImageContainer1:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1.5
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =5
+                                    LayoutJustifyContent: =LayoutJustifyContent.End
+                                    LayoutMinWidth: =Parent.Width
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                    Width: =Parent.Width
+                                  Children:
+                                    - Image1:
+                                        Control: Image@2.2.3
+                                        Properties:
+                                          BorderColor: =RGBA(0, 0, 0, 0)
+                                          BorderStyle: =BorderStyle.None
+                                          BorderThickness: =2
+                                          DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                          DisabledFill: =RGBA(0, 0, 0, 0)
+                                          FillPortions: =1
+                                          FocusedBorderThickness: =4
+                                          HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                          HoverFill: =RGBA(0, 0, 0, 0)
+                                          ImagePosition: =ImagePosition.Fill
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                          PressedFill: =RGBA(0, 0, 0, 0)
+                                          Width: =Parent.Width
+                              - TitleContainer1:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =8
+                                    LayoutMinWidth: =GalleryContainer1.Width
+                                    PaddingBottom: =20
+                                    PaddingLeft: =20
+                                    PaddingRight: =20
+                                    PaddingTop: =20
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                    Width: =Parent.Width
+                                  Children:
+                                    - TitleText1:
+                                        Control: Text@0.0.51
+                                        Properties:
+                                          Height: =30
+                                          LayoutMinWidth: =Parent.Width
+                                          Size: =16
+                                          Text: ="Featured item"
+                                          VerticalAlign: =VerticalAlign.Top
+                                          Weight: ='TextCanvas.Weight'.Bold
+                                          Width: =Parent.Width - TitleContainer1.PaddingLeft
+                                    - DescriptionText1:
+                                        Control: Text@0.0.51
+                                        Properties:
+                                          Height: =45
+                                          LayoutMinWidth: =Parent.Width
+                                          Size: =16
+                                          Text: ="Short description or engaging message"
+                                          VerticalAlign: =VerticalAlign.Top
+                                          Width: =Parent.Width - TitleContainer1.PaddingLeft
+                              - ButtonContainer1:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =50
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    PaddingBottom: =12
+                                    PaddingLeft: =20
+                                    PaddingRight: =20
+                                    PaddingTop: =8
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                    Width: =Parent.Width
+                                  Children:
+                                    - Button2:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          AccessibleLabel: ="Featured item button"
+                                          Appearance: ='ButtonCanvas.Appearance'.Secondary
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          Width: =110
+      - cmpStatusPill_1:
+          Control: CanvasComponent
+          ComponentName: cmpStatusPill
+          Properties:
+            Fill: =RGBA(252, 235, 235, 1)
+            Height: =89
+            Width: =217
+            X: =30
+            Y: =952
+      - cmpStatCard_1:
+          Control: CanvasComponent
+          ComponentName: cmpStatCard
+          Properties:
+            Height: =120
+            Width: =220
+            X: =280
+            Y: =936
+      - cmpStatCard_2:
+          Control: CanvasComponent
+          ComponentName: cmpStatCard
+          Properties:
+            Height: =120
+            Width: =220
+            X: =682
+            Y: =958
+      - cmpLeadRow_1:
+          Control: CanvasComponent
+          ComponentName: cmpLeadRow
+          Properties:
+            Height: =56
+            X: =582
+            Y: =142
+      - cmpAgentAvatar_1:
+          Control: CanvasComponent
+          ComponentName: cmpAgentAvatar
+          Properties:
+            Height: =32
+            Width: =32

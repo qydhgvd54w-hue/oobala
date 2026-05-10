@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Callback List</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #161a22;
+    --panel-2: #1d2230;
+    --line: #2a3142;
+    --text: #e8ecf3;
+    --muted: #8a93a6;
+    --accent: #6ea8ff;
+    --accent-2: #7dd6c1;
+    --warn: #ffb454;
+    --done: #38d39f;
+    --danger: #ff6b6b;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius: 14px;
+
+    --c-emailed: #6ea8ff;
+    --c-called:  #7dd6c1;
+    --c-quoted:  #c39bff;
+    --c-vm:      #ffb454;
+    --c-archive: #ff8a8a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #1a2440 0%, transparent 60%),
+      radial-gradient(900px 700px at 100% 0%, #112a2a 0%, transparent 55%),
+      var(--bg);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .app { max-width: 1200px; margin: 0 auto; padding: 22px 22px 80px; }
+
+  header.app-bar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+    border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); margin-bottom: 18px;
+    position: sticky; top: 10px; z-index: 5;
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: conic-gradient(from 200deg, var(--accent), var(--accent-2), var(--warn), var(--accent));
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.08);
+  }
+  h1 { font-size: 18px; margin: 0; letter-spacing: .2px; }
+  h1 .sub { color: var(--muted); font-weight: 500; margin-left: 8px; font-size: 13px; }
+  .spacer { flex: 1; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 999px;
+    background: rgba(255,255,255,.05); border: 1px solid var(--line);
+    color: var(--muted); font-size: 12px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--done); box-shadow: 0 0 10px var(--done); }
+
+  button, .btn {
+    appearance: none; border: 1px solid var(--line); cursor: pointer;
+    background: var(--panel-2); color: var(--text);
+    padding: 8px 12px; border-radius: 10px; font-weight: 600; font-size: 13px;
+    transition: transform .08s ease, background .15s, border-color .15s, opacity .15s;
+  }
+  button:hover { background: #232a3c; }
+  button:active { transform: translateY(1px); }
+  .btn.primary { background: linear-gradient(180deg, #2c63c4, #234fa3); border-color: #2f6ad6; }
+  .btn.primary:hover { background: linear-gradient(180deg, #3576e0, #2a5dc1); }
+  .btn.ghost { background: transparent; }
+  .btn.danger { background: #3a1d22; border-color: #6b2a32; color: #ffb1b1; }
+  .btn.danger:hover { background: #4a242b; }
+  .btn.success { background: #173a2a; border-color: #2a6a4f; color: #b8f4d6; }
+  .btn.success:hover { background: #1d4a36; }
+  .icon-btn { padding: 6px 8px; font-size: 12px; }
+
+  .add-card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 14px; margin-bottom: 16px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr .8fr .8fr 2fr auto;
+    gap: 8px;
+  }
+  .grid-more {
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr .8fr 1.5fr 2fr;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .grid-more.hidden { display: none; }
+  @media (max-width: 900px) {
+    .grid, .grid-more { grid-template-columns: 1fr 1fr; }
+    .grid .full, .grid-more .full { grid-column: 1 / -1; }
+  }
+  input, textarea, select {
+    width: 100%; background: #0f131c; color: var(--text);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 12px; font: inherit; outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(110,168,255,.15);
+  }
+  textarea { resize: vertical; min-height: 42px; }
+  label.lbl { display: block; font-size: 11px; color: var(--muted); margin: 0 0 4px 4px; letter-spacing: .3px; text-transform: uppercase; }
+
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    padding: 10px 4px; margin-bottom: 8px;
+  }
+  .toolbar .search { flex: 1; min-width: 200px; }
+  .seg {
+    display: inline-flex; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  }
+  .seg button {
+    border: 0; background: transparent; border-radius: 0; padding: 8px 12px;
+    color: var(--muted);
+  }
+  .seg button.on { background: rgba(110,168,255,.15); color: var(--text); }
+
+  /* ===== List ===== */
+  .list { display: flex; flex-direction: column; gap: 8px; }
+  .row {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 28px 1.2fr 1.1fr .9fr 1fr 1fr auto;
+    gap: 10px; align-items: center;
+    transition: background .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .row:hover { border-color: #38445e; }
+  .row.done { opacity: .6; }
+  .row.archived { opacity: .5; filter: saturate(.6); }
+  .row .name { font-weight: 600; }
+  .row .phone { color: var(--muted); font-size: 13px; white-space: nowrap; }
+  .row .when { color: var(--muted); font-size: 13px; white-space: nowrap; }
+  .row .preview { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .events-mini { display: flex; gap: 4px; flex-wrap: nowrap; overflow: hidden; }
+  .row .actions { display: flex; gap: 6px; flex-wrap: nowrap; align-items: center; }
+  .priority-tag {
+    display: inline-block; padding: 1px 6px; border-radius: 4px;
+    font-size: 10px; font-weight: 700; letter-spacing: .5px;
+    text-transform: uppercase; vertical-align: middle; margin-left: 6px;
+  }
+  .priority-tag.high { background: rgba(255,107,107,.18); color: #ff8a8a; border: 1px solid rgba(255,107,107,.4); }
+  .priority-tag.med  { background: rgba(255,180,84,.15); color: var(--warn); border: 1px solid rgba(255,180,84,.4); }
+  .priority-tag.low  { background: rgba(125,214,193,.15); color: var(--accent-2); border: 1px solid rgba(125,214,193,.4); }
+
+  .check {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid #4a5675; background: transparent;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    transition: all .15s;
+  }
+  .check.on { background: var(--done); border-color: var(--done); }
+  .check.on::after { content: "✓"; color: #06241a; font-weight: 800; }
+
+  .row .expand { display: none; grid-column: 1 / -1; margin-top: 10px; }
+  .row.open { cursor: default; }
+  .row.open .expand { display: block; }
+  .expand-card {
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;
+  }
+  .expand-card .full { grid-column: 1 / -1; }
+  .expand-card .meta { color: var(--muted); font-size: 12px; }
+  .expand-card .section-title {
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: .5px; margin: 6px 0 4px;
+  }
+
+  /* ===== Quick action bar in expanded ===== */
+  .quick-actions {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 8px; margin-top: 4px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .qa-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    border: 1px solid var(--line); background: var(--panel);
+    color: var(--text); cursor: pointer;
+  }
+  .qa-btn .swatch { width: 8px; height: 8px; border-radius: 50%; }
+  .qa-btn:hover { transform: translateY(-1px); }
+  .qa-btn.t-emailed:hover { border-color: var(--c-emailed); }
+  .qa-btn.t-called:hover  { border-color: var(--c-called); }
+  .qa-btn.t-quoted:hover  { border-color: var(--c-quoted); }
+  .qa-btn.t-vm:hover      { border-color: var(--c-vm); }
+  .qa-btn.t-archive:hover { border-color: var(--c-archive); }
+
+  /* ===== Action menu (popover from row) ===== */
+  .action-host { position: relative; }
+  .menu {
+    position: absolute; right: 0; top: calc(100% + 6px);
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; box-shadow: var(--shadow);
+    padding: 6px; min-width: 200px; z-index: 30;
+    display: none;
+  }
+  .menu.open { display: block; }
+  .menu .mi {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 8px 10px; border-radius: 7px;
+    background: transparent; border: 0; color: var(--text);
+    font-size: 13px; text-align: left; cursor: pointer;
+  }
+  .menu .mi:hover { background: rgba(255,255,255,.06); }
+  .menu .mi .swatch { width: 10px; height: 10px; border-radius: 3px; }
+  .menu .mi.sel { outline: 1px solid var(--accent); }
+  .menu .sep { height: 1px; background: var(--line); margin: 6px 4px; }
+  .menu .foot { display: flex; gap: 6px; padding: 6px 4px 2px; }
+  .menu .foot .btn { flex: 1; }
+  .menu .hint { color: var(--muted); font-size: 11px; padding: 2px 8px 6px; }
+
+  /* ===== Event chips (mini in row) ===== */
+  .chip-mini {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid; display: inline-block;
+  }
+  .chip-mini.t-emailed { border-color: var(--c-emailed); background: rgba(110,168,255,.25); }
+  .chip-mini.t-called  { border-color: var(--c-called);  background: rgba(125,214,193,.25); }
+  .chip-mini.t-quoted  { border-color: var(--c-quoted);  background: rgba(195,155,255,.25); }
+  .chip-mini.t-vm      { border-color: var(--c-vm);      background: rgba(255,180,84,.25); }
+  .chip-mini.t-archive { border-color: var(--c-archive); background: rgba(255,138,138,.25); }
+
+  /* ===== Activity timeline (the widget list) ===== */
+  .timeline {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-top: 4px;
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 28px 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: background .15s, transform .1s;
+  }
+  .tl-item:hover { background: #20273a; }
+  .tl-icon {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    border: 2px solid;
+  }
+  .tl-item.t-emailed .tl-icon { border-color: var(--c-emailed); background: rgba(110,168,255,.18); color: var(--c-emailed); }
+  .tl-item.t-called  .tl-icon { border-color: var(--c-called);  background: rgba(125,214,193,.18); color: var(--c-called); }
+  .tl-item.t-quoted  .tl-icon { border-color: var(--c-quoted);  background: rgba(195,155,255,.18); color: var(--c-quoted); }
+  .tl-item.t-vm      .tl-icon { border-color: var(--c-vm);      background: rgba(255,180,84,.18); color: var(--c-vm); }
+  .tl-item.t-archive .tl-icon { border-color: var(--c-archive); background: rgba(255,138,138,.18); color: var(--c-archive); }
+  .tl-label { font-weight: 600; font-size: 13px; }
+  .tl-stamp { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .tl-elapsed {
+    font-size: 11px; color: var(--muted); white-space: nowrap;
+    cursor: help; padding: 2px 8px; border: 1px solid var(--line);
+    border-radius: 999px; background: rgba(255,255,255,.03);
+  }
+  .tl-x {
+    border: 0; background: transparent; color: var(--muted);
+    font-size: 14px; padding: 4px 6px; cursor: pointer; border-radius: 6px;
+  }
+  .tl-x:hover { color: var(--danger); background: rgba(255,107,107,.08); }
+
+  @keyframes pulseIn {
+    0% { transform: scale(.9); opacity: 0; }
+    60% { transform: scale(1.04); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  .tl-item.fresh { animation: pulseIn .35s ease-out; box-shadow: 0 0 0 3px rgba(110,168,255,.18); }
+
+  .empty {
+    text-align: center; color: var(--muted); padding: 36px 12px;
+    border: 1px dashed var(--line); border-radius: 12px; background: rgba(255,255,255,.02);
+  }
+  .empty-tl {
+    text-align: center; color: var(--muted); padding: 14px;
+    border: 1px dashed var(--line); border-radius: 8px; font-size: 12px;
+    background: rgba(255,255,255,.02);
+  }
+
+  /* ===== Toast ===== */
+  .toast {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #1a2030; border: 1px solid var(--line); color: var(--text);
+    padding: 10px 14px; border-radius: 10px; box-shadow: var(--shadow);
+    opacity: 0; pointer-events: none; transition: all .25s ease;
+    font-size: 13px; z-index: 50;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Tooltip */
+  [data-tip] { position: relative; }
+  [data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+    background: #0c1018; color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 8px; font-size: 11px; white-space: pre;
+    box-shadow: var(--shadow);
+    z-index: 40; pointer-events: none;
+  }
+
+  /* ===== Post-it mode ===== */
+  body.postit { background: transparent; }
+  body.postit .app { display: none; }
+  body.postit #postit { display: flex; }
+  #postit {
+    display: none;
+    position: fixed; top: 12px; right: 12px;
+    width: 280px; max-height: 360px;
+    background: linear-gradient(180deg, #fff7a8, #ffe97a);
+    color: #2a2308;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.35), inset 0 -2px 0 rgba(0,0,0,.07);
+    flex-direction: column; overflow: hidden;
+    transform: rotate(-1deg); z-index: 100;
+    border: 1px solid #d6c14a;
+  }
+  #postit .pi-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 8px; background: rgba(0,0,0,.06); cursor: grab;
+    font-weight: 700; font-size: 12px;
+  }
+  #postit .pi-bar.drag { cursor: grabbing; }
+  #postit .pi-bar .pi-title { flex: 1; }
+  #postit .pi-bar button {
+    border: 0; background: rgba(0,0,0,.08); color: #2a2308; padding: 3px 7px;
+    border-radius: 6px; font-weight: 700; font-size: 11px;
+  }
+  #postit .pi-bar button:hover { background: rgba(0,0,0,.16); }
+  #postit .pi-list { flex: 1; overflow: auto; padding: 6px 8px 8px; }
+  #postit .pi-item {
+    display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: center;
+    padding: 5px 4px; border-bottom: 1px dashed rgba(0,0,0,.15);
+    font-size: 13px; line-height: 1.25;
+  }
+  #postit .pi-item:last-child { border-bottom: 0; }
+  #postit .pi-item.done { opacity: .55; text-decoration: line-through; }
+  #postit .pi-check {
+    width: 14px; height: 14px; border: 2px solid #2a2308; border-radius: 3px;
+    cursor: pointer; background: transparent;
+  }
+  #postit .pi-check.on { background: #2a2308; }
+  #postit .pi-name { font-weight: 700; }
+  #postit .pi-meta { color: rgba(42,35,8,.7); font-size: 11px; white-space: nowrap; }
+  #postit .pi-empty { color: rgba(42,35,8,.6); text-align: center; padding: 14px 4px; font-size: 12px; }
+  #postit.compact { width: 200px; max-height: 240px; }
+  #postit.compact .pi-item { font-size: 12px; }
+
+  footer.foot { margin-top: 18px; color: var(--muted); font-size: 12px; text-align: center; }
+  kbd {
+    background: #1a2030; border: 1px solid var(--line); border-bottom-width: 2px;
+    border-radius: 6px; padding: 1px 6px; font-size: 11px; color: var(--text);
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <header class="app-bar">
+    <div class="logo" aria-hidden="true"></div>
+    <h1>Callback List <span class="sub" id="counter"></span></h1>
+    <div class="spacer"></div>
+    <span class="pill" id="saveStatus"><span class="dot"></span>Auto-saved</span>
+    <button class="btn" id="btnExport" title="Download JSON backup">Backup</button>
+    <button class="btn" id="btnImport" title="Restore from JSON file">Restore</button>
+    <input type="file" id="fileImport" accept="application/json" style="display:none" />
+    <button class="btn" id="btnPostIt" title="Shrink to post-it">Post-it</button>
+    <button class="btn primary" id="btnFull" title="Full screen (dbl-click for true fullscreen)">Full screen</button>
+  </header>
+
+  <section class="add-card">
+    <div class="grid">
+      <div>
+        <label class="lbl">Name</label>
+        <input id="fName" placeholder="Who to call" autocomplete="off" />
+      </div>
+      <div>
+        <label class="lbl">Phone</label>
+        <input id="fPhone" type="tel" placeholder="(555) 555-5555" autocomplete="off" />
+      </div>
+      <div>
+        <label class="lbl">Date</label>
+        <input id="fDate" type="date" />
+      </div>
+      <div>
+        <label class="lbl">Time</label>
+        <input id="fTime" type="time" />
+      </div>
+      <div>
+        <label class="lbl">Notes</label>
+        <input id="fNotes" placeholder="Reason / context" />
+      </div>
+      <div style="align-self:end; display:flex; gap:6px;">
+        <button class="btn primary" id="btnAdd" title="Add (Enter)">+ Add</button>
+        <button class="btn ghost" id="btnNow" title="Set date+time to now">Now</button>
+        <button class="btn ghost" id="btnMore" title="More fields">More ▾</button>
+      </div>
+    </div>
+
+    <div class="grid-more hidden" id="gridMore">
+      <div>
+        <label class="lbl">Company</label>
+        <input id="fCompany" placeholder="Company / org" autocomplete="off" />
+      </div>
+      <div>
+        <label class="lbl">Email</label>
+        <input id="fEmail" type="email" placeholder="optional" autocomplete="off" />
+      </div>
+      <div>
+        <label class="lbl">Priority</label>
+        <select id="fPriority">
+          <option value="">—</option>
+          <option value="low">Low</option>
+          <option value="med">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Tags</label>
+        <input id="fTags" placeholder="comma, separated" autocomplete="off" />
+      </div>
+      <div>
+        <label class="lbl">Address</label>
+        <input id="fAddress" placeholder="optional" autocomplete="off" />
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <input id="search" class="search" placeholder="Search name, phone, notes, tags…" />
+    <div class="seg" id="filter">
+      <button data-f="open" class="on">Open</button>
+      <button data-f="all">All</button>
+      <button data-f="done">Done</button>
+      <button data-f="archived">Archived</button>
+    </div>
+    <div class="seg" id="sort">
+      <button data-s="created" class="on">Newest</button>
+      <button data-s="due">By due</button>
+      <button data-s="name">By name</button>
+      <button data-s="lastEvent">Last activity</button>
+      <button data-s="priority">Priority</button>
+    </div>
+    <button class="btn" id="btnClearDone" title="Permanently remove completed">Clear done</button>
+  </div>
+
+  <div class="list" id="list"></div>
+
+  <footer class="foot">
+    Auto-saves to this browser. Click a row to expand · <kbd>Esc</kbd> closes · hover the elapsed pill for full timestamp.
+  </footer>
+</div>
+
+<!-- Post-it floating widget -->
+<div id="postit" aria-label="Post-it view">
+  <div class="pi-bar" id="piBar">
+    <span class="pi-title">📞 Callbacks</span>
+    <button id="piCompact" title="Compact toggle">⇕</button>
+    <button id="piExit" title="Back to full screen">✕</button>
+  </div>
+  <div class="pi-list" id="piList"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const STORAGE_KEY = "callback.list.v3";
+  const SETTINGS_KEY = "callback.settings.v3";
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  let items = [];
+  let settings = {
+    filter: "open", sort: "created", search: "",
+    postItPos: null, postItCompact: false, addMoreOpen: false,
+  };
+  let openIds = new Set();
+  let freshEventIds = new Set();
+
+  const EVENT_TYPES = {
+    emailed: { label: "Emailed",    color: "var(--c-emailed)", icon: "✉",  cls: "t-emailed" },
+    called:  { label: "Called back",color: "var(--c-called)",  icon: "📞", cls: "t-called"  },
+    quoted:  { label: "Sent quote", color: "var(--c-quoted)",  icon: "$",  cls: "t-quoted"  },
+    vm:      { label: "Left VM",    color: "var(--c-vm)",      icon: "🎙", cls: "t-vm"      },
+    archive: { label: "Archived",   color: "var(--c-archive)", icon: "📦", cls: "t-archive" },
+  };
+
+  // ---------- Persistence ----------
+  function load() {
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) items = JSON.parse(raw); } catch(e){ items=[]; }
+    // migrate older versions
+    if (!items.length) {
+      try {
+        const v2 = localStorage.getItem("callback.list.v2");
+        if (v2) items = JSON.parse(v2);
+      } catch(e){}
+    }
+    if (!items.length) {
+      try {
+        const v1 = localStorage.getItem("callback.list.v1");
+        if (v1) {
+          const old = JSON.parse(v1);
+          items = old.map(o => ({
+            ...o, phone: o.email || "", archived: false,
+            events: o.calledAt ? [{ id: rid(), type: "called", at: new Date().toISOString() }] : [],
+          }));
+        }
+      } catch(e){}
+    }
+    items.forEach(i => {
+      if (!Array.isArray(i.events)) i.events = [];
+      if (typeof i.archived !== "boolean") i.archived = false;
+      if (typeof i.phone !== "string") i.phone = i.email || "";
+      i.company ??= ""; i.address ??= ""; i.tags ??= ""; i.priority ??= ""; i.email ??= "";
+    });
+    try { const s = localStorage.getItem(SETTINGS_KEY); if (s) settings = { ...settings, ...JSON.parse(s) }; } catch(e){}
+  }
+
+  let saveTimer = null;
+  function save(showStatus = true) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        if (showStatus) flashSaved();
+      } catch (e) { toast("Save failed: " + e.message); }
+    }, 150);
+  }
+  setInterval(() => save(false), 15000);
+  window.addEventListener("beforeunload", () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    } catch(e){}
+  });
+  function flashSaved() { $("#saveStatus").innerHTML = '<span class="dot"></span>Saved ' + new Date().toLocaleTimeString(); }
+
+  // ---------- Helpers ----------
+  const rid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+  const pad = n => String(n).padStart(2,"0");
+  const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+  const nowHM = () => { const d=new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+  const fmtWhen = (date,time) => !date && !time ? "" : (date && time ? `${date} ${time}` : (date||time));
+  const escape = (s="") => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const fmtTime = iso => { try { return new Date(iso).toLocaleString(); } catch(e){ return iso; } };
+
+  function elapsedText(iso) {
+    const ms = Date.now() - new Date(iso).getTime();
+    if (isNaN(ms)) return "";
+    const s = Math.floor(ms/1000);
+    if (s < 5) return "just now";
+    if (s < 60) return s + "s ago";
+    const m = Math.floor(s/60);
+    if (m < 60) return m + "m ago";
+    const h = Math.floor(m/60);
+    if (h < 24) return h + "h " + (m%60) + "m ago";
+    const d = Math.floor(h/24);
+    return d + "d " + (h%24) + "h ago";
+  }
+
+  function toast(msg, ms=2200) {
+    const t = $("#toast"); t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(()=>t.classList.remove("show"), ms);
+  }
+
+  // ---------- Render ----------
+  function visibleItems() {
+    const q = settings.search.trim().toLowerCase();
+    let arr = items.filter(it => {
+      if (settings.filter === "archived") return it.archived;
+      if (it.archived) return false;
+      if (settings.filter === "open" && it.done) return false;
+      if (settings.filter === "done" && !it.done) return false;
+      if (q) {
+        const hay = [it.name, it.phone, it.notes, it.company, it.tags, it.email].join(" ").toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    const prioRank = { high: 0, med: 1, low: 2, "": 3 };
+    arr.sort((a,b) => {
+      if (settings.sort === "name") return (a.name||"").localeCompare(b.name||"");
+      if (settings.sort === "due") {
+        const ka = (a.date||"9999")+(a.time||"99:99");
+        const kb = (b.date||"9999")+(b.time||"99:99");
+        return ka.localeCompare(kb);
+      }
+      if (settings.sort === "lastEvent") {
+        const la = a.events.length ? a.events[a.events.length-1].at : a.createdAt;
+        const lb = b.events.length ? b.events[b.events.length-1].at : b.createdAt;
+        return (lb||"").localeCompare(la||"");
+      }
+      if (settings.sort === "priority") return prioRank[a.priority] - prioRank[b.priority];
+      return (b.createdAt||"").localeCompare(a.createdAt||"");
+    });
+    if (settings.filter === "all") arr.sort((a,b) => Number(a.done) - Number(b.done));
+    return arr;
+  }
+
+  function timelineHtml(it) {
+    if (!it.events.length) {
+      return `<div class="empty-tl">No activity yet. Use a button above — each press is timestamped automatically.</div>`;
+    }
+    const events = it.events.slice().sort((a,b) => (b.at||"").localeCompare(a.at||""));
+    return `<div class="timeline">${events.map(e => {
+      const t = EVENT_TYPES[e.type] || { label: e.type, icon: "•", cls: "" };
+      const elapsed = elapsedText(e.at);
+      const stamp = fmtTime(e.at);
+      const fresh = freshEventIds.has(e.id) ? " fresh" : "";
+      return `<div class="tl-item ${t.cls}${fresh}" data-event="${e.id}">
+        <span class="tl-icon">${t.icon}</span>
+        <span class="tl-label">${escape(t.label)}</span>
+        <span class="tl-stamp">${escape(stamp)}</span>
+        <span class="tl-elapsed" data-tip="${escape(stamp)}\n${escape(elapsed)}" data-elapsed-for="${e.id}">🕒 ${escape(elapsed)}</span>
+        <button class="tl-x" data-act="rmEvent" data-event="${e.id}" title="Remove this entry">✕</button>
+      </div>`;
+    }).join("")}</div>`;
+  }
+
+  function render() {
+    const list = $("#list");
+    const arr = visibleItems();
+    list.innerHTML = "";
+    if (!arr.length) list.innerHTML = `<div class="empty">No items here. Add one above ☝️</div>`;
+    else {
+      const frag = document.createDocumentFragment();
+      arr.forEach(it => frag.appendChild(rowEl(it)));
+      list.appendChild(frag);
+    }
+    const open = items.filter(i => !i.done && !i.archived).length;
+    const done = items.filter(i => i.done && !i.archived).length;
+    const arch = items.filter(i => i.archived).length;
+    $("#counter").textContent = `· ${open} open · ${done} done · ${arch} archived`;
+    renderPostIt();
+  }
+
+  function rowEl(it) {
+    const row = document.createElement("div");
+    row.className = "row" + (it.done ? " done":"") + (it.archived ? " archived":"") + (openIds.has(it.id) ? " open":"");
+    row.dataset.id = it.id;
+
+    const miniDots = it.events.slice(-5).map(e => {
+      const t = EVENT_TYPES[e.type] || { cls: "" };
+      return `<span class="chip-mini ${t.cls}" data-tip="${escape((t.label||e.type)+'\n'+fmtTime(e.at))}"></span>`;
+    }).join("");
+
+    const prioTag = it.priority
+      ? `<span class="priority-tag ${it.priority}">${it.priority === "med" ? "Med" : it.priority[0].toUpperCase() + it.priority.slice(1)}</span>`
+      : "";
+
+    row.innerHTML = `
+      <button class="check ${it.done?"on":""}" title="Toggle done" data-act="toggle"></button>
+      <div class="name">${escape(it.name) || '<span style="color:var(--muted)">(no name)</span>'}${prioTag}</div>
+      <div class="phone">${escape(it.phone)}</div>
+      <div class="when">${escape(fmtWhen(it.date, it.time))}</div>
+      <div class="when">${it.calledAt ? "✓ "+escape(it.calledAt) : ""}</div>
+      <div class="events-mini">${miniDots}</div>
+      <div class="actions" data-stop>
+        <div class="action-host">
+          <button class="icon-btn" data-act="menu" title="More options">More ▾</button>
+          <div class="menu" data-menu>
+            <div class="hint">Log activity (multi-select)</div>
+            <button class="mi" data-toggle="emailed"><span class="swatch" style="background:var(--c-emailed)"></span>${EVENT_TYPES.emailed.icon} Emailed</button>
+            <button class="mi" data-toggle="called"><span class="swatch" style="background:var(--c-called)"></span>${EVENT_TYPES.called.icon} Called back</button>
+            <button class="mi" data-toggle="quoted"><span class="swatch" style="background:var(--c-quoted)"></span>${EVENT_TYPES.quoted.icon} Sent quote</button>
+            <button class="mi" data-toggle="vm"><span class="swatch" style="background:var(--c-vm)"></span>${EVENT_TYPES.vm.icon} Left VM</button>
+            <div class="sep"></div>
+            <button class="mi" data-toggle="archive"><span class="swatch" style="background:var(--c-archive)"></span>${EVENT_TYPES.archive.icon} ${it.archived ? "Unarchive" : "Archive"}</button>
+            <div class="foot">
+              <button class="btn primary" data-act="apply">Apply</button>
+              <button class="btn ghost" data-act="cancelMenu">Cancel</button>
+            </div>
+            <div class="hint">Each selection logs the current date+time.</div>
+          </div>
+        </div>
+        <button class="icon-btn danger" data-act="del" title="Delete">✕</button>
+      </div>
+      <div class="expand">
+        <div class="expand-card">
+          <div><label class="lbl">Name</label><input data-edit="name" value="${escape(it.name)}" /></div>
+          <div><label class="lbl">Phone</label><input data-edit="phone" type="tel" value="${escape(it.phone)}" /></div>
+          <div><label class="lbl">Date</label><input data-edit="date" type="date" value="${escape(it.date)}" /></div>
+          <div><label class="lbl">Time</label><input data-edit="time" type="time" value="${escape(it.time)}" /></div>
+
+          <div><label class="lbl">Company</label><input data-edit="company" value="${escape(it.company)}" /></div>
+          <div><label class="lbl">Email</label><input data-edit="email" type="email" value="${escape(it.email)}" /></div>
+          <div>
+            <label class="lbl">Priority</label>
+            <select data-edit="priority">
+              <option value=""${it.priority===""?" selected":""}>—</option>
+              <option value="low"${it.priority==="low"?" selected":""}>Low</option>
+              <option value="med"${it.priority==="med"?" selected":""}>Medium</option>
+              <option value="high"${it.priority==="high"?" selected":""}>High</option>
+            </select>
+          </div>
+          <div><label class="lbl">Tags</label><input data-edit="tags" value="${escape(it.tags)}" /></div>
+
+          <div class="full"><label class="lbl">Address</label><input data-edit="address" value="${escape(it.address)}" /></div>
+          <div class="full"><label class="lbl">Notes</label><textarea data-edit="notes" rows="3">${escape(it.notes)}</textarea></div>
+
+          <div class="full">
+            <div class="section-title">Quick log</div>
+            <div class="quick-actions">
+              <button class="qa-btn t-emailed" data-act="logSingle" data-type="emailed"><span class="swatch" style="background:var(--c-emailed)"></span>${EVENT_TYPES.emailed.icon} Emailed</button>
+              <button class="qa-btn t-called"  data-act="logSingle" data-type="called"><span class="swatch" style="background:var(--c-called)"></span>${EVENT_TYPES.called.icon} Called back</button>
+              <button class="qa-btn t-quoted"  data-act="logSingle" data-type="quoted"><span class="swatch" style="background:var(--c-quoted)"></span>${EVENT_TYPES.quoted.icon} Sent quote</button>
+              <button class="qa-btn t-vm"      data-act="logSingle" data-type="vm"><span class="swatch" style="background:var(--c-vm)"></span>${EVENT_TYPES.vm.icon} Left VM</button>
+              <button class="qa-btn t-archive" data-act="archiveToggle"><span class="swatch" style="background:var(--c-archive)"></span>${EVENT_TYPES.archive.icon} ${it.archived ? "Unarchive" : "Archive"}</button>
+            </div>
+          </div>
+
+          <div class="full">
+            <div class="section-title">Activity log <span style="color:var(--muted); text-transform:none; font-weight:400;">(${it.events.length})</span></div>
+            ${timelineHtml(it)}
+          </div>
+
+          <div class="full meta">
+            Created: ${escape(it.createdAt || "—")}${it.calledAt ? " · Called back: " + escape(it.calledAt) : ""}${it.archived ? " · Archived" : ""}
+          </div>
+
+          <div class="full" style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+            <button class="btn" data-act="collapse">Done editing</button>
+            <button class="btn danger" data-act="del">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+    return row;
+  }
+
+  // tick elapsed every 30s for any visible event
+  setInterval(() => {
+    document.querySelectorAll("[data-elapsed-for]").forEach(el => {
+      const id = el.dataset.elapsedFor;
+      for (const it of items) {
+        const ev = it.events.find(e => e.id === id);
+        if (!ev) continue;
+        const t = EVENT_TYPES[ev.type] || { label: ev.type };
+        const txt = elapsedText(ev.at);
+        const stamp = fmtTime(ev.at);
+        el.textContent = "🕒 " + txt;
+        el.setAttribute("data-tip", `${stamp}\n${txt}`);
+        return;
+      }
+    });
+  }, 30000);
+
+  // ---------- Post-it ----------
+  function renderPostIt() {
+    const list = $("#piList");
+    const arr = items.filter(i => !i.archived).slice().sort((a,b) => Number(a.done)-Number(b.done))
+                              .sort((a,b)=> (b.createdAt||"").localeCompare(a.createdAt||""))
+                              .slice(0,30);
+    if (!arr.length) { list.innerHTML = `<div class="pi-empty">Nothing yet. Pop back to full screen to add.</div>`; return; }
+    list.innerHTML = arr.map(it => `
+      <div class="pi-item ${it.done?"done":""}" data-id="${it.id}">
+        <button class="pi-check ${it.done?"on":""}" data-act="toggle" title="Toggle"></button>
+        <div>
+          <div class="pi-name">${escape(it.name) || "(no name)"}</div>
+          <div class="pi-meta">${escape(it.phone || fmtWhen(it.date, it.time))}${it.notes ? " · "+escape(it.notes.slice(0,40)) : ""}</div>
+        </div>
+        <button class="pi-check" data-act="callback" title="Called back" style="border-radius:50%; width:16px; height:16px; background:#2a8c5a; border-color:#2a8c5a;"></button>
+      </div>
+    `).join("");
+  }
+
+  // ---------- Mutators ----------
+  function addItem(p) {
+    const it = {
+      id: rid(), name:"", phone:"", date:"", time:"", notes:"",
+      company:"", email:"", priority:"", tags:"", address:"",
+      done:false, archived:false, createdAt:new Date().toLocaleString(),
+      events: [], ...p,
+    };
+    items.unshift(it);
+    save(); render();
+  }
+  function updateItem(id, patch) {
+    const i = items.findIndex(x => x.id === id); if (i<0) return;
+    items[i] = { ...items[i], ...patch };
+    save();
+  }
+  function deleteItem(id) {
+    items = items.filter(x => x.id !== id);
+    openIds.delete(id);
+    save(); render();
+  }
+  function logEvent(id, type) {
+    const it = items.find(x => x.id === id); if (!it) return;
+    const ev = { id: rid(), type, at: new Date().toISOString() };
+    it.events.push(ev);
+    if (type === "called") { it.done = true; it.calledAt = new Date().toLocaleString(); }
+    freshEventIds.add(ev.id);
+    setTimeout(() => freshEventIds.delete(ev.id), 800);
+    save();
+  }
+  function removeEvent(itemId, evId) {
+    const it = items.find(x => x.id === itemId); if (!it) return;
+    it.events = it.events.filter(e => e.id !== evId);
+    save(); render();
+  }
+  function toggleDone(id) {
+    const it = items.find(x => x.id === id); if (!it) return;
+    if (!it.done) { logEvent(id, "called"); render(); toast("Marked called back."); }
+    else { updateItem(id, { done:false, calledAt:"" }); render(); }
+  }
+  function setArchived(id, val) {
+    updateItem(id, { archived: val });
+    logEvent(id, "archive");
+    render();
+    toast(val ? "Archived." : "Unarchived.");
+  }
+
+  // ---------- Wiring ----------
+  function bind() {
+    $("#btnAdd").addEventListener("click", submitAdd);
+    $("#btnNow").addEventListener("click", () => { $("#fDate").value = todayISO(); $("#fTime").value = nowHM(); });
+    $("#btnMore").addEventListener("click", () => {
+      const more = $("#gridMore");
+      more.classList.toggle("hidden");
+      settings.addMoreOpen = !more.classList.contains("hidden");
+      $("#btnMore").textContent = settings.addMoreOpen ? "Less ▴" : "More ▾";
+      save(false);
+    });
+    ["fName","fPhone","fDate","fTime","fNotes","fCompany","fEmail","fTags","fAddress"].forEach(id => {
+      const el = $("#"+id); if (!el) return;
+      el.addEventListener("keydown", e => { if (e.key==="Enter") submitAdd(); });
+    });
+
+    $("#search").addEventListener("input", e => { settings.search = e.target.value; save(false); render(); });
+
+    $("#filter").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      $$("#filter button").forEach(x => x.classList.toggle("on", x===b));
+      settings.filter = b.dataset.f; save(false); render();
+    });
+    $("#sort").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      $$("#sort button").forEach(x => x.classList.toggle("on", x===b));
+      settings.sort = b.dataset.s; save(false); render();
+    });
+    $("#btnClearDone").addEventListener("click", () => {
+      const n = items.filter(i => i.done && !i.archived).length;
+      if (!n) return toast("No completed items.");
+      if (!confirm(`Permanently delete ${n} completed item(s)?`)) return;
+      items = items.filter(i => !(i.done && !i.archived));
+      save(); render();
+      toast(`Removed ${n} completed.`);
+    });
+
+    $("#list").addEventListener("click", e => {
+      const row = e.target.closest(".row"); if (!row) return;
+      const id = row.dataset.id;
+      const target = e.target;
+      const act = target.dataset.act;
+
+      if (act === "rmEvent") { e.stopPropagation(); removeEvent(id, target.dataset.event); return; }
+      if (act === "logSingle") {
+        e.stopPropagation();
+        logEvent(id, target.dataset.type);
+        render();
+        toast(EVENT_TYPES[target.dataset.type].label + " · logged");
+        return;
+      }
+      if (act === "archiveToggle") {
+        e.stopPropagation();
+        const it = items.find(x => x.id === id);
+        setArchived(id, !it.archived);
+        return;
+      }
+
+      const menu = row.querySelector("[data-menu]");
+      if (act === "menu") { e.stopPropagation(); closeMenusExcept(menu); menu.classList.toggle("open"); return; }
+      if (act === "cancelMenu") { e.stopPropagation(); menu.querySelectorAll(".mi.sel").forEach(m => m.classList.remove("sel")); menu.classList.remove("open"); return; }
+      if (target.closest("[data-toggle]")) { e.stopPropagation(); target.closest(".mi").classList.toggle("sel"); return; }
+      if (act === "apply") {
+        e.stopPropagation();
+        const sel = $$(".mi.sel", menu).map(b => b.dataset.toggle);
+        if (!sel.length) { menu.classList.remove("open"); return; }
+        const it = items.find(x => x.id === id);
+        sel.forEach(t => {
+          if (t === "archive") setArchived(id, !it.archived);
+          else logEvent(id, t);
+        });
+        menu.classList.remove("open");
+        render();
+        toast("Logged: " + sel.map(t => EVENT_TYPES[t]?.label || t).join(", "));
+        return;
+      }
+
+      if (target.closest("[data-stop]") || target.closest(".expand")) {
+        if (act === "toggle") toggleDone(id);
+        else if (act === "del") { e.stopPropagation(); if (confirm("Delete this entry?")) deleteItem(id); }
+        else if (act === "collapse") { openIds.delete(id); render(); }
+        return;
+      }
+
+      // toggle expand on row body click
+      if (openIds.has(id)) openIds.delete(id);
+      else openIds.add(id);
+      render();
+    });
+
+    $("#list").addEventListener("input", e => {
+      const row = e.target.closest(".row"); if (!row) return;
+      const field = e.target.dataset.edit; if (!field) return;
+      updateItem(row.dataset.id, { [field]: e.target.value });
+    });
+    $("#list").addEventListener("change", e => {
+      const row = e.target.closest(".row"); if (!row) return;
+      if (!e.target.dataset.edit) return;
+      render();
+    });
+
+    document.addEventListener("click", e => {
+      if (!e.target.closest("[data-menu]") && !e.target.closest("[data-act='menu']")) closeMenusExcept(null);
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        closeMenusExcept(null);
+        if (openIds.size) { openIds.clear(); render(); }
+      }
+    });
+
+    $("#btnExport").addEventListener("click", exportBackup);
+    $("#btnImport").addEventListener("click", () => $("#fileImport").click());
+    $("#fileImport").addEventListener("change", importBackup);
+
+    $("#btnPostIt").addEventListener("click", enterPostIt);
+    $("#btnFull").addEventListener("click", exitPostIt);
+    $("#piExit").addEventListener("click", exitPostIt);
+    $("#piCompact").addEventListener("click", () => {
+      const el = $("#postit"); el.classList.toggle("compact");
+      settings.postItCompact = el.classList.contains("compact"); save(false);
+    });
+    $("#piList").addEventListener("click", e => {
+      const item = e.target.closest(".pi-item"); if (!item) return;
+      const id = item.dataset.id; const act = e.target.dataset.act;
+      if (act === "toggle") toggleDone(id);
+      else if (act === "callback") { logEvent(id,"called"); render(); }
+    });
+    dragify($("#postit"), $("#piBar"));
+
+    $("#btnFull").addEventListener("dblclick", () => {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen?.();
+    });
+  }
+
+  function closeMenusExcept(except) {
+    document.querySelectorAll("[data-menu].open").forEach(m => { if (m !== except) m.classList.remove("open"); });
+  }
+
+  function submitAdd() {
+    const get = id => ($("#"+id)?.value || "").trim();
+    const data = {
+      name: get("fName"), phone: get("fPhone"),
+      date: $("#fDate").value, time: $("#fTime").value,
+      notes: get("fNotes"),
+      company: get("fCompany"), email: get("fEmail"),
+      priority: $("#fPriority").value, tags: get("fTags"),
+      address: get("fAddress"),
+    };
+    if (!data.name && !data.phone && !data.notes) { toast("Add at least a name, phone, or note."); return; }
+    addItem(data);
+    ["fName","fPhone","fNotes","fCompany","fEmail","fTags","fAddress"].forEach(id => $("#"+id).value = "");
+    $("#fPriority").value = "";
+    $("#fDate").value = todayISO(); $("#fTime").value = nowHM();
+    $("#fName").focus();
+    toast("Added.");
+  }
+
+  // ---------- Backup / Restore ----------
+  function exportBackup() {
+    const ts = new Date();
+    const stamp = `${ts.getFullYear()}${pad(ts.getMonth()+1)}${pad(ts.getDate())}-${pad(ts.getHours())}${pad(ts.getMinutes())}`;
+    const filename = `callback-backup-${stamp}.json`;
+    const folderHint = prompt(
+      "Backup folder hint (saved into the JSON for your reference):\n\n"+
+      "Suggested: C:\\Users\\alec\\Desktop\\Claude\\callback-backups\n\n"+
+      "Note: browsers can't create folders themselves. Create that folder once in File Explorer, "+
+      "then point your browser's download location there.",
+      "C:\\Users\\alec\\Desktop\\Claude\\callback-backups"
+    );
+    const payload = { app:"callback.html", version:3, exportedAt:new Date().toISOString(), folderHint:folderHint||"", items, settings };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type:"application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href=url; a.download=filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 500);
+    toast("Backup downloaded: " + filename);
+    if (folderHint) writeFolderReadme(folderHint);
+  }
+  function writeFolderReadme(folderHint) {
+    const txt =
+`Callback list backup folder
+---------------------------
+Suggested folder: ${folderHint}
+
+This file was generated by callback.html as a reminder.
+Browsers cannot create folders on disk by themselves.
+If the folder above doesn't exist yet:
+
+  1. Open File Explorer
+  2. Create the folder once: ${folderHint}
+  3. In your browser settings, set "Ask where to save each file"
+     so you can choose this folder when you click "Backup"
+
+You can keep dropping JSON backups here. They're plain text and
+restorable via the "Restore" button in callback.html.
+
+Generated: ${new Date().toString()}
+`;
+    const blob = new Blob([txt], { type:"text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href=url; a.download="READ-ME-callback-backups.txt";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 500);
+  }
+  function importBackup(e) {
+    const file = e.target.files[0]; if (!file) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const data = JSON.parse(r.result);
+        if (!data || !Array.isArray(data.items)) throw new Error("Invalid backup file.");
+        const mode = confirm("OK = MERGE backup with current list.\nCancel = REPLACE current list with backup.");
+        if (mode) {
+          const known = new Set(items.map(i => i.id));
+          data.items.forEach(it => { if (!known.has(it.id)) items.push(it); });
+        } else items = data.items;
+        items.forEach(i => { if (!Array.isArray(i.events)) i.events = []; });
+        save(); render();
+        toast("Restore complete: " + data.items.length + " items.");
+      } catch (err) { toast("Restore failed: " + err.message); }
+      finally { e.target.value = ""; }
+    };
+    r.readAsText(file);
+  }
+
+  // ---------- Post-it ----------
+  function enterPostIt() {
+    document.body.classList.add("postit");
+    const el = $("#postit");
+    if (settings.postItCompact) el.classList.add("compact");
+    if (settings.postItPos) { el.style.top = settings.postItPos.top + "px"; el.style.left = settings.postItPos.left + "px"; el.style.right="auto"; }
+  }
+  function exitPostIt() { document.body.classList.remove("postit"); }
+  function dragify(el, handle) {
+    let sx=0,sy=0,ox=0,oy=0,dragging=false;
+    handle.addEventListener("mousedown", e => {
+      if (e.target.tagName === "BUTTON") return;
+      dragging=true; handle.classList.add("drag");
+      const r=el.getBoundingClientRect(); sx=e.clientX; sy=e.clientY; ox=r.left; oy=r.top;
+      el.style.right="auto"; e.preventDefault();
+    });
+    window.addEventListener("mousemove", e => {
+      if (!dragging) return;
+      const nx=Math.max(0, Math.min(window.innerWidth-60, ox+(e.clientX-sx)));
+      const ny=Math.max(0, Math.min(window.innerHeight-40, oy+(e.clientY-sy)));
+      el.style.left=nx+"px"; el.style.top=ny+"px";
+    });
+    window.addEventListener("mouseup", () => {
+      if (!dragging) return;
+      dragging=false; handle.classList.remove("drag");
+      const r=el.getBoundingClientRect();
+      settings.postItPos={top:r.top, left:r.left}; save(false);
+    });
+  }
+
+  // ---------- Boot ----------
+  load();
+  $$("#filter button").forEach(b => b.classList.toggle("on", b.dataset.f === settings.filter));
+  $$("#sort button").forEach(b => b.classList.toggle("on", b.dataset.s === settings.sort));
+  $("#search").value = settings.search || "";
+  if (settings.addMoreOpen) { $("#gridMore").classList.remove("hidden"); $("#btnMore").textContent = "Less ▴"; }
+  bind();
+  $("#fDate").value = todayISO(); $("#fTime").value = nowHM();
+  render();
+})();
+</script>
+</body>
+</html>

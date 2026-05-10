@@ -1,0 +1,881 @@
+Screens:
+  SettingsScreen:
+    Properties:
+      Fill: =BgCream2
+      LoadingSpinnerColor: =RGBA(0, 51, 102, 1)
+      OnVisible: |-
+        =Set(varMyUserSettings, LookUp(UserSettings, Lower(User.Email) = Lower(User().Email))); If(IsBlank(varMyUserSettings), Set(varMyUserSettings, Patch(UserSettings, Defaults(UserSettings), {Title: User().FullName, User: {'@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser", Claims: "i:0#.f|membership|" & Lower(User().Email), DisplayName: User().FullName, Email: User().Email, Department: "", JobTitle: "", Picture: ""}, Theme: {Value: "BrandRed"}, Signature: ""}))); Set(varCurrentTheme, Coalesce(varMyUserSettings.Theme.Value, "BrandRed"))
+    Children:
+      - SetHeaderRect:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =50
+            Width: =2004
+            X: =307
+      - SetHeaderLabel:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =21.78
+            Text: ="Settings"
+            Width: =435.54
+            X: =375
+            Y: =5
+      - SetBackButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 0.4)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(255, 255, 255, 0.12)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            HoverFill: =RGBA(255, 255, 255, 0.22)
+            OnSelect: =Back()
+            Size: =11
+            Text: ="< Back"
+            Width: =86
+            X: =1972
+            Y: =8
+      - SetQuickAddButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 0.4)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(255, 255, 255, 0.12)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            HoverFill: =RGBA(255, 255, 255, 0.22)
+            OnSelect: =Set(varShowQuickAdd, true)
+            Size: =11
+            Text: ="+ Quick Add"
+            Width: =110
+            X: =2068
+            Y: =8
+      - SetNewQuoteButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            Color: =BrandRed
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            HoverFill: =RGBA(245, 245, 245, 1)
+            OnSelect: =Set(varSelectedQuote, Blank()); Navigate('New quote', ScreenTransition.None)
+            Size: =11
+            Text: ="+ New Quote"
+            Width: =112
+            X: =2188
+            Y: =8
+      - SetSidebarNavItemSettingsAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Settings"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =392
+      - SetSidebarNavItemFilesAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Files"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =352
+      - SetSidebarNavItemReportsAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Reports"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =312
+      - SetSidebarNavItemTemplatesAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Templates"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =272
+      - SetSidebarNavItemTasksAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Tasks"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =232
+      - SetSidebarNavItemCalendarAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Calendar"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =192
+      - SetSidebarNavItemActivitiesAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Activities"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =152
+      - SetTemplatesHeader:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =15.25
+            Text: ="Email templates"
+            Width: =653.31
+            X: =414
+            Y: =125
+      - SetSidebarNavItemLeadsAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Leads"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =112
+      - SetSidebarNavItemDashboardAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Visible: =If("Dashboard"="Settings", true, false)
+            Width: =3.27
+            X: =0.00
+            Y: =72
+      - SidebarLogoLabel_7:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =BrandRed
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =56
+            PaddingLeft: =8
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Text: ="CRM"
+            Width: =67
+            X: =252
+            Y: =5
+      - SidebarNavItemDashboardLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Dashboard"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Dashboard"="Dashboard", FontWeight.Bold, FontWeight.Normal)
+            Height: =62
+            LineHeight: =1.8
+            OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =25
+            Text: ="Dashboard"
+            Width: =255
+            X: =44
+            Y: =96
+      - SidebarNavItemDashboardIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Dashboard"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =29
+            Icon: =Icon.Home
+            Width: =30
+            X: =49
+            Y: =115
+      - SidebarNavItemDashboard_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =62
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =96
+      - SidebarNavItemLeadsLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Leads"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Leads"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            LineHeight: =2
+            OnSelect: =Navigate(LeadsListScreen_2, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Leads"
+            Width: =217.77
+            X: =40
+            Y: =181
+      - SidebarNavItemLeadsIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Leads"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =32
+            Icon: =Icon.People
+            Width: =32
+            X: =49
+            Y: =188
+      - SidebarNavItemLeads_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Navigate(LeadsListScreen_2, ScreenTransition.None)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =181
+      - SidebarNavItemActivitiesLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Activities"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Activities"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            LineHeight: =2
+            OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Activities"
+            Width: =217.77
+            X: =40
+            Y: =244
+      - SidebarNavItemActivitiesIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Activities"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =32
+            Icon: =Icon.Phone
+            Width: =32
+            X: =49
+            Y: =248
+      - SidebarNavItemActivities_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =244
+      - SidebarNavItemCalendarLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Calendar"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Calendar"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Height: =35
+            LineHeight: =5
+            OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Calendar"
+            Width: =217.77
+            X: =40
+            Y: =307
+      - SidebarNavItemCalendarIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Calendar"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =26
+            Icon: =Icon.CalendarBlank
+            Width: =27
+            X: =49
+            Y: =317
+      - SidebarNavItemCalendar_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =35
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =307
+      - SidebarNavItemTasksLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Tasks"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Tasks"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Height: =35
+            LineHeight: =5
+            OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Tasks"
+            Width: =217.77
+            X: =40
+            Y: =365
+      - SidebarNavItemTasksIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Tasks"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =26
+            Icon: =Icon.Check
+            Width: =27
+            X: =49
+            Y: =375
+      - SidebarNavItemTasks_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =35
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =365
+      - SidebarNavItemTemplatesLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Templates"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Templates"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Height: =35
+            LineHeight: =5
+            OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Templates"
+            Width: =217.77
+            X: =40
+            Y: =423
+      - SidebarNavItemTemplatesIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Templates"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =26
+            Icon: =Icon.Mail
+            Width: =27
+            X: =49
+            Y: =433
+      - SidebarNavItemTemplates_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =35
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =423
+      - SidebarNavItemReportsLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Reports"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Reports"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Height: =35
+            LineHeight: =5
+            OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Reports"
+            Width: =217.77
+            X: =40
+            Y: =481
+      - SidebarNavItemReportsIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Reports"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =26
+            Icon: =Icon.Trending
+            Width: =27
+            X: =49
+            Y: =491
+      - SidebarNavItemReports_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =35
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =481
+      - SidebarNavItemFilesLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Files"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Files"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Height: =35
+            LineHeight: =5
+            OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Files"
+            Width: =217.77
+            X: =40
+            Y: =539
+      - SidebarNavItemFilesIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Files"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =26
+            Icon: =Icon.Folder
+            Width: =27
+            X: =49
+            Y: =547
+      - SidebarNavItemFiles_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =35
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =539
+      - SidebarNavItemSettingsLabel_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Settings"="Dashboard", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =If("Settings"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Height: =35
+            LineHeight: =1.3
+            OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            Size: =23
+            Text: ="Settings"
+            Width: =217.77
+            X: =40
+            Y: =597
+      - SidebarNavItemSettingsIcon_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If("Settings"="Dashboard", BrandRed, TextSecondary)
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =26
+            Icon: =Icon.Settings
+            Width: =27
+            X: =49
+            Y: =605
+      - SidebarNavItemSettings_5:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =35
+            HoverFill: =RGBA(0, 0, 0, 0.04)
+            OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+            PressedFill: =RGBA(0, 0, 0, 0.08)
+            Text: =""
+            Width: =303
+            X: =40
+            Y: =597
+      - SidebarNavItemDashboard_6:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If("Dashboard"="Dashboard", BrandSoft, RGBA(0, 0, 0, 0))
+            Height: =56
+            OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+            Width: =307
+            Y: =5
+      - SidebarLogoLabel_6:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =BrandRed
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =56
+            PaddingLeft: =8
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =27
+            Text: ="Adams Cosby"
+            Width: =259
+            X: =10
+            Y: =5
+      - SetProfileCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =120
+            Width: =Parent.Width - 264
+            X: =232
+            Y: =104
+      - SetProfileImage:
+          Control: Image@2.2.3
+          Properties:
+            Image: =Office365Users.UserPhoto(User().Email)
+            ImagePosition: =ImagePosition.Fit
+            Height: =80
+            Width: =80
+            X: =252
+            Y: =124
+      - SetProfileName:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Size: =16
+            Text: =Office365Users.MyProfileV2().displayName
+            Width: =500
+            X: =352
+            Y: =124
+      - SetProfileTitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Size: =11
+            Text: =Coalesce(Office365Users.MyProfileV2().jobTitle, "")
+            Width: =500
+            X: =352
+            Y: =152
+      - SetProfileEmail:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Size: =11
+            Text: =User().Email
+            Width: =500
+            X: =352
+            Y: =178
+      - SetLinksHeader:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            Text: ="Quick links"
+            Width: =400
+            X: =232
+            Y: =244
+      - SetLinkSP:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Color: =BrandRed
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            HoverFill: =BrandSoft
+            OnSelect: =Launch("https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY")
+            Size: =11
+            Text: ="Open SharePoint site"
+            Width: =200
+            X: =232
+            Y: =276
+      - SetLinkPA:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Color: =BrandRed
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            HoverFill: =BrandSoft
+            OnSelect: =Launch("https://make.powerautomate.com")
+            Size: =11
+            Text: ="Power Automate"
+            Width: =200
+            X: =448
+            Y: =276
+      - SetLinkDocs:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Color: =BrandRed
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            HoverFill: =BrandSoft
+            OnSelect: =Launch("https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY/Shared%20Documents")
+            Size: =11
+            Text: ="Documents library"
+            Width: =200
+            X: =664
+            Y: =276
+      - SetLinkTemplates:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Color: =BrandRed
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            HoverFill: =BrandSoft
+            OnSelect: =Launch("https://alfains.sharepoint.com/teams/1047889-ADAMSCOSBY/Lists/Email%20Templates")
+            Size: =11
+            Text: ="Email Templates list"
+            Width: =200
+            X: =880
+            Y: =276
+      - SetThemeHeader:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            Text: ="Theme"
+            Width: =400
+            X: =232
+            Y: =332
+      - SetThemeBrandRed:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =If(varCurrentTheme = "BrandRed", RGBA(31, 31, 35, 1), BorderSoft)
+            BorderThickness: =If(varCurrentTheme = "BrandRed", 2, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(200, 16, 46, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            OnSelect: |-
+              =Set(BrandRed, RGBA(200, 16, 46, 1)); Set(varCurrentTheme, "BrandRed"); Patch(UserSettings, varMyUserSettings, {Theme: {Value: "BrandRed"}}); Set(varMyUserSettings, LookUp(UserSettings, Lower(User.Email) = Lower(User().Email))); Notify("Theme set to BrandRed", NotificationType.Success)
+            Size: =11
+            Text: ="BrandRed"
+            Width: =140
+            X: =232
+            Y: =364
+      - SetThemeNavy:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =If(varCurrentTheme = "Navy", RGBA(31, 31, 35, 1), BorderSoft)
+            BorderThickness: =If(varCurrentTheme = "Navy", 2, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(20, 33, 61, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            OnSelect: |-
+              =Set(BrandRed, RGBA(20, 33, 61, 1)); Set(varCurrentTheme, "Navy"); Patch(UserSettings, varMyUserSettings, {Theme: {Value: "Navy"}}); Set(varMyUserSettings, LookUp(UserSettings, Lower(User.Email) = Lower(User().Email))); Notify("Theme set to Navy", NotificationType.Success)
+            Size: =11
+            Text: ="Navy"
+            Width: =140
+            X: =388
+            Y: =364
+      - SetThemeForest:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =If(varCurrentTheme = "Forest", RGBA(31, 31, 35, 1), BorderSoft)
+            BorderThickness: =If(varCurrentTheme = "Forest", 2, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(34, 87, 47, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =40
+            OnSelect: |-
+              =Set(BrandRed, RGBA(34, 87, 47, 1)); Set(varCurrentTheme, "Forest"); Patch(UserSettings, varMyUserSettings, {Theme: {Value: "Forest"}}); Set(varMyUserSettings, LookUp(UserSettings, Lower(User.Email) = Lower(User().Email))); Notify("Theme set to Forest", NotificationType.Success)
+            Size: =11
+            Text: ="Forest"
+            Width: =140
+            X: =544
+            Y: =364
+      - SetSigHeader:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            Text: ="Email signature"
+            Width: =400
+            X: =232
+            Y: =424
+      - SetSigInput:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Default: =Coalesce(varMyUserSettings.Signature, "")
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =160
+            HintText: ="Best,\nAlec Adams\nAdams Cosby Insurance Agency"
+            Mode: =TextMode.MultiLine
+            Size: =11
+            Width: =Parent.Width - 264
+            X: =232
+            Y: =456
+      - SetSigSaveButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BrandRed
+            BorderThickness: =0
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            HoverFill: =RGBA(159, 12, 36, 1)
+            OnSelect: |-
+              =Patch(UserSettings, varMyUserSettings, {Signature: SetSigInput.Text}); Set(varMyUserSettings, LookUp(UserSettings, Lower(User.Email) = Lower(User().Email))); Notify("Signature saved", NotificationType.Success)
+            Size: =11
+            Text: ="Save signature"
+            Width: =160
+            X: =232
+            Y: =632
+      - SetAboutHeader:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextPrimary
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Size: =14
+            Text: ="About"
+            Width: =400
+            X: =232
+            Y: =692
+      - SetAboutBody:
+          Control: Label@2.5.1
+          Properties:
+            Color: =TextSecondary
+            Font: =Font.'Open Sans'
+            Size: =11
+            Text: |-
+              ="Adams Cosby Insurance Agency CRM. Built on Power Apps + SharePoint Online. Reply-To on customer emails: teamac@alfains.com. Calendar via Office365Outlook (V3). For issues, ping Alec on Teams."
+            Width: =Parent.Width - 264
+            Wrap: =true
+            X: =232
+            Y: =720

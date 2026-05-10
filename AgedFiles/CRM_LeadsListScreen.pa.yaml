@@ -1,0 +1,1855 @@
+Screens:
+  LeadsListScreen_V3:
+    Properties:
+      Fill: =BgApp
+      LoadingSpinnerColor: =BrandPrimary
+      Width: =App.Width
+      Height: =App.Height
+      OnVisible: |
+        Set(varActiveScreen, "Leads");
+        Set(varStatusFilter, Coalesce(varStatusFilter, "All"));
+        Set(varAgentFilter, Coalesce(varAgentFilter, "All"));
+        Set(varSearchText, Coalesce(varSearchText, ""));
+        Set(varSortColumn, Coalesce(varSortColumn, "Modified"));
+        Set(varSortAscending, Coalesce(varSortAscending, false));
+        Set(varExpandedLead, Blank());
+        Set(varBulkMode, false);
+        ClearCollect(colSelectedLeads, Blank());
+        ClearCollect(colLeadCounts,
+          {Status: "Active",      Count: CountRows(Filter(Leads, Status.Value = "Active"))},
+          {Status: "Working",     Count: CountRows(Filter(Leads, Status.Value = "Working"))},
+          {Status: "Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted"))},
+          {Status: "Negotiating", Count: CountRows(Filter(Leads, Status.Value = "Negotiating"))},
+          {Status: "Contacted",   Count: CountRows(Filter(Leads, Status.Value = "Contacted"))},
+          {Status: "Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound"))},
+          {Status: "Lost",        Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))},
+          {Status: "Overdue",     Count: CountRows(Filter(Leads, Today() > DateAdd(Modified, 7, Days) && Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")))},
+          {Status: "Total",       Count: CountRows(Leads)}
+        )
+    Children:
+  
+      # ─────────────────────────────────────────────────────────
+      # SIDEBAR
+      # ─────────────────────────────────────────────────────────
+      - SidebarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            Width: =240
+            Height: =App.Height
+            X: =0
+            Y: =0
+  
+      - SidebarAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =4
+            Height: =App.Height
+            X: =0
+            Y: =0
+  
+      - SidebarBorder:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =1
+            Height: =App.Height
+            X: =239
+            Y: =0
+  
+      - AppLogoCircle:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =36
+            Height: =36
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =20
+            Y: =20
+  
+      - AppLogoText:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextInverse
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+            Width: =36
+            Height: =36
+            X: =20
+            Y: =20
+  
+      - AppTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA Agency CRM"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextPrimary
+            X: =64
+            Y: =24
+  
+      - AppSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Sales Workspace"
+            Size: =10
+            Color: =TextSecondary
+            X: =64
+            Y: =44
+  
+      - NavDivider1:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =200
+            Height: =1
+            X: =20
+            Y: =74
+  
+      - NavDashboardBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Dashboard"
+            Fill: =If(varActiveScreen = "Dashboard", BrandSoft, RGBA(0,0,0,0))
+            HoverFill: =BrandSoft
+            PressedFill: =BrandSoft
+            BorderThickness: =0
+            Color: =If(varActiveScreen = "Dashboard", BrandPrimary, TextSecondary)
+            FontWeight: =If(varActiveScreen = "Dashboard", FontWeight.Semibold, FontWeight.Normal)
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =88
+            OnSelect: =Navigate(DashboardScreen, ScreenTransition.None)
+  
+      - NavDashboardIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Home
+            Color: =If(varActiveScreen = "Dashboard", BrandPrimary, TextSecondary)
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =101
+  
+      - NavLeadsBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Leads"
+            Fill: =If(varActiveScreen = "Leads", BrandSoft, RGBA(0,0,0,0))
+            HoverFill: =BrandSoft
+            PressedFill: =BrandSoft
+            BorderThickness: =0
+            Color: =If(varActiveScreen = "Leads", BrandPrimary, TextSecondary)
+            FontWeight: =If(varActiveScreen = "Leads", FontWeight.Semibold, FontWeight.Normal)
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =140
+  
+      - NavLeadsIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.People
+            Color: =If(varActiveScreen = "Leads", BrandPrimary, TextSecondary)
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =153
+  
+      - NavNewLeadBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  New Lead"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            PressedFill: =BrandSoft
+            BorderThickness: =0
+            Color: =TextSecondary
+            FontWeight: =FontWeight.Normal
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =192
+            OnSelect: |
+              Set(varSelectedQuote, Blank());
+              Navigate(NewLeadScreen, ScreenTransition.None)
+  
+      - NavNewLeadIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Add
+            Color: =TextSecondary
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =205
+  
+      - NavEmailBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Email"
+            Fill: =If(varActiveScreen = "Email", BrandSoft, RGBA(0,0,0,0))
+            HoverFill: =BrandSoft
+            PressedFill: =BrandSoft
+            BorderThickness: =0
+            Color: =If(varActiveScreen = "Email", BrandPrimary, TextSecondary)
+            FontWeight: =If(varActiveScreen = "Email", FontWeight.Semibold, FontWeight.Normal)
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =244
+            OnSelect: =Navigate(EmailScreen, ScreenTransition.None)
+  
+      - NavEmailIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Mail
+            Color: =If(varActiveScreen = "Email", BrandPrimary, TextSecondary)
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =257
+  
+      - NavDivider2:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =200
+            Height: =1
+            X: =20
+            Y: =300
+  
+      - SidebarOverdueCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(254, 242, 242, 1)
+            BorderColor: =RGBA(252, 165, 165, 1)
+            BorderThickness: =1
+            Width: =200
+            Height: =64
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =20
+            Y: =316
+            Visible: =LookUp(colLeadCounts, Status = "Overdue").Count > 0
+  
+      - SidebarOverdueTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="⚠ Overdue Follow-ups"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =RGBA(185, 28, 28, 1)
+            X: =32
+            Y: =326
+            Visible: =LookUp(colLeadCounts, Status = "Overdue").Count > 0
+  
+      - SidebarOverdueCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =LookUp(colLeadCounts, Status = "Overdue").Count & " leads need attention"
+            Size: =11
+            Color: =RGBA(220, 38, 38, 1)
+            FontWeight: =FontWeight.Bold
+            X: =32
+            Y: =346
+            Visible: =LookUp(colLeadCounts, Status = "Overdue").Count > 0
+  
+      - SidebarUserCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgApp
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =200
+            Height: =64
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =20
+            Y: =App.Height - 84
+  
+      - SidebarUserAvatar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =36
+            Height: =36
+            RadiusBottomLeft: =18
+            RadiusBottomRight: =18
+            RadiusTopLeft: =18
+            RadiusTopRight: =18
+            X: =32
+            Y: =App.Height - 66
+  
+      - SidebarUserInitial:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Left(User().FullName, 1)
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextInverse
+            Width: =36
+            Height: =36
+            X: =32
+            Y: =App.Height - 66
+  
+      - SidebarUserName:
+          Control: Label@2.5.1
+          Properties:
+            Text: =User().FullName
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =76
+            Y: =App.Height - 66
+            Width: =130
+  
+      - SidebarUserEmail:
+          Control: Label@2.5.1
+          Properties:
+            Text: =User().Email
+            Size: =9
+            Color: =TextSecondary
+            X: =76
+            Y: =App.Height - 50
+            Width: =130
+  
+      # ─────────────────────────────────────────────────────────
+      # HEADER
+      # ─────────────────────────────────────────────────────────
+      - HeaderBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            Width: =App.Width - 240
+            Height: =72
+            X: =240
+            Y: =0
+  
+      - HeaderBorder:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 240
+            Height: =1
+            X: =240
+            Y: =71
+  
+      - PageTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Leads"
+            FontWeight: =FontWeight.Bold
+            Size: =22
+            Color: =TextPrimary
+            X: =272
+            Y: =14
+  
+      - PageSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Total").Count, "0") & " total leads in pipeline"
+            Size: =11
+            Color: =TextSecondary
+            X: =272
+            Y: =44
+  
+      - HeaderSearchBox:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="Search name, phone, email..."
+            Default: =varSearchText
+            BorderThickness: =1
+            BorderColor: =BorderSoft
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =300
+            Height: =40
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =App.Width - 500
+            Y: =16
+            OnChange: =Set(varSearchText, Self.Value)
+  
+      - HeaderSearchIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Search
+            Color: =TextSecondary
+            Width: =16
+            Height: =16
+            X: =App.Width - 488
+            Y: =28
+  
+      - HeaderNewLeadBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="+ New Lead"
+            Fill: =BrandPrimary
+            HoverFill: =BrandPrimaryDark
+            PressedFill: =RGBA(125, 11, 25, 1)
+            BorderThickness: =0
+            Color: =TextInverse
+            FontWeight: =FontWeight.Semibold
+            Width: =140
+            Height: =40
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =App.Width - 184
+            Y: =16
+            OnSelect: |
+              Set(varSelectedQuote, Blank());
+              Navigate(NewLeadScreen, ScreenTransition.None)
+  
+      # ─────────────────────────────────────────────────────────
+      # KPI STRIP
+      # ─────────────────────────────────────────────────────────
+      - KPIStrip:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(0,0,0,0)
+            Width: =App.Width - 300
+            Height: =88
+            X: =272
+            Y: =88
+  
+      - KPICardActive:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =162
+            Height: =80
+            RadiusBottomLeft: =14
+            RadiusBottomRight: =14
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =272
+            Y: =92
+  
+      - KPIActiveAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Active
+            Width: =162
+            Height: =4
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =272
+            Y: =92
+  
+      - KPIActiveNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Active").Count, "0")
+            FontWeight: =FontWeight.Bold
+            Size: =28
+            Color: =TextPrimary
+            X: =288
+            Y: =104
+  
+      - KPIActiveLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Active"
+            Size: =11
+            Color: =TextSecondary
+            X: =288
+            Y: =144
+  
+      - KPIActiveBadge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Active
+            Width: =28
+            Height: =28
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            X: =392
+            Y: =112
+  
+      - KPIActiveIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Person
+            Color: =ColorStatus.ActiveText
+            Width: =14
+            Height: =14
+            X: =399
+            Y: =119
+  
+      - KPICardQuoted:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =162
+            Height: =80
+            RadiusBottomLeft: =14
+            RadiusBottomRight: =14
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =446
+            Y: =92
+  
+      - KPIQuotedAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Quoted
+            Width: =162
+            Height: =4
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =446
+            Y: =92
+  
+      - KPIQuotedNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Quoted").Count, "0")
+            FontWeight: =FontWeight.Bold
+            Size: =28
+            Color: =TextPrimary
+            X: =462
+            Y: =104
+  
+      - KPIQuotedLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Quoted"
+            Size: =11
+            Color: =TextSecondary
+            X: =462
+            Y: =144
+  
+      - KPIQuotedBadge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Quoted
+            Width: =28
+            Height: =28
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            X: =566
+            Y: =112
+  
+      - KPIQuotedIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.DocumentWithContent
+            Color: =ColorStatus.QuotedText
+            Width: =14
+            Height: =14
+            X: =573
+            Y: =119
+  
+      - KPICardBound:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =162
+            Height: =80
+            RadiusBottomLeft: =14
+            RadiusBottomRight: =14
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =620
+            Y: =92
+  
+      - KPIBoundAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Bound
+            Width: =162
+            Height: =4
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =620
+            Y: =92
+  
+      - KPIBoundNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Bound").Count, "0")
+            FontWeight: =FontWeight.Bold
+            Size: =28
+            Color: =TextPrimary
+            X: =636
+            Y: =104
+  
+      - KPIBoundLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Bound"
+            Size: =11
+            Color: =TextSecondary
+            X: =636
+            Y: =144
+  
+      - KPIBoundBadge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Bound
+            Width: =28
+            Height: =28
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            X: =740
+            Y: =112
+  
+      - KPIBoundIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.CheckBadge
+            Color: =ColorStatus.BoundText
+            Width: =14
+            Height: =14
+            X: =747
+            Y: =119
+  
+      - KPICardLost:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =162
+            Height: =80
+            RadiusBottomLeft: =14
+            RadiusBottomRight: =14
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =794
+            Y: =92
+  
+      - KPILostAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Lost
+            Width: =162
+            Height: =4
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =794
+            Y: =92
+  
+      - KPILostNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Lost").Count, "0")
+            FontWeight: =FontWeight.Bold
+            Size: =28
+            Color: =TextPrimary
+            X: =810
+            Y: =104
+  
+      - KPILostLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Lost"
+            Size: =11
+            Color: =TextSecondary
+            X: =810
+            Y: =144
+  
+      - KPILostBadge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =ColorStatus.Lost
+            Width: =28
+            Height: =28
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            X: =914
+            Y: =112
+  
+      - KPILostIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Cancel
+            Color: =ColorStatus.LostText
+            Width: =14
+            Height: =14
+            X: =921
+            Y: =119
+  
+      - KPICardOverdue:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(254, 242, 242, 1)
+            BorderColor: =RGBA(252, 165, 165, 1)
+            BorderThickness: =1
+            Width: =162
+            Height: =80
+            RadiusBottomLeft: =14
+            RadiusBottomRight: =14
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =968
+            Y: =92
+  
+      - KPIOverdueAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(239, 68, 68, 1)
+            Width: =162
+            Height: =4
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =968
+            Y: =92
+  
+      - KPIOverdueNum:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Text(LookUp(colLeadCounts, Status = "Overdue").Count, "0")
+            FontWeight: =FontWeight.Bold
+            Size: =28
+            Color: =RGBA(185, 28, 28, 1)
+            X: =984
+            Y: =104
+  
+      - KPIOverdueLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Overdue"
+            Size: =11
+            Color: =RGBA(220, 38, 38, 1)
+            X: =984
+            Y: =144
+  
+      - KPIOverdueBadge:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(239, 68, 68, 1)
+            Width: =28
+            Height: =28
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            X: =1088
+            Y: =112
+  
+      - KPIOverdueIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Alarm
+            Color: =RGBA(255, 255, 255, 1)
+            Width: =14
+            Height: =14
+            X: =1095
+            Y: =119
+  
+      # ─────────────────────────────────────────────────────────
+      # FILTER BAR
+      # ─────────────────────────────────────────────────────────
+      - FilterBarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =App.Width - 300
+            Height: =64
+            RadiusBottomLeft: =14
+            RadiusBottomRight: =14
+            RadiusTopLeft: =14
+            RadiusTopRight: =14
+            X: =272
+            Y: =192
+  
+      - FilterSearchInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="Filter leads..."
+            Default: =varSearchText
+            BorderThickness: =1
+            BorderColor: =BorderSoft
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =280
+            Height: =38
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =288
+            Y: =205
+            OnChange: =Set(varSearchText, Self.Value)
+  
+      - FilterStatusDD:
+          Control: Dropdown@2.3.1
+          Properties:
+            Items: =["All","Active","Working","Quoted","Contacted","Negotiating","Bound","Lost"]
+            Default: =varStatusFilter
+            Fill: =BgApp
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =170
+            Height: =38
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =584
+            Y: =205
+            OnChange: =Set(varStatusFilter, Self.Selected.Value)
+  
+      - FilterStatusLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Status"
+            Size: =9
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =588
+            Y: =196
+  
+      - FilterAgentDD:
+          Control: Dropdown@2.3.1
+          Properties:
+            Items: =["All","Alec Adams","Rachel Cosby","Unassigned"]
+            Default: =varAgentFilter
+            Fill: =BgApp
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =170
+            Height: =38
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =770
+            Y: =205
+            OnChange: =Set(varAgentFilter, Self.Selected.Value)
+  
+      - FilterAgentLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Agent"
+            Size: =9
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =774
+            Y: =196
+  
+      - FilterSortDD:
+          Control: Dropdown@2.3.1
+          Properties:
+            Items: =["Newest First","Oldest First","Name A–Z","Name Z–A","Premium High–Low","Follow-up Soon"]
+            Fill: =BgApp
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =190
+            Height: =38
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =956
+            Y: =205
+            OnChange: |
+              Switch(Self.Selected.Value,
+                "Newest First",     Set(varSortColumn, "Modified"); Set(varSortAscending, false),
+                "Oldest First",     Set(varSortColumn, "Modified"); Set(varSortAscending, true),
+                "Name A–Z",         Set(varSortColumn, "Title"); Set(varSortAscending, true),
+                "Name Z–A",         Set(varSortColumn, "Title"); Set(varSortAscending, false),
+                "Premium High–Low", Set(varSortColumn, "Current_x0020_Premiums"); Set(varSortAscending, false),
+                "Follow-up Soon",   Set(varSortColumn, "Modified"); Set(varSortAscending, true)
+              )
+  
+      - FilterSortLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Sort By"
+            Size: =9
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =960
+            Y: =196
+  
+      - FilterClearBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="✕ Clear"
+            Fill: =BgApp
+            HoverFill: =RGBA(254, 242, 242, 1)
+            PressedFill: =RGBA(254, 226, 226, 1)
+            BorderColor: =BorderMedium
+            BorderThickness: =1
+            Color: =TextSecondary
+            Width: =100
+            Height: =38
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =App.Width - 136
+            Y: =205
+            OnSelect: |
+              Set(varSearchText, "");
+              Set(varStatusFilter, "All");
+              Set(varAgentFilter, "All");
+              Set(varSortColumn, "Modified");
+              Set(varSortAscending, false);
+              Reset(FilterSearchInput);
+              Reset(FilterStatusDD);
+              Reset(FilterAgentDD);
+              Reset(FilterSortDD)
+  
+      # ─────────────────────────────────────────────────────────
+      # TABLE CARD + COLUMN HEADERS
+      # ─────────────────────────────────────────────────────────
+      - TableCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =App.Width - 300
+            Height: =App.Height - 332
+            RadiusBottomLeft: =16
+            RadiusBottomRight: =16
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =272
+            Y: =272
+  
+      - TableHeaderBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(248, 250, 252, 1)
+            Width: =App.Width - 300
+            Height: =40
+            RadiusTopLeft: =16
+            RadiusTopRight: =16
+            X: =272
+            Y: =272
+  
+      - TableHeaderDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 300
+            Height: =1
+            X: =272
+            Y: =311
+  
+      - ColHeaderName:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="LEAD NAME"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =300
+            Y: =284
+  
+      - ColHeaderStatus:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="STATUS"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =570
+            Y: =284
+  
+      - ColHeaderType:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="TYPE"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =730
+            Y: =284
+  
+      - ColHeaderPremium:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="PREMIUM"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =900
+            Y: =284
+  
+      - ColHeaderFollowUp:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="FOLLOW UP"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =1050
+            Y: =284
+  
+      - ColHeaderAgent:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AGENT"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =TextSecondary
+            X: =1200
+            Y: =284
+  
+      # ─────────────────────────────────────────────────────────
+      # LEADS GALLERY
+      # ─────────────────────────────────────────────────────────
+      - LeadsGallery:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            X: =272
+            Y: =313
+            Width: =App.Width - 300
+            Height: =App.Height - 392
+            BorderThickness: =0
+            Fill: =RGBA(0, 0, 0, 0)
+            TemplateSize: =If(!IsBlank(varExpandedLead) && varExpandedLead.ID = ThisItem.ID, 360, 72)
+            TemplateFill: =If(!IsBlank(varExpandedLead) && varExpandedLead.ID = ThisItem.ID, RGBA(249, 250, 255, 1), RGBA(255, 255, 255, 1))
+            TemplateMarginBottom: =0
+            Items: =SortByColumns(
+              Filter(Leads,
+                (varSearchText = ""
+                  || StartsWith(Title, varSearchText)
+                  || StartsWith('Phone Number', varSearchText)
+                  || StartsWith(Email, varSearchText)),
+                (varStatusFilter = "All" || Status.Value = varStatusFilter),
+                (varAgentFilter = "All"
+                  || Agent.DisplayName = varAgentFilter
+                  || (varAgentFilter = "Unassigned" && IsBlank(Agent)))
+              ),
+              varSortColumn, If(varSortAscending, SortOrder.Ascending, SortOrder.Descending)
+            )
+          Children:
+  
+            # ROW SEPARATOR
+            - RowDivider:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =BorderSoft
+                  Width: =Parent.TemplateWidth
+                  Height: =1
+                  X: =0
+                  Y: =Parent.TemplateHeight - 1
+  
+            # INVISIBLE ROW CLICK TARGET
+            - RowTapTarget:
+                Control: Button@2.2.0
+                Properties:
+                  Text: =""
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(99, 102, 241, 0.04)
+                  PressedFill: =RGBA(99, 102, 241, 0.08)
+                  BorderThickness: =0
+                  Width: =Parent.TemplateWidth - 200
+                  Height: =72
+                  X: =0
+                  Y: =0
+                  OnSelect: |
+                    If(
+                      !IsBlank(varExpandedLead) && varExpandedLead.ID = ThisItem.ID,
+                      Set(varExpandedLead, Blank()),
+                      Set(varExpandedLead, ThisItem)
+                    )
+  
+            # OVERDUE STRIP
+            - OverdueStrip:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Visible: =Today() > DateAdd(ThisItem.Modified, 7, Days) && ThisItem.Status.Value <> "Bound" && !StartsWith(ThisItem.Status.Value, "Lost")
+                  Fill: =RGBA(239, 68, 68, 1)
+                  Width: =3
+                  Height: =72
+                  X: =0
+                  Y: =0
+  
+            # LEAD NAME + PHONE
+            - RowLeadName:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =ThisItem.Title
+                  FontWeight: =FontWeight.Semibold
+                  Size: =13
+                  Color: =TextPrimary
+                  X: =28
+                  Y: =14
+                  Width: =230
+  
+            - RowLeadPhone:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Coalesce(ThisItem.'Phone Number', "No phone")
+                  Size: =11
+                  Color: =TextSecondary
+                  X: =28
+                  Y: =38
+                  Width: =230
+  
+            - RowLeadEmail:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Coalesce(ThisItem.Email, "")
+                  Size: =10
+                  Color: =TextSecondary
+                  X: =28
+                  Y: =54
+                  Width: =230
+  
+            # STATUS PILL
+            - RowStatusPill:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =Switch(ThisItem.Status.Value,
+                    "Active",      ColorStatus.Active,
+                    "Bound",       ColorStatus.Bound,
+                    "Working",     ColorStatus.Working,
+                    "Lost",        ColorStatus.Lost,
+                    "Quoted",      ColorStatus.Quoted,
+                    "Contacted",   ColorStatus.Contacted,
+                    "Negotiating", ColorStatus.Negotiating,
+                    ColorStatus.Default)
+                  Width: =96
+                  Height: =26
+                  RadiusBottomLeft: =999
+                  RadiusBottomRight: =999
+                  RadiusTopLeft: =999
+                  RadiusTopRight: =999
+                  X: =298
+                  Y: =23
+  
+            - RowStatusLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Upper(Coalesce(ThisItem.Status.Value, "Unknown"))
+                  Align: =Align.Center
+                  VerticalAlign: =VerticalAlign.Middle
+                  FontWeight: =FontWeight.Semibold
+                  Size: =10
+                  Width: =96
+                  Height: =26
+                  X: =298
+                  Y: =23
+                  Color: =Switch(ThisItem.Status.Value,
+                    "Active",      ColorStatus.ActiveText,
+                    "Bound",       ColorStatus.BoundText,
+                    "Working",     ColorStatus.WorkingText,
+                    "Lost",        ColorStatus.LostText,
+                    "Quoted",      ColorStatus.QuotedText,
+                    "Contacted",   ColorStatus.ContactedText,
+                    "Negotiating", ColorStatus.NegotiatingText,
+                    ColorStatus.DefaultText)
+  
+            # TYPE
+            - RowType:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =If(IsBlank(ThisItem.Products), "—", Left(Concat(ThisItem.Products, Value & " · "), Len(Concat(ThisItem.Products, Value & " · ")) - 3))
+                  Size: =12
+                  Color: =RGBA(55, 65, 81, 1)
+                  X: =460
+                  Y: =26
+                  Width: =200
+  
+            # PREMIUM
+            - RowPremium:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =If(IsBlank(ThisItem.'Current Premiums'), "—", "$" & Text(ThisItem.'Current Premiums', "#,##0.00"))
+                  FontWeight: =FontWeight.Semibold
+                  Size: =13
+                  Color: =If(IsBlank(ThisItem.'Current Premiums'), TextSecondary, TextPrimary)
+                  X: =660
+                  Y: =26
+                  Width: =160
+  
+            # FOLLOW UP DATE
+            - RowFollowUpDate:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Text(DateAdd(ThisItem.Modified, 7, Days), "[$-en-US]mmm d, yyyy")
+                  Size: =12
+                  Color: =If(
+                    Today() > DateAdd(ThisItem.Modified, 7, Days) && ThisItem.Status.Value <> "Bound" && !StartsWith(ThisItem.Status.Value, "Lost"),
+                    RGBA(185, 28, 28, 1),
+                    TextSecondary)
+                  FontWeight: =If(Today() > DateAdd(ThisItem.Modified, 7, Days), FontWeight.Semibold, FontWeight.Normal)
+                  X: =830
+                  Y: =22
+                  Width: =160
+  
+            - RowFollowUpTag:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =Today() > DateAdd(ThisItem.Modified, 7, Days) && ThisItem.Status.Value <> "Bound" && !StartsWith(ThisItem.Status.Value, "Lost")
+                  Text: ="OVERDUE"
+                  Size: =9
+                  FontWeight: =FontWeight.Semibold
+                  Color: =RGBA(185, 28, 28, 1)
+                  X: =830
+                  Y: =42
+                  Width: =90
+  
+            # AGENT
+            - RowAgentAvatar:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =Switch(Left(Coalesce(ThisItem.Agent.DisplayName, "U"), 1),
+                    "A", RGBA(219, 234, 254, 1),
+                    "R", RGBA(220, 252, 231, 1),
+                    RGBA(243, 244, 246, 1))
+                  Width: =30
+                  Height: =30
+                  RadiusBottomLeft: =15
+                  RadiusBottomRight: =15
+                  RadiusTopLeft: =15
+                  RadiusTopRight: =15
+                  X: =1000
+                  Y: =21
+  
+            - RowAgentInitial:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =Left(Coalesce(ThisItem.Agent.DisplayName, "?"), 1)
+                  Align: =Align.Center
+                  VerticalAlign: =VerticalAlign.Middle
+                  FontWeight: =FontWeight.Bold
+                  Size: =11
+                  Color: =TextPrimary
+                  Width: =30
+                  Height: =30
+                  X: =1000
+                  Y: =21
+  
+            - RowAgentName:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =If(IsBlank(ThisItem.Agent), "Unassigned", Coalesce(ThisItem.Agent.DisplayName, "Unknown"))
+                  Size: =11
+                  Color: =RGBA(55, 65, 81, 1)
+                  X: =1038
+                  Y: =26
+                  Width: =130
+  
+            # ACTIONS COLUMN (always visible, right side)
+            - RowOpenBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Text: ="Open"
+                  Fill: =BgApp
+                  HoverFill: =BrandSoft
+                  PressedFill: =RGBA(224, 231, 255, 1)
+                  BorderColor: =BorderSoft
+                  BorderThickness: =1
+                  Color: =BrandPrimary
+                  FontWeight: =FontWeight.Semibold
+                  Width: =70
+                  Height: =32
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =Parent.TemplateWidth - 180
+                  Y: =20
+                  OnSelect: |
+                    Set(varSelectedLead, ThisItem);
+                    Set(varDetailTab, "Overview");
+                    Navigate(LeadDetailScreen, ScreenTransition.None)
+  
+            - RowExpandBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Text: =If(!IsBlank(varExpandedLead) && varExpandedLead.ID = ThisItem.ID, "▲", "▼")
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =BgApp
+                  PressedFill: =BorderSoft
+                  BorderThickness: =0
+                  Color: =TextSecondary
+                  Width: =36
+                  Height: =32
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =Parent.TemplateWidth - 100
+                  Y: =20
+                  OnSelect: |
+                    If(
+                      !IsBlank(varExpandedLead) && varExpandedLead.ID = ThisItem.ID,
+                      Set(varExpandedLead, Blank()),
+                      Set(varExpandedLead, ThisItem)
+                    )
+  
+            # ─────────────────────────────────────────────────
+            # EXPANDED PANEL
+            # ─────────────────────────────────────────────────
+            - ExpandPanel:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Visible: =!IsBlank(varExpandedLead) && varExpandedLead.ID = ThisItem.ID
+                  Fill: =RGBA(248, 249, 255, 1)
+                  BorderColor: =RGBA(199, 210, 254, 1)
+                  BorderThickness: =1
+                  Width: =Parent.TemplateWidth - 32
+                  Height: =290
+                  RadiusBottomLeft: =14
+                  RadiusBottomRight: =14
+                  RadiusTopLeft: =14
+                  RadiusTopRight: =14
+                  X: =16
+                  Y: =76
+  
+            # CONTACT SECTION
+            - ExpandContactHeader:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="CONTACT INFO"
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Color: =TextSecondary
+                  X: =36
+                  Y: =94
+  
+            - ExpandPhoneIcon:
+                Control: Icon@2.5.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Icon: =Icon.Phone
+                  Color: =BrandPrimary
+                  Width: =14
+                  Height: =14
+                  X: =36
+                  Y: =116
+  
+            - ExpandPhone:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: =Coalesce(ThisItem.'Phone Number', "No phone on file")
+                  Size: =12
+                  Color: =TextPrimary
+                  X: =56
+                  Y: =113
+                  Width: =200
+  
+            - ExpandEmailIcon:
+                Control: Icon@2.5.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Icon: =Icon.Mail
+                  Color: =BrandPrimary
+                  Width: =14
+                  Height: =14
+                  X: =36
+                  Y: =140
+  
+            - ExpandEmail:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: =Coalesce(ThisItem.Email, "No email on file")
+                  Size: =12
+                  Color: =TextPrimary
+                  X: =56
+                  Y: =137
+                  Width: =220
+  
+            - ExpandAddrIcon:
+                Control: Icon@2.5.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Icon: =Icon.Home
+                  Color: =BrandPrimary
+                  Width: =14
+                  Height: =14
+                  X: =36
+                  Y: =164
+  
+            - ExpandAddr:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: =Coalesce(ThisItem.'Risk Address', "No address on file")
+                  Size: =11
+                  Color: =TextSecondary
+                  X: =56
+                  Y: =161
+                  Width: =220
+  
+            - ExpandModified:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="Last modified: " & Text(ThisItem.Modified, "[$-en-US]mmm d, yyyy h:mm AM/PM")
+                  Size: =10
+                  Color: =TextSecondary
+                  X: =36
+                  Y: =190
+                  Width: =260
+  
+            # NOTES SECTION
+            - ExpandNotesHeader:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="NOTES"
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Color: =TextSecondary
+                  X: =320
+                  Y: =94
+  
+            - ExpandNotesBox:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Fill: =BgCard
+                  BorderColor: =BorderSoft
+                  BorderThickness: =1
+                  Width: =380
+                  Height: =140
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  X: =320
+                  Y: =110
+  
+            - ExpandNotesText:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: =Coalesce(ThisItem.Notes, "No notes yet. Open this lead to add details.")
+                  Size: =11
+                  Color: =If(IsBlank(ThisItem.Notes), TextSecondary, RGBA(55, 65, 81, 1))
+                  Width: =352
+                  Height: =124
+                  X: =334
+                  Y: =118
+                  VerticalAlign: =VerticalAlign.Top
+                  Wrap: =true
+  
+            # PIPELINE STATUS SECTION
+            - ExpandStatusHeader:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="CHANGE STATUS"
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Color: =TextSecondary
+                  X: =732
+                  Y: =94
+  
+            - ExpandBoundBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="✓ Bound"
+                  Fill: =ColorStatus.Bound
+                  HoverFill: =RGBA(20, 83, 45, 1)
+                  BorderThickness: =0
+                  Color: =ColorStatus.BoundText
+                  FontWeight: =FontWeight.Semibold
+                  Width: =110
+                  Height: =34
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =732
+                  Y: =114
+                  OnSelect: |
+                    IfError(
+                      Patch(Leads, ThisItem, {Status: {Value: "Bound"}}),
+                      Patch(Leads, ThisItem, {Status: "Bound"})
+                    );
+                    Notify("✓ " & ThisItem.Title & " marked as Bound", NotificationType.Success, 3000);
+                    Set(varExpandedLead, Blank());
+                    ClearCollect(colLeadCounts,
+                      {Status: "Active",      Count: CountRows(Filter(Leads, Status.Value = "Active"))},
+                      {Status: "Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound"))},
+                      {Status: "Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted"))},
+                      {Status: "Lost",        Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))},
+                      {Status: "Overdue",     Count: CountRows(Filter(Leads, Today() > DateAdd(Modified, 7, Days) && Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")))},
+                      {Status: "Total",       Count: CountRows(Leads)}
+                    )
+  
+            - ExpandLostBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="✗ Lost"
+                  Fill: =ColorStatus.Lost
+                  HoverFill: =RGBA(127, 29, 29, 1)
+                  BorderThickness: =0
+                  Color: =ColorStatus.LostText
+                  FontWeight: =FontWeight.Semibold
+                  Width: =110
+                  Height: =34
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =856
+                  Y: =114
+                  OnSelect: |
+                    IfError(
+                      Patch(Leads, ThisItem, {Status: {Value: "Lost"}}),
+                      Patch(Leads, ThisItem, {Status: "Lost"})
+                    );
+                    Notify("✗ " & ThisItem.Title & " marked as Lost", NotificationType.Warning, 3000);
+                    Set(varExpandedLead, Blank());
+                    ClearCollect(colLeadCounts,
+                      {Status: "Active",  Count: CountRows(Filter(Leads, Status.Value = "Active"))},
+                      {Status: "Bound",   Count: CountRows(Filter(Leads, Status.Value = "Bound"))},
+                      {Status: "Quoted",  Count: CountRows(Filter(Leads, Status.Value = "Quoted"))},
+                      {Status: "Lost",    Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))},
+                      {Status: "Overdue", Count: CountRows(Filter(Leads, Today() > DateAdd(Modified, 7, Days) && Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")))},
+                      {Status: "Total",   Count: CountRows(Leads)}
+                    )
+  
+            - ExpandWorkingBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="⚙ Working"
+                  Fill: =ColorStatus.Working
+                  BorderThickness: =0
+                  Color: =ColorStatus.WorkingText
+                  FontWeight: =FontWeight.Semibold
+                  Width: =110
+                  Height: =34
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =732
+                  Y: =156
+                  OnSelect: |
+                    IfError(
+                      Patch(Leads, ThisItem, {Status: {Value: "Working"}}),
+                      Patch(Leads, ThisItem, {Status: "Working"})
+                    );
+                    Notify("Status updated to Working", NotificationType.Information, 2500);
+                    Set(varExpandedLead, Blank())
+  
+            - ExpandQuotedBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="📄 Quoted"
+                  Fill: =ColorStatus.Quoted
+                  BorderThickness: =0
+                  Color: =ColorStatus.QuotedText
+                  FontWeight: =FontWeight.Semibold
+                  Width: =110
+                  Height: =34
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  X: =856
+                  Y: =156
+                  OnSelect: |
+                    IfError(
+                      Patch(Leads, ThisItem, {Status: {Value: "Quoted"}}),
+                      Patch(Leads, ThisItem, {Status: "Quoted"})
+                    );
+                    Notify("Status updated to Quoted", NotificationType.Information, 2500);
+                    Set(varExpandedLead, Blank())
+  
+            # ACTION BUTTONS ROW
+            - ExpandOpenDetailBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="Open Full Detail"
+                  Fill: =BrandPrimary
+                  HoverFill: =BrandPrimaryDark
+                  PressedFill: =RGBA(125, 11, 25, 1)
+                  BorderThickness: =0
+                  Color: =TextInverse
+                  FontWeight: =FontWeight.Semibold
+                  Width: =150
+                  Height: =36
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  X: =36
+                  Y: =310
+                  OnSelect: |
+                    Set(varSelectedLead, ThisItem);
+                    Set(varDetailTab, "Overview");
+                    Navigate(LeadDetailScreen, ScreenTransition.None)
+  
+            - ExpandNewQuoteBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="+ New Quote"
+                  Fill: =BgCard
+                  HoverFill: =BrandSoft
+                  BorderColor: =BrandPrimary
+                  BorderThickness: =1
+                  Color: =BrandPrimary
+                  FontWeight: =FontWeight.Semibold
+                  Width: =140
+                  Height: =36
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  X: =200
+                  Y: =310
+                  OnSelect: |
+                    Set(varSelectedQuote, ThisItem);
+                    Navigate(NewQuoteScreen, ScreenTransition.None)
+  
+            - ExpandSendEmailBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="✉ Email"
+                  Fill: =BgCard
+                  HoverFill: =BgApp
+                  BorderColor: =BorderMedium
+                  BorderThickness: =1
+                  Color: =TextPrimary
+                  Width: =110
+                  Height: =36
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  X: =354
+                  Y: =310
+                  OnSelect: |
+                    Set(varSelectedQuote, ThisItem);
+                    Navigate(EmailScreen, ScreenTransition.None)
+  
+            - ExpandCloseBtn:
+                Control: Button@2.2.0
+                Properties:
+                  Visible: =ExpandPanel.Visible
+                  Text: ="✕ Close"
+                  Fill: =RGBA(0,0,0,0)
+                  HoverFill: =BgApp
+                  BorderThickness: =0
+                  Color: =TextSecondary
+                  Width: =80
+                  Height: =36
+                  X: =478
+                  Y: =310
+                  OnSelect: =Set(varExpandedLead, Blank())
+  
+      # ─────────────────────────────────────────────────────────
+      # EMPTY STATE
+      # ─────────────────────────────────────────────────────────
+      - EmptyStateContainer:
+          Control: Rectangle@2.3.0
+          Properties:
+            Visible: =CountRows(LeadsGallery.AllItems) = 0
+            Fill: =RGBA(0,0,0,0)
+            Width: =500
+            Height: =200
+            X: =(App.Width - 260) / 2
+            Y: =460
+  
+      - EmptyStateIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Visible: =CountRows(LeadsGallery.AllItems) = 0
+            Icon: =Icon.People
+            Color: =BorderMedium
+            Width: =48
+            Height: =48
+            X: =(App.Width - 260) / 2 + 226
+            Y: =470
+  
+      - EmptyStateTitle:
+          Control: Label@2.5.1
+          Properties:
+            Visible: =CountRows(LeadsGallery.AllItems) = 0
+            Text: ="No leads found"
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Size: =18
+            Color: =TextSecondary
+            Width: =400
+            Height: =32
+            X: =(App.Width - 260) / 2 + 50
+            Y: =530
+  
+      - EmptyStateSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Visible: =CountRows(LeadsGallery.AllItems) = 0
+            Text: ="Try adjusting your filters or add a new lead to get started."
+            Align: =Align.Center
+            Size: =13
+            Color: =TextSecondary
+            Width: =400
+            Height: =40
+            X: =(App.Width - 260) / 2 + 50
+            Y: =566
+  
+      - EmptyStateBtn:
+          Control: Button@2.2.0
+          Properties:
+            Visible: =CountRows(LeadsGallery.AllItems) = 0
+            Text: ="+ Add First Lead"
+            Fill: =BrandPrimary
+            HoverFill: =BrandPrimaryDark
+            BorderThickness: =0
+            Color: =TextInverse
+            FontWeight: =FontWeight.Semibold
+            Width: =160
+            Height: =40
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =(App.Width - 260) / 2 + 170
+            Y: =614
+            OnSelect: =Navigate(NewLeadScreen, ScreenTransition.None)
+  
+      # ─────────────────────────────────────────────────────────
+      # FOOTER
+      # ─────────────────────────────────────────────────────────
+      - FooterBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =App.Width - 300
+            Height: =52
+            X: =272
+            Y: =App.Height - 52
+  
+      - FooterDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 300
+            Height: =1
+            X: =272
+            Y: =App.Height - 53
+  
+      - FooterCount:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Concatenate(
+              "Showing ",
+              Text(CountRows(LeadsGallery.AllItems), "0"),
+              " of ",
+              Text(LookUp(colLeadCounts, Status = "Total").Count, "0"),
+              " leads")
+            Size: =11
+            Color: =TextSecondary
+            X: =292
+            Y: =App.Height - 38
+  
+      - FooterFilterTag:
+          Control: Label@2.5.1
+          Properties:
+            Visible: =varStatusFilter <> "All" || varAgentFilter <> "All" || varSearchText <> ""
+            Text: ="Filtered"
+            Size: =10
+            FontWeight: =FontWeight.Semibold
+            Color: =BrandPrimary
+            X: =460
+            Y: =App.Height - 38
+  
+      - FooterLastUpdated:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Last refreshed: " & Text(Now(), "[$-en-US]h:mm AM/PM")
+            Size: =11
+            Color: =TextSecondary
+            X: =App.Width - 350
+            Y: =App.Height - 38
+  
+      - FooterRefreshBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="↻ Refresh"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BgApp
+            BorderThickness: =0
+            Color: =BrandPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =100
+            Height: =36
+            X: =App.Width - 184
+            Y: =App.Height - 44
+            OnSelect: |
+              ClearCollect(colLeadCounts,
+                {Status: "Active",      Count: CountRows(Filter(Leads, Status.Value = "Active"))},
+                {Status: "Working",     Count: CountRows(Filter(Leads, Status.Value = "Working"))},
+                {Status: "Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted"))},
+                {Status: "Negotiating", Count: CountRows(Filter(Leads, Status.Value = "Negotiating"))},
+                {Status: "Contacted",   Count: CountRows(Filter(Leads, Status.Value = "Contacted"))},
+                {Status: "Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound"))},
+                {Status: "Lost",        Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))},
+                {Status: "Overdue",     Count: CountRows(Filter(Leads, Today() > DateAdd(Modified, 7, Days) && Status.Value <> "Bound" && !StartsWith(Status.Value, "Lost")))},
+                {Status: "Total",       Count: CountRows(Leads)}
+              );
+              Notify("Data refreshed", NotificationType.Success, 1500)

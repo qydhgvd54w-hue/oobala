@@ -1,0 +1,308 @@
+{
+  "solution": {
+    "uniqueName": "AdamsCosbyCRM",
+    "displayName": "Adams Cosby CRM",
+    "version": "1.0.0.2",
+    "publisher": {
+      "uniqueName": "dynamics365agency",
+      "customizationPrefix": "ac",
+      "optionValuePrefix": "12082"
+    }
+  },
+  "entity": {
+    "schemaName": "ac_Lead",
+    "logicalName": "ac_lead",
+    "displayName": "Lead",
+    "displayCollectionName": "Leads",
+    "primaryNameAttribute": "ac_fullname"
+  },
+  "fields": [
+    {
+      "schemaName": "ac_FirstName",
+      "logicalName": "ac_firstname",
+      "displayName": "First Name",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 100,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_LastName",
+      "logicalName": "ac_lastname",
+      "displayName": "Last Name",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 100,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_Phone",
+      "logicalName": "ac_phone",
+      "displayName": "Phone",
+      "type": "nvarchar",
+      "format": "phone",
+      "maxLength": 50,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_Email",
+      "logicalName": "ac_email",
+      "displayName": "Email",
+      "type": "nvarchar",
+      "format": "email",
+      "maxLength": 200,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_DOB",
+      "logicalName": "ac_dob",
+      "displayName": "Date of Birth",
+      "type": "datetime",
+      "format": "datetime",
+      "behavior": 3,
+      "behaviorName": "DateOnly",
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_MailingAddress",
+      "logicalName": "ac_mailingaddress",
+      "displayName": "Mailing Address",
+      "type": "nvarchar",
+      "format": "textarea",
+      "maxLength": 500,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_RiskAddress",
+      "logicalName": "ac_riskaddress",
+      "displayName": "Risk Address",
+      "type": "nvarchar",
+      "format": "textarea",
+      "maxLength": 500,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_City",
+      "logicalName": "ac_city",
+      "displayName": "City",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 100,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_State",
+      "logicalName": "ac_state",
+      "displayName": "State",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 10,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_Zip",
+      "logicalName": "ac_zip",
+      "displayName": "Zip",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 20,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_Pinned",
+      "logicalName": "ac_pinned",
+      "displayName": "Pinned",
+      "type": "bit",
+      "defaultValue": 0,
+      "trueLabel": "Yes",
+      "falseLabel": "No",
+      "optionSetName": "ac_lead_ac_pinned",
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_IsRequote",
+      "logicalName": "ac_isrequote",
+      "displayName": "Is Requote",
+      "type": "bit",
+      "defaultValue": 0,
+      "trueLabel": "Yes",
+      "falseLabel": "No",
+      "optionSetName": "ac_lead_ac_isrequote",
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_FollowupDate",
+      "logicalName": "ac_followupdate",
+      "displayName": "Follow-up Date",
+      "type": "datetime",
+      "format": "datetime",
+      "behavior": 1,
+      "behaviorName": "UserLocal",
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_LastTouch",
+      "logicalName": "ac_lasttouch",
+      "displayName": "Last Touch",
+      "type": "datetime",
+      "format": "datetime",
+      "behavior": 1,
+      "behaviorName": "UserLocal",
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_Notes",
+      "logicalName": "ac_notes",
+      "displayName": "Notes",
+      "type": "nvarchar",
+      "format": "textarea",
+      "maxLength": 2000,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_CurrentCarrier",
+      "logicalName": "ac_currentcarrier",
+      "displayName": "Current Carrier",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 200,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_CurrentPremium",
+      "logicalName": "ac_currentpremium",
+      "displayName": "Current Premium",
+      "type": "money",
+      "minValue": 0,
+      "maxValue": 1000000000000,
+      "precision": 2,
+      "precisionSource": 0,
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_QuotedPremium",
+      "logicalName": "ac_quotedpremium",
+      "displayName": "Quoted Premium",
+      "type": "money",
+      "minValue": 0,
+      "maxValue": 1000000000000,
+      "precision": 2,
+      "precisionSource": 0,
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_Products",
+      "logicalName": "ac_products",
+      "displayName": "Products",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 500,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_LineOfBusiness",
+      "logicalName": "ac_lineofbusiness",
+      "displayName": "Line of Business",
+      "type": "picklist",
+      "optionSetName": "ac_lead_ac_lineofbusiness",
+      "options": [
+        { "value": 120820000, "label": "P&C" },
+        { "value": 120820001, "label": "Alfa Agency" },
+        { "value": 120820002, "label": "Life" }
+      ],
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_Status",
+      "logicalName": "ac_status",
+      "displayName": "Status",
+      "type": "picklist",
+      "optionSetName": "ac_lead_ac_status",
+      "options": [
+        { "value": 120820010, "label": "New" },
+        { "value": 120820011, "label": "In Progress" },
+        { "value": 120820012, "label": "Quoted" },
+        { "value": 120820013, "label": "Follow-up" },
+        { "value": 120820014, "label": "Bound" },
+        { "value": 120820015, "label": "Lost" }
+      ],
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_Source",
+      "logicalName": "ac_source",
+      "displayName": "Source",
+      "type": "picklist",
+      "optionSetName": "ac_lead_ac_source",
+      "options": [
+        { "value": 120820020, "label": "Walk-in" },
+        { "value": 120820021, "label": "Call-in" },
+        { "value": 120820022, "label": "Referral" },
+        { "value": 120820023, "label": "Cross-sell" },
+        { "value": 120820024, "label": "Re-quote" }
+      ],
+      "required": false,
+      "audited": true
+    },
+    {
+      "schemaName": "ac_SourceDetail",
+      "logicalName": "ac_sourcedetail",
+      "displayName": "Source Detail",
+      "type": "nvarchar",
+      "format": "text",
+      "maxLength": 500,
+      "required": false,
+      "audited": true,
+      "searchable": true
+    },
+    {
+      "schemaName": "ac_LostReason",
+      "logicalName": "ac_lostreason",
+      "displayName": "Lost Reason",
+      "type": "picklist",
+      "optionSetName": "ac_lead_ac_lostreason",
+      "options": [
+        { "value": 120820030, "label": "Price" },
+        { "value": 120820031, "label": "Coverage" },
+        { "value": 120820032, "label": "Carrier preference" },
+        { "value": 120820033, "label": "No response" },
+        { "value": 120820034, "label": "Other" }
+      ],
+      "required": false,
+      "audited": true
+    }
+  ]
+}

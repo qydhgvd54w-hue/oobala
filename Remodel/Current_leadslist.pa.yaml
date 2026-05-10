@@ -1,0 +1,2509 @@
+Screens:
+  LeadsListScreen_3:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+      OnVisible: |-
+        =ClearCollect(colLeadCounts, {Status:"Active", Count: CountRows(Filter(Leads, Status.Value = "Active"))}, {Status:"Working", Count: CountRows(Filter(Leads, Status.Value = "Working"))}, {Status:"Bound", Count: CountRows(Filter(Leads, Status.Value = "Bound"))}, {Status:"Lost", Count: CountRows(Filter(Leads, StartsWith(Status.Value, "Lost")))}, {Status:"Quoted", Count: CountRows(Filter(Leads, Status.Value = "Quoted"))}, {Status:"Contacted", Count: CountRows(Filter(Leads, Status.Value = "Contacted"))}, {Status:"Negotiating", Count: CountRows(Filter(Leads, Status.Value = "Negotiating"))}, {Status:"Total", Count: CountRows(Leads)})
+    Children:
+      - SidebarBackground_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 247, 250, 1)
+            Height: =1300
+            Width: =303
+            X: =0.00
+      - DashboardHeader_3:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =64
+            PaddingLeft: =24
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =25
+            Text: ="Adams Cosby CRM"
+            Width: =Parent.Width - 303
+            X: =303
+      - DashboardNewQuoteButton_2:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 0.3)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            Fill: =RGBA(255, 255, 255, 0.15)
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =Self.Color
+            HoverFill: =ColorFade(Self.Fill, 20%)
+            OnSelect: =Notify("New Quote screen coming next pass", NotificationType.Information)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Size: =14.16
+            Text: ="+ New Quote"
+            X: =Parent.Width - 520
+            Y: =14
+      - DashboardQuickAddButton_2:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 0.3)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            Fill: =RGBA(255, 255, 255, 0.15)
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =Self.Color
+            HoverFill: =ColorFade(Self.Fill, 20%)
+            OnSelect: =Set(varQuickAdd, true)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Size: =14.16
+            Text: ="Quick Add"
+            Width: =140
+            X: =Parent.Width - 340
+            Y: =14
+      - DashboardNewLeadButton_3:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(255, 255, 255, 0.3)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            Fill: =RGBA(255, 255, 255, 0.15)
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =Self.Color
+            HoverFill: =ColorFade(Self.Fill, 20%)
+            OnSelect: =Notify("New lead screen coming soon", NotificationType.Information)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Size: =14.16
+            Text: ="+ New Lead"
+            X: =Parent.Width - 180
+            Y: =14
+      - SidebarLogoLabel_4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =BrandRed
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =64
+            PaddingLeft: =8
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =26
+            Text: ="Adams Cosby"
+            Width: =242
+      - SidebarLogoCRMLbl_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =BrandRed
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =64
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Text: ="CRM"
+            Width: =61
+            X: =242
+      - SidebarNavItemDashboardBg_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+            Width: =303
+            Y: =72
+      - SidebarNavItemDashboardIcon_4:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Home
+            Width: =303
+            X: =16
+            Y: =82
+      - SidebarNavItemDashboardLabel_4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Dashboard"
+            Width: =303
+            Y: =72
+      - SidebarNavItemLeadsBg_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandSoft
+            Height: =40
+            OnSelect: =Navigate(LeadsListScreen_3, ScreenTransition.None)
+            Width: =303
+            Y: =112
+      - SidebarNavItemLeadsAccent_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =BrandRed
+            Height: =40
+            Width: =303
+            Y: =112
+      - SidebarNavItemLeadsIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =BrandRed
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.People
+            Width: =303
+            X: =16
+            Y: =122
+      - SidebarNavItemLeadsLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =BrandRed
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            OnSelect: =Navigate(LeadsListScreen_3, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Leads"
+            Width: =303
+            Y: =112
+      - SidebarNavItemActivitiesLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Activities"
+            Width: =303
+            Y: =152
+      - SidebarNavItemActivitiesIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Phone
+            Width: =303
+            X: =16
+            Y: =162
+      - SidebarNavItemCalendarLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Calendar"
+            Width: =303
+            Y: =192
+      - SidebarNavItemCalendarIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.CalendarBlank
+            Width: =303
+            X: =16
+            Y: =202
+      - SidebarNavItemTasksLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Tasks"
+            Width: =303
+            Y: =232
+      - SidebarNavItemTasksIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Check
+            Width: =303
+            X: =16
+            Y: =242
+      - SidebarNavItemTemplatesLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Templates"
+            Width: =303
+            Y: =272
+      - SidebarNavItemTemplatesIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Mail
+            Width: =303
+            X: =16
+            Y: =282
+      - SidebarNavItemReportsLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Notify("Reports screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Reports"
+            Width: =303
+            Y: =312
+      - SidebarNavItemReportsIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Trending
+            Width: =303
+            X: =16
+            Y: =322
+      - SidebarNavItemFilesLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Notify("Files screen coming soon", NotificationType.Information)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Files"
+            Width: =303
+            Y: =352
+      - SidebarNavItemFilesIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Folder
+            Width: =303
+            X: =16
+            Y: =362
+      - SidebarNavItemSettingsLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+            PaddingLeft: =44
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Text: ="Settings"
+            Width: =303
+            Y: =392
+      - SidebarNavItemSettingsIcon_2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledBorderColor: =RGBA(56, 56, 56, 1)
+            DisabledColor: =RGBA(119, 119, 119, 1)
+            Height: =20
+            Icon: =Icon.Settings
+            Width: =303
+            X: =16
+            Y: =402
+      - LeadListPane_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 64
+            Width: =620
+            X: =303
+            Y: =64
+      - DetailPaneBg_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =BgCream
+            Height: =Parent.Height - 64
+            Width: =Parent.Width - 923
+            X: =923
+            Y: =64
+      - LeadListTitle_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingLeft: =18
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: ="Leads"
+            Width: =320
+            X: =327
+            Y: =82
+      - LeadListCount_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =32
+            PaddingRight: =18
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: =Text(LookUp(colLeadCounts, Status="Total").Count) & " total"
+            Width: =160
+            X: =737
+            Y: =82
+      - DashboardCardActive_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(varStatusFilter = "Active", BrandRed, BorderSoft)
+            BorderThickness: =If(varStatusFilter = "Active", 2, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =66
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+            Width: =85
+            X: =327
+            Y: =124
+      - DashboardCardActiveValue_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: =Text(LookUp(colLeadCounts, Status="Active").Count)
+            Width: =85
+            X: =327
+            Y: =132
+      - DashboardCardActiveLabel_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Active", "All", "Active"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="ACTIVE"
+            Width: =85
+            X: =327
+            Y: =162
+      - DashboardCardWorking_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(varStatusFilter = "Working", BrandRed, BorderSoft)
+            BorderThickness: =If(varStatusFilter = "Working", 2, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =66
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+            Width: =85
+            X: =422
+            Y: =124
+      - DashboardCardWorkingValue_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: =Text(LookUp(colLeadCounts, Status="Working").Count)
+            Width: =85
+            X: =422
+            Y: =132
+      - DashboardCardWorkingLabel_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Working", "All", "Working"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="WORKING"
+            Width: =85
+            X: =422
+            Y: =162
+      - DashboardCardQuoted_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(varStatusFilter = "Quoted", BrandRed, BorderSoft)
+            BorderThickness: =If(varStatusFilter = "Quoted", 2, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =66
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+            Width: =85
+            X: =517
+            Y: =124
+      - DashboardCardQuotedValue_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: =Text(LookUp(colLeadCounts, Status="Quoted").Count)
+            Width: =85
+            X: =517
+            Y: =132
+      - DashboardCardQuotedLabel_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Quoted", "All", "Quoted"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="QUOTED"
+            Width: =85
+            X: =517
+            Y: =162
+      - DashboardCardBound_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(varStatusFilter = "Bound", BrandRed, BorderSoft)
+            BorderThickness: =If(varStatusFilter = "Bound", 2, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =66
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+            Width: =85
+            X: =612
+            Y: =124
+      - DashboardCardBoundValue_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: =Text(LookUp(colLeadCounts, Status="Bound").Count)
+            Width: =85
+            X: =612
+            Y: =132
+      - DashboardCardBoundLabel_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Bound", "All", "Bound"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="BOUND"
+            Width: =85
+            X: =612
+            Y: =162
+      - DashboardCardLost_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(varStatusFilter = "Lost", BrandRed, BorderSoft)
+            BorderThickness: =If(varStatusFilter = "Lost", 2, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =66
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+            Width: =85
+            X: =707
+            Y: =124
+      - DashboardCardLostValue_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: =Text(LookUp(colLeadCounts, Status="Lost").Count)
+            Width: =85
+            X: =707
+            Y: =132
+      - DashboardCardLostLabel_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Lost", "All", "Lost"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="LOST"
+            Width: =85
+            X: =707
+            Y: =162
+      - DashboardCardContacted_3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(varStatusFilter = "Contacted", BrandRed, BorderSoft)
+            BorderThickness: =If(varStatusFilter = "Contacted", 2, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =66
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+            Width: =85
+            X: =802
+            Y: =124
+      - DashboardCardContactedValue_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =17.43
+            Text: =Text(LookUp(colLeadCounts, Status="Contacted").Count)
+            Width: =85
+            X: =802
+            Y: =132
+      - DashboardCardContactedLabel_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            OnSelect: =Set(varStatusFilter, If(varStatusFilter = "Contacted", "All", "Contacted"))
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="CONTACT"
+            Width: =85
+            X: =802
+            Y: =162
+      - DashboardSearchBox_3:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =""
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =38
+            HintText: ="Search by name..."
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            OnChange: =Set(varSearchText, Self.Text)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =14.16
+            Width: =570
+            X: =327
+            Y: =206
+      - DashboardStatusFilter_3:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            BorderColor: =BorderSoft
+            ChevronBackground: =RGBA(35, 31, 32, 1)
+            ChevronDisabledBackground: =RGBA(215, 210, 204, 1)
+            ChevronDisabledFill: =RGBA(235, 233, 229, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(Self.ChevronBackground, 20%)
+            ChevronHoverFill: =Self.ChevronFill
+            Color: =TextPrimary
+            DisabledBorderColor: =RGBA(186, 186, 186, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisabledFill: =RGBA(242, 242, 242, 1)
+            Font: =Font.'Open Sans'
+            Height: =38
+            HoverColor: =Self.Color
+            HoverFill: =RGBA(186, 186, 186, 1)
+            Items: =["All","Active","Working","Bound","Lost","Quoted","Contacted","Negotiating"]
+            Items.Value: =Value
+            OnChange: =Set(varStatusFilter, Self.Selected.Value)
+            PaddingRight: =10.88
+            PaddingTop: =10.88
+            PressedColor: =Self.Color
+            PressedFill: =ColorFade(Self.SelectionFill, -30%)
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(0, 176, 240, 1)
+            Size: =11.98
+            Width: =276
+            X: =327
+            Y: =254
+      - DashboardAgentFilter_3:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            BorderColor: =BorderSoft
+            ChevronBackground: =RGBA(35, 31, 32, 1)
+            ChevronDisabledBackground: =RGBA(215, 210, 204, 1)
+            ChevronDisabledFill: =RGBA(235, 233, 229, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(Self.ChevronBackground, 20%)
+            ChevronHoverFill: =Self.ChevronFill
+            Color: =TextPrimary
+            DisabledBorderColor: =RGBA(186, 186, 186, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisabledFill: =RGBA(242, 242, 242, 1)
+            Font: =Font.'Open Sans'
+            Height: =38
+            HoverColor: =Self.Color
+            HoverFill: =RGBA(186, 186, 186, 1)
+            Items: =["All","Alec Adams","Rachel Cosby","Unassigned"]
+            Items.Value: =Value
+            OnChange: =Set(varAgentFilter, Self.Selected.Value)
+            PaddingRight: =10.88
+            PaddingTop: =10.88
+            PressedColor: =Self.Color
+            PressedFill: =ColorFade(Self.SelectionFill, -30%)
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(0, 176, 240, 1)
+            Size: =11.98
+            Width: =276
+            X: =621
+            Y: =254
+      - DashboardLeadsGallery_3:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            BorderColor: =BorderSoft
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 360
+            Items: |
+              =Filter(
+                  Leads,
+                  (
+                      varSearchText = ""
+                      || StartsWith(Title, varSearchText)
+                  )
+                  && (
+                      varStatusFilter = "All"
+                      || (varStatusFilter = "Lost" && StartsWith(Status.Value, "Lost"))
+                      || (varStatusFilter <> "Lost" && Status.Value = varStatusFilter)
+                  )
+                  && (
+                      varAgentFilter = "All"
+                      || (varAgentFilter = "Unassigned" && IsBlank(Agent.DisplayName))
+                      || (varAgentFilter <> "Unassigned" && varAgentFilter <> "All" && Agent.DisplayName = varAgentFilter)
+                  )
+              )
+            LoadingSpinner: =LoadingSpinner.None
+            TemplateFill: =If(!IsBlank(varSelectedLead) && ThisItem.ID = varSelectedLead.ID, RGBA(252, 245, 245, 1), RGBA(255, 255, 255, 0))
+            TemplateSize: =104
+            Width: =596
+            X: =315
+            Y: =308
+          Children:
+            - DashboardLeadRowHotspot_4:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderThickness: =0
+                  Color: =RGBA(0, 0, 0, 0)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(0, 0, 0, 0)
+                  DisabledFill: =ColorFade(Self.Fill, 70%)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  FocusedBorderThickness: =0
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Normal
+                  Height: =Parent.TemplateHeight
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedColor: =RGBA(0, 0, 0, 0)
+                  PressedFill: =RGBA(0, 0, 0, 0)
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =1.09
+                  Text: =""
+                  Width: =Parent.TemplateWidth
+            - DashboardLeadSelectedAccent_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BrandRed
+                  Height: =Parent.TemplateHeight - 14
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  Visible: =!IsBlank(varSelectedLead) && ThisItem.ID = varSelectedLead.ID
+                  Width: =3.27
+                  X: =0.00
+                  Y: =7
+            - DashboardLeadInitials_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Fill: =BrandRed
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =11.98
+                  Text: =Left(Coalesce(ThisItem.Title, ""), 2)
+                  Width: =40
+                  X: =22
+                  Y: =16
+            - DashboardLeadName_3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextPrimary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(!IsBlank(varSelectedLead) && ThisItem.ID = varSelectedLead.ID, FontWeight.Bold, FontWeight.Semibold)
+                  Height: =24
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =14.16
+                  Text: =ThisItem.Title
+                  Width: =310
+                  X: =76
+                  Y: =12
+            - DashboardLeadMeta_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Coalesce(ThisItem.Source.Value, "—") & "  " & If(IsBlank(ThisItem.Agent), "Unassigned", ThisItem.Agent.DisplayName)
+                  Width: =360
+                  X: =76
+                  Y: =38
+            - DashboardLeadStatusPill_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =If(IsBlank(ThisItem.Status), BgEmpty, Switch(ThisItem.Status.Value, "New", StatusNew_Bg, "Active", StatusNew_Bg, "Contacted", StatusNew_Bg, "Quote Sent", StatusQuoted_Bg, "Quoted", StatusQuoted_Bg, "Working", StatusProg_Bg, "Follow-Up", StatusFollow_Bg, "Negotiating", StatusProg_Bg, "Bound", StatusBound_Bg, StatusLost_Bg))
+                  Height: =24
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  Width: =108
+                  X: =462
+                  Y: =14
+            - DashboardLeadStatusPillLabel_3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =Switch(ThisItem.Status.Value, "New", StatusNew_Fg, "Active", StatusNew_Fg, "Contacted", StatusNew_Fg, "Quote Sent", StatusQuoted_Fg, "Quoted", StatusQuoted_Fg, "Working", StatusProg_Fg, "Follow-Up", StatusFollow_Fg, "Negotiating", StatusProg_Fg, "Bound", StatusBound_Fg, StatusLost_Fg)
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =24
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =9.80
+                  Text: =If(IsBlank(ThisItem.Status), "—", If(StartsWith(ThisItem.Status.Value, "Lost"), "LOST", Upper(ThisItem.Status.Value)))
+                  Width: =108
+                  X: =462
+                  Y: =14
+            - DashboardLeadType_3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: |-
+                    =If(IsBlank(ThisItem.Products), "—", With({p: Concat(ThisItem.Products, Value, " + ")}, Switch(true, "Auto" in p And "Home" in p, "Alfa Home + Auto", "Auto" in p, "Alfa Auto", "Home" in p, "Alfa Home", "Life" in p, "Alfa Life", p)))
+                  Width: =300
+                  X: =76
+                  Y: =64
+            - DashboardLeadUpdated_4:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Text(ThisItem.Modified, "[$-en-US]m/d/yy")
+                  Width: =108
+                  X: =462
+                  Y: =64
+            - DashboardLeadSeparator_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BorderSoft
+                  Height: =1
+                  OnSelect: =Set(varSelectedLead, ThisItem)
+                  Width: =Parent.TemplateWidth
+                  Y: =103
+      - DashboardPaginationFooter_3:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =28
+            PaddingLeft: =18
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="Showing " & CountRows(DashboardLeadsGallery_3.AllItems) & " of " & LookUp(colLeadCounts, Status="Total").Count & " leads"
+            Width: =570
+            X: =327
+            Y: =Parent.Height - 42
+      - DashboardEmptyState_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =15.25
+            Text: ="No leads match your filters"
+            Visible: =CountRows(DashboardLeadsGallery_3.AllItems)=0
+            Width: =596
+            X: =315
+            Y: =520
+      - DetailEmptyState_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =15.25
+            Text: ="Select a lead"
+            Visible: =IsBlank(varSelectedLead)
+            Width: =Parent.Width - 923
+            X: =923
+            Y: =420
+      - DetailHeaderPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =128
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =Parent.Width - 991
+            X: =951
+            Y: =86
+      - DetailAvatar_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =56
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =15.25
+            Text: =Left(Coalesce(varSelectedLead.Title, ""), 2)
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =56
+            X: =981
+            Y: =124
+      - DetailName_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =20
+            Text: =Coalesce(varSelectedLead.Title, "")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =520
+            X: =1053
+            Y: =112
+      - DetailPhone_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: =Coalesce(varSelectedLead.'Phone Number', "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =240
+            X: =1053
+            Y: =150
+      - DetailEmail_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: =Coalesce(varSelectedLead.Email, "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =390
+            X: =1310
+            Y: =150
+      - DetailStatusPill_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(IsBlank(varSelectedLead.Status), BgEmpty, Switch(varSelectedLead.Status.Value, "New", StatusNew_Bg, "Active", StatusNew_Bg, "Contacted", StatusNew_Bg, "Quote Sent", StatusQuoted_Bg, "Quoted", StatusQuoted_Bg, "Working", StatusProg_Bg, "Follow-Up", StatusFollow_Bg, "Negotiating", StatusProg_Bg, "Bound", StatusBound_Bg, StatusLost_Bg))
+            Height: =26
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =130
+            X: =Parent.Width - 210
+            Y: =128
+      - DetailStatusLabel_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(IsBlank(varSelectedLead.Status), TextSecondary, Switch(varSelectedLead.Status.Value, "New", StatusNew_Fg, "Active", StatusNew_Fg, "Contacted", StatusNew_Fg, "Quote Sent", StatusQuoted_Fg, "Quoted", StatusQuoted_Fg, "Working", StatusProg_Fg, "Follow-Up", StatusFollow_Fg, "Negotiating", StatusProg_Fg, "Bound", StatusBound_Fg, StatusLost_Fg))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =26
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: =If(IsBlank(varSelectedLead.Status), "—", If(StartsWith(varSelectedLead.Status.Value, "Lost"), "LOST", Upper(varSelectedLead.Status.Value)))
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =130
+            X: =Parent.Width - 210
+            Y: =128
+      - DetailStagePanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =62
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =Parent.Width - 991
+            X: =951
+            Y: =232
+      - DetailStageNew_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(varSelectedLead.Status.Value = "Active", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =If(varSelectedLead.Status.Value = "Active", BrandSoft, RGBA(255, 255, 255, 1))
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =13.06
+            Text: ="Active"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =342
+            X: =963
+            Y: =246
+      - DetailStageWorking_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(varSelectedLead.Status.Value = "Working", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =If(varSelectedLead.Status.Value = "Working", BrandSoft, RGBA(255, 255, 255, 1))
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =13.06
+            Text: ="Working"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =342
+            X: =1319
+            Y: =246
+      - DetailStageQuoted_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(varSelectedLead.Status.Value = "Quoted", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =If(varSelectedLead.Status.Value = "Quoted", BrandSoft, RGBA(255, 255, 255, 1))
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =13.06
+            Text: ="Quoted"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =342
+            X: =1675
+            Y: =246
+      - DetailStageBound_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(varSelectedLead.Status.Value = "Bound", BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =If(varSelectedLead.Status.Value = "Bound", BrandSoft, RGBA(255, 255, 255, 1))
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =13.06
+            Text: ="Bound"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =342
+            X: =2031
+            Y: =246
+      - DetailStageLost_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(StartsWith(varSelectedLead.Status.Value, "Lost"), BrandRed, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =If(StartsWith(varSelectedLead.Status.Value, "Lost"), BrandSoft, RGBA(255, 255, 255, 1))
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =13.06
+            Text: ="Lost"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =342
+            X: =2058
+            Y: =246
+      - DetailContactPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =342
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =430
+            X: =951
+            Y: =318
+      - DetailContactHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="CONTACT INFORMATION"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =951
+            Y: =334
+      - DetailContactName_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =13.06
+            Text: =Coalesce(varSelectedLead.Title, "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =951
+            Y: =372
+      - DetailContactPhone_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(IsBlank(varSelectedLead.'Phone Number'), TextTertiary, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Phone: " & Coalesce(varSelectedLead.'Phone Number', "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =951
+            Y: =410
+      - DetailContactEmail_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(IsBlank(varSelectedLead.Email), TextTertiary, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Email: " & Coalesce(varSelectedLead.Email, "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =951
+            Y: =446
+      - DetailContactAddress_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(IsBlank(varSelectedLead.'Risk Address'), TextTertiary, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =120
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =5.45
+            Size: =11.07
+            Text: |-
+              ="Address: " & Coalesce(varSelectedLead.'Risk Address', "—")
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =951
+            Y: =482
+      - DetailInfoPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =342
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =430
+            X: =1401
+            Y: =318
+      - DetailInfoHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="LEAD DETAILS"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =334
+      - DetailInfoType_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Type: " & If(IsBlank(varSelectedLead.Products), "—", With({p: Concat(varSelectedLead.Products, Value, " + ")}, Switch(true, "Auto" in p And "Home" in p, "Alfa Home + Auto", "Auto" in p, "Alfa Auto", "Home" in p, "Alfa Home", "Life" in p, "Alfa Life", p)))
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =372
+      - DetailInfoSource_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Source: " & Coalesce(varSelectedLead.Source.Value, "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =408
+      - DetailInfoAgent_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Agent: " & Coalesce(varSelectedLead.Agent.DisplayName, "Unassigned")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =444
+      - DetailInfoPremium_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Premium: " & If(IsBlank(varSelectedLead.'Current Premiums'), "—", "$" & varSelectedLead.'Current Premiums')
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =480
+      - DetailInfoQuoteID_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Quote ID: " & Coalesce(varSelectedLead.QuoteID, "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =516
+      - DetailNotesPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =342
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =430
+            X: =1851
+            Y: =318
+      - DetailNotesHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="NOTES"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1851
+            Y: =334
+      - DetailNotesText_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =If(IsBlank(varSelectedLead.Notes), TextTertiary, TextPrimary)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(250, 249, 245, 1)
+            Font: =Font.'Open Sans'
+            Height: =268
+            PaddingBottom: =10
+            PaddingLeft: =12
+            PaddingRight: =12
+            PaddingTop: =10
+            Size: =11.07
+            Text: =If(IsBlank(varSelectedLead.Notes), "No notes yet.", varSelectedLead.Notes)
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =398
+            X: =1867
+            Y: =372
+      - DetailActivityPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =208
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =1330
+            X: =951
+            Y: =684
+      - DetailActivityHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="ACTIVITY"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =560
+            X: =951
+            Y: =700
+      - DashboardDrawerLogCallButton_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            HoverColor: =BrandRed
+            HoverFill: =BrandSoft
+            OnSelect: |-
+              =Patch(Activities, Defaults(Activities), {Title: "Called " & varSelectedLead.Title, EventDate: Now()}); Notify("Call logged for " & varSelectedLead.Title, NotificationType.Information)
+            PaddingLeft: =8
+            PaddingRight: =8.71
+            PaddingTop: =5.45
+            PressedColor: =BrandRed
+            PressedFill: =BrandSoft
+            Size: =13.06
+            Text: ="Call"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =78.40
+            X: =971
+            Y: =742
+      - DashboardDrawerLogTextButton_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            HoverColor: =BrandRed
+            HoverFill: =BrandSoft
+            OnSelect: |-
+              =Patch(Activities, Defaults(Activities), {Title: "Texted " & varSelectedLead.Title, EventDate: Now()}); Notify("Text logged for " & varSelectedLead.Title, NotificationType.Information)
+            PaddingLeft: =8
+            PaddingRight: =8.71
+            PaddingTop: =5.45
+            PressedColor: =BrandRed
+            PressedFill: =BrandSoft
+            Size: =13.06
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =78.40
+            X: =1066
+            Y: =742
+      - DashboardDrawerLogEmailButton_3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            HoverColor: =BrandRed
+            HoverFill: =BrandSoft
+            OnSelect: |-
+              =Patch(Activities, Defaults(Activities), {Title: "Emailed " & varSelectedLead.Title, EventDate: Now()}); Notify("Email logged for " & varSelectedLead.Title, NotificationType.Information)
+            PaddingLeft: =8
+            PaddingRight: =8.71
+            PaddingTop: =5.45
+            PressedColor: =BrandRed
+            PressedFill: =BrandSoft
+            Size: =13.06
+            Text: ="Email"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =78.40
+            X: =1161
+            Y: =742
+      - DashboardDrawerOpenDetailButton_3:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BrandRed
+            BorderThickness: =0
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =Self.Color
+            HoverFill: =BrandRedDark
+            OnSelect: =Navigate(LeadsScreen, ScreenTransition.None)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =BrandRedDark
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Size: =12
+            Text: ="Open Form"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =150
+            X: =971
+            Y: =816
+      - DashboardDrawerMarkBoundButton_3:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BrandRed
+            BorderThickness: =0
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =Self.Color
+            HoverFill: =BrandRedDark
+            OnSelect: |-
+              =Patch(Leads, varSelectedLead, {Status: {Value: "Bound"}});
+              Set(varSelectedLead, LookUp(Leads, ID = varSelectedLead.ID));
+              Patch(Activities, Defaults(Activities), {Title: "Marked Bound: " & varSelectedLead.Title, EventDate: Now()});
+              Notify("Marked Bound - " & varSelectedLead.Title, NotificationType.Success)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =BrandRedDark
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Size: =12
+            Text: ="Mark Bound"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =150
+            X: =1141
+            Y: =816
+      - DetailTemplatesPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =342
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =460
+            X: =1940
+            Y: =318
+      - DetailTemplatesHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="QUICK SEND TEMPLATES"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =430
+            X: =1970
+            Y: =334
+      - DetailTemplatesGallery_2:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 255, 255, 0)
+            Height: =268
+            Items: ='Email Templates'
+            LoadingSpinner: =LoadingSpinner.None
+            TemplateFill: =RGBA(255, 255, 255, 0)
+            TemplatePadding: =4
+            TemplateSize: =58
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =428
+            X: =1972
+            Y: =372
+          Children:
+            - DetailTemplateRowHotspot_2:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderThickness: =0
+                  Color: =RGBA(0, 0, 0, 0)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(0, 0, 0, 0)
+                  DisabledFill: =ColorFade(Self.Fill, 70%)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  FocusedBorderThickness: =0
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Normal
+                  Height: =Parent.TemplateHeight
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  OnSelect: =If(IsBlank(varSelectedLead) Or IsBlank(varSelectedLead.Email), Notify("Select a lead first.", NotificationType.Warning), Launch("https://outlook.office.com/mail/deeplink/compose?to=" & EncodeUrl(varSelectedLead.Email) & "&subject=" & EncodeUrl(Coalesce(ThisItem.Title, "")) & "&body=" & EncodeUrl(Coalesce(ThisItem.Body, ""))))
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedColor: =RGBA(0, 0, 0, 0)
+                  PressedFill: =RGBA(0, 0, 0, 0)
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =1.09
+                  Text: =""
+                  Width: =Parent.TemplateWidth
+            - DetailTemplateTitle_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextPrimary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  OnSelect: =Select(Parent)
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =11.98
+                  Text: =ThisItem.Title
+                  Width: =300
+                  X: =8
+                  Y: =4
+            - DetailTemplateBody_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  OnSelect: =Select(Parent)
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Left(Coalesce(ThisItem.Body, ""), 70)
+                  Width: =300
+                  X: =8
+                  Y: =28
+            - DetailTemplateSendButton_2:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =BrandRed
+                  BorderThickness: =0
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =BrandRed
+                  Font: =Font.'Open Sans'
+                  Height: =28
+                  OnSelect: =Select(Parent)
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  Size: =11.98
+                  Text: ="Send"
+                  Width: =74
+                  X: =338
+                  Y: =14
+            - DetailTemplateSeparator_2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BorderSoft
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =57
+      - DetailUpcomingPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =208
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =460
+            X: =1940
+            Y: =684
+      - DetailUpcomingHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="UPCOMING"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =430
+            X: =1970
+            Y: =700
+      - DetailUpcomingGallery_2:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 255, 255, 0)
+            Height: =138
+            Items: =FirstN(SortByColumns(Filter('Calendar Events', Start >= Today()), "Start", SortOrder.Ascending), 4)
+            LoadingSpinner: =LoadingSpinner.None
+            TemplateFill: =RGBA(255, 255, 255, 0)
+            TemplatePadding: =4
+            TemplateSize: =34
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =428
+            X: =1972
+            Y: =736
+          Children:
+            - DetailUpcomingTitle_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextPrimary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =11.98
+                  Text: =ThisItem.Title
+                  Width: =280
+                  X: =8
+                  Y: =4
+            - DetailUpcomingDate_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Text(ThisItem.Start, "[$-en-US]m/d")
+                  Width: =100
+                  X: =302
+                  Y: =4
+            - DetailUpcomingSeparator_2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BorderSoft
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =33
+      - RelatedQuotesPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =426
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =590
+            X: =951
+            Y: =874
+      - RelatedQuotesHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="HOME QUOTES"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =550
+            X: =951
+            Y: =932
+      - RelatedQuotesGallery_2:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 255, 255, 0)
+            Height: =354
+            Items: |-
+              =With({q: Filter('Home Quotes', Name = varSelectedLead.Title)}, If(CountRows(q)=0, FirstN('Home Quotes', 6), FirstN(q, 6)))
+            LoadingSpinner: =LoadingSpinner.None
+            TemplateFill: =RGBA(255, 255, 255, 0)
+            TemplatePadding: =6
+            TemplateSize: =58
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =558
+            X: =967
+            Y: =946
+          Children:
+            - RelatedQuoteName_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextPrimary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =11.98
+                  Text: =Coalesce(ThisItem.Name, ThisItem.Title)
+                  Width: =300
+                  X: =8
+                  Y: =4
+            - RelatedQuoteStatus_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Coalesce(ThisItem.Status.Value, "—")
+                  Width: =170
+                  X: =360
+                  Y: =4
+            - RelatedQuoteMeta_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =18
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Coalesce(ThisItem.Source.Value, "—") & "  " & If(IsBlank(ThisItem.Date), "", Text(ThisItem.Date, "[$-en-US]m/d/yy"))
+                  Width: =520
+                  X: =8
+                  Y: =30
+            - RelatedQuoteSeparator_2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BorderSoft
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =57
+      - RecentActivityPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =426
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =590
+            X: =1561
+            Y: =874
+      - RecentActivityHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="RECENT ACTIVITY"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =550
+            X: =1561
+            Y: =932
+      - RecentActivityGallery_2:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 255, 255, 0)
+            Height: =354
+            Items: =If(IsBlank(varSelectedLead), FirstN(SortByColumns(Activities, "EventDate", SortOrder.Descending), 6), FirstN(SortByColumns(Filter(Activities, varSelectedLead.Title in Title), "EventDate", SortOrder.Descending), 6))
+            LoadingSpinner: =LoadingSpinner.None
+            TemplateFill: =RGBA(255, 255, 255, 0)
+            TemplatePadding: =6
+            TemplateSize: =58
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =558
+            X: =1577
+            Y: =946
+          Children:
+            - RecentActivityTitle_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextPrimary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =11.98
+                  Text: =ThisItem.Title
+                  Width: =370
+                  X: =8
+                  Y: =4
+            - RecentActivityDate_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Text(ThisItem.EventDate, "[$-en-US]m/d/yy")
+                  Width: =140
+                  X: =390
+                  Y: =4
+            - RecentActivitySeparator_2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BorderSoft
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =57
+      - QuoteDocumentsPanel_2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =426
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =590
+            X: =1810
+            Y: =874
+      - QuoteDocumentsHeader_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =9.80
+            Text: ="QUOTE DOCUMENTS"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =550
+            X: =1850
+            Y: =932
+      - QuoteDocumentsGallery_2:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 255, 255, 0)
+            Height: =354
+            Items: =FirstN(SortByColumns('Quote Documents', "Modified", SortOrder.Descending), 6)
+            LoadingSpinner: =LoadingSpinner.None
+            TemplateFill: =RGBA(255, 255, 255, 0)
+            TemplatePadding: =6
+            TemplateSize: =58
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =558
+            X: =1842
+            Y: =946
+          Children:
+            - QuoteDocumentTitle_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextPrimary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =11.98
+                  Text: =If(IsBlank(ThisItem.Title), "Quote document", ThisItem.Title)
+                  Width: =370
+                  X: =8
+                  Y: =4
+            - QuoteDocumentDate_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =TextSecondary
+                  DisabledColor: =RGBA(186, 186, 186, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =20
+                  PaddingLeft: =0
+                  PaddingRight: =5.45
+                  PaddingTop: =5.45
+                  Size: =10.88
+                  Text: =Text(ThisItem.Modified, "[$-en-US]m/d/yy")
+                  Width: =140
+                  X: =390
+                  Y: =4
+            - QuoteDocumentSeparator_2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 255, 1)
+                  Fill: =BorderSoft
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  Y: =57
+      - DetailLeadIdKey_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =10.88
+            Text: ="Lead ID"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =110
+            X: =1645
+            Y: =112
+      - DetailLeadIdValue_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="L-" & Text(varSelectedLead.ID, "000000")
+            Visible: =!IsBlank(varSelectedLead)
+            X: =1645
+            Y: =136
+      - DetailOwnerKey_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =10.88
+            Text: ="Owner"
+            Visible: =!IsBlank(varSelectedLead)
+            X: =1845
+            Y: =112
+      - DetailOwnerValue_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: =Coalesce(varSelectedLead.Agent.DisplayName, "Unassigned")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =260
+            X: =1845
+            Y: =136
+      - DetailUpdatedKey_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =18
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =10.88
+            Text: ="Updated"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =120
+            X: =2165
+            Y: =112
+      - DetailUpdatedValue_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            PaddingLeft: =0
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: =Text(varSelectedLead.Modified, "[$-en-US]m/d/yy")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =120
+            X: =2165
+            Y: =136
+      - DetailInfoLOB_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="LOB: " & Coalesce(varSelectedLead.LineOfBusiness.Value, "—")
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =552
+      - DetailInfoRequote_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextPrimary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =22
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: |-
+              ="Requote: " & If(IsBlank(varSelectedLead.RequoteDate), "—", Text(varSelectedLead.RequoteDate, "[$-en-US]m/d/yy"))
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =400
+            X: =1401
+            Y: =588
+      - DashboardDrawerOpenPDFButton_3:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Color: =TextPrimary
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 70%)
+            DisabledColor: =ColorFade(Self.Fill, 90%)
+            DisabledFill: =ColorFade(Self.Fill, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =BrandRed
+            HoverColor: =BrandRed
+            HoverFill: =BrandSoft
+            OnSelect: =Notify("PDF lookup pending Quote Documents data source", NotificationType.Information)
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            PressedBorderColor: =BrandRed
+            PressedColor: =BrandRed
+            PressedFill: =BrandSoft
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Size: =12
+            Text: ="Open PDF"
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =140
+            X: =1311
+            Y: =816
+      - DetailActivityLatest_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =24
+            PaddingLeft: =16
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="Use the actions below to log the next touch. Recent activity is shown underneath."
+            Visible: =!IsBlank(varSelectedLead)
+            Width: =680
+            X: =1300
+            Y: =742
+      - DetailTemplatesEmpty_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =30
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="No templates"
+            Visible: =!IsBlank(varSelectedLead) && CountRows(DetailTemplatesGallery_2.AllItems)=0
+            Width: =428
+            X: =1972
+            Y: =484
+      - DetailUpcomingEmpty_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =30
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="No upcoming events"
+            Visible: =!IsBlank(varSelectedLead) && CountRows(DetailUpcomingGallery_2.AllItems)=0
+            Width: =428
+            X: =1972
+            Y: =790
+      - RelatedQuotesEmpty_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =30
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="No home quotes"
+            Visible: =!IsBlank(varSelectedLead) && CountRows(RelatedQuotesGallery_2.AllItems)=0
+            Width: =558
+            X: =967
+            Y: =1090
+      - RecentActivityEmpty_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =30
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="No recent activity"
+            Visible: =!IsBlank(varSelectedLead) && CountRows(RecentActivityGallery_2.AllItems)=0
+            Width: =558
+            X: =1577
+            Y: =1090
+      - QuoteDocumentsEmpty_2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =TextSecondary
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =30
+            PaddingRight: =5.45
+            PaddingTop: =5.45
+            Size: =11.98
+            Text: ="No quote documents"
+            Visible: =!IsBlank(varSelectedLead) && CountRows(QuoteDocumentsGallery_2.AllItems)=0
+            Width: =558
+            X: =1842
+            Y: =1090

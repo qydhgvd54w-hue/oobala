@@ -1,0 +1,695 @@
+Screens:
+  NewLeadScreen:
+    Properties:
+      Fill: =BgApp
+      LoadingSpinnerColor: =BrandPrimary
+      Width: =App.Width
+      Height: =App.Height
+      OnVisible: |
+        Set(varActiveScreen, "NewLead");
+        Set(varNewLeadSaving, false)
+    Children:
+  
+      # ─────────────────────────────────────────────────────────
+      # SIDEBAR
+      # ─────────────────────────────────────────────────────────
+      - SidebarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            Width: =240
+            Height: =App.Height
+            X: =0
+            Y: =0
+  
+      - SidebarAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =4
+            Height: =App.Height
+            X: =0
+            Y: =0
+  
+      - SidebarBorder:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =1
+            Height: =App.Height
+            X: =239
+            Y: =0
+  
+      - AppLogoCircle:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =36
+            Height: =36
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =20
+            Y: =20
+  
+      - AppLogoText:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextInverse
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+            Width: =36
+            Height: =36
+            X: =20
+            Y: =20
+  
+      - AppTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="AA Agency CRM"
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextPrimary
+            X: =64
+            Y: =24
+  
+      - AppSubtitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Sales Workspace"
+            Size: =10
+            Color: =TextSecondary
+            X: =64
+            Y: =44
+  
+      - NavDivider1:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =200
+            Height: =1
+            X: =20
+            Y: =74
+  
+      - NavDashBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Dashboard"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =TextSecondary
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =88
+            OnSelect: =Navigate(DashboardScreen, ScreenTransition.None)
+  
+      - NavDashIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Home
+            Color: =TextSecondary
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =101
+  
+      - NavLeadsBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  Leads"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =TextSecondary
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =140
+            OnSelect: =Navigate(LeadsListScreen_V3, ScreenTransition.None)
+  
+      - NavLeadsIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.People
+            Color: =TextSecondary
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =153
+  
+      - NavNewLeadBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="  New Lead"
+            Fill: =BrandSoft
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =BrandPrimary
+            FontWeight: =FontWeight.Semibold
+            Align: =Align.Left
+            Width: =210
+            Height: =44
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =16
+            Y: =192
+  
+      - NavNewLeadIcon:
+          Control: Icon@2.5.0
+          Properties:
+            Icon: =Icon.Add
+            Color: =BrandPrimary
+            Width: =18
+            Height: =18
+            X: =28
+            Y: =205
+  
+      - SidebarUserCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgApp
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =200
+            Height: =64
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =20
+            Y: =App.Height - 84
+  
+      - SidebarUserAvatar:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BrandPrimary
+            Width: =36
+            Height: =36
+            RadiusBottomLeft: =18
+            RadiusBottomRight: =18
+            RadiusTopLeft: =18
+            RadiusTopRight: =18
+            X: =32
+            Y: =App.Height - 66
+  
+      - SidebarUserInitial:
+          Control: Label@2.5.1
+          Properties:
+            Text: =Left(User().FullName, 1)
+            Align: =Align.Center
+            VerticalAlign: =VerticalAlign.Middle
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Color: =TextInverse
+            Width: =36
+            Height: =36
+            X: =32
+            Y: =App.Height - 66
+  
+      - SidebarUserName:
+          Control: Label@2.5.1
+          Properties:
+            Text: =User().FullName
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =76
+            Y: =App.Height - 66
+            Width: =130
+  
+      # ─────────────────────────────────────────────────────────
+      # HEADER
+      # ─────────────────────────────────────────────────────────
+      - HeaderBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            Width: =App.Width - 240
+            Height: =72
+            X: =240
+            Y: =0
+  
+      - HeaderBorder:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =App.Width - 240
+            Height: =1
+            X: =240
+            Y: =71
+  
+      - BreadcrumbLeads:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="Leads"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BrandSoft
+            BorderThickness: =0
+            Color: =TextSecondary
+            Size: =13
+            Width: =70
+            Height: =32
+            X: =272
+            Y: =20
+            OnSelect: =Navigate(LeadsListScreen_V3, ScreenTransition.None)
+  
+      - BreadcrumbSep:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="›"
+            Size: =14
+            Color: =TextSecondary
+            X: =340
+            Y: =20
+  
+      - BreadcrumbCurrent:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="New Lead"
+            FontWeight: =FontWeight.Semibold
+            Size: =13
+            Color: =TextPrimary
+            X: =356
+            Y: =20
+  
+      - HeaderPageTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Add New Lead"
+            FontWeight: =FontWeight.Bold
+            Size: =22
+            Color: =TextPrimary
+            X: =272
+            Y: =14
+  
+      - HeaderPageSub:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Fill in the details below to add a new lead to your pipeline"
+            Size: =11
+            Color: =TextSecondary
+            X: =272
+            Y: =44
+  
+      # ─────────────────────────────────────────────────────────
+      # FORM CARD
+      # ─────────────────────────────────────────────────────────
+      - FormCard:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BgCard
+            BorderColor: =BorderSoft
+            BorderThickness: =1
+            Width: =800
+            Height: =App.Height - 180
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            X: =272
+            Y: =92
+  
+      - FormTitle:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Lead Information"
+            FontWeight: =FontWeight.Bold
+            Size: =16
+            Color: =TextPrimary
+            X: =308
+            Y: =112
+  
+      - FormDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =756
+            Height: =1
+            X: =304
+            Y: =140
+  
+      # FULL NAME
+      - FieldNameLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Full Name *"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =308
+            Y: =156
+  
+      - FieldNameInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="e.g. John Smith"
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =360
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =308
+            Y: =174
+  
+      - FieldNameRequired:
+          Control: Label@2.5.1
+          Properties:
+            Visible: =varNewLeadSaving && Len(Trim(FieldNameInput.Text)) = 0
+            Text: ="Name is required"
+            Size: =10
+            Color: =RGBA(185, 28, 28, 1)
+            X: =308
+            Y: =220
+  
+      # PHONE
+      - FieldPhoneLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Phone Number"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =700
+            Y: =156
+  
+      - FieldPhoneInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="e.g. (555) 123-4567"
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =340
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =700
+            Y: =174
+  
+      # EMAIL
+      - FieldEmailLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Email Address"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =308
+            Y: =238
+  
+      - FieldEmailInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="e.g. john@example.com"
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =360
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =308
+            Y: =256
+  
+      # STATUS
+      - FieldStatusLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Initial Status"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =700
+            Y: =238
+  
+      - FieldStatusDD:
+          Control: Dropdown@2.3.1
+          Properties:
+            Items: =["Active","Contacted","Working","Quoted","Negotiating"]
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            Fill: =BgApp
+            Width: =340
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =700
+            Y: =256
+  
+      # RISK ADDRESS
+      - FieldAddrLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Risk Address"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =308
+            Y: =318
+  
+      - FieldAddrInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="Full property address"
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =736
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =308
+            Y: =336
+  
+      # CURRENT PREMIUM
+      - FieldPremiumLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Current Premium ($)"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =308
+            Y: =398
+  
+      - FieldPremiumInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="e.g. 1200.00"
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =360
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =308
+            Y: =416
+  
+      # AGENT
+      - FieldAgentLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Assign Agent"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =700
+            Y: =398
+  
+      - FieldAgentDD:
+          Control: Dropdown@2.3.1
+          Properties:
+            Items: =["Unassigned","Alec Adams","Rachel Cosby"]
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            Fill: =BgApp
+            Width: =340
+            Height: =42
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =700
+            Y: =416
+  
+      # NOTES
+      - FieldNotesLabel:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Initial Notes"
+            Size: =11
+            FontWeight: =FontWeight.Semibold
+            Color: =TextPrimary
+            X: =308
+            Y: =480
+  
+      - FieldNotesInput:
+          Control: TextInput@2.3.2
+          Properties:
+            HintText: ="Any initial details, source of lead, referral info..."
+            BorderThickness: =1
+            BorderColor: =BorderMedium
+            FocusedBorderColor: =BrandPrimary
+            Fill: =BgApp
+            Width: =736
+            Height: =110
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            X: =308
+            Y: =498
+            Mode: =TextMode.MultiLine
+  
+      # FORM DIVIDER
+      - FormActionDivider:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =BorderSoft
+            Width: =756
+            Height: =1
+            X: =304
+            Y: =624
+  
+      # ACTION BUTTONS
+      - FormSaveBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: =If(varNewLeadSaving, "Saving...", "✓ Save Lead")
+            Fill: =If(Len(Trim(FieldNameInput.Text)) = 0, BorderMedium, BrandPrimary)
+            HoverFill: =If(Len(Trim(FieldNameInput.Text)) = 0, BorderMedium, BrandPrimaryDark)
+            PressedFill: =RGBA(125, 11, 25, 1)
+            BorderThickness: =0
+            Color: =TextInverse
+            FontWeight: =FontWeight.Semibold
+            Width: =160
+            Height: =44
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =308
+            Y: =640
+            OnSelect: |
+              Set(varNewLeadSaving, true);
+              If(
+                Len(Trim(FieldNameInput.Text)) = 0,
+                Notify("Please enter a lead name.", NotificationType.Warning, 3000),
+                IfError(
+                  Collect(Leads, {
+                    Title:             Trim(FieldNameInput.Text),
+                    'Phone Number':    FieldPhoneInput.Text,
+                    Email:             FieldEmailInput.Text,
+                    'Risk Address':    FieldAddrInput.Text,
+                    'Current Premiums': Value(FieldPremiumInput.Text),
+                    Notes:             FieldNotesInput.Text,
+                    Status:            {Value: FieldStatusDD.Selected.Value}
+                  });
+                  Notify("✓ Lead created: " & Trim(FieldNameInput.Text), NotificationType.Success, 3500);
+                  Navigate(LeadsListScreen_V3, ScreenTransition.None),
+                  Notify("Error creating lead. Please try again.", NotificationType.Error, 4000)
+                )
+              );
+              Set(varNewLeadSaving, false)
+  
+      - FormSaveAndOpenBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="Save & Open"
+            Fill: =BgCard
+            HoverFill: =BrandSoft
+            BorderColor: =BrandPrimary
+            BorderThickness: =1
+            Color: =BrandPrimary
+            FontWeight: =FontWeight.Semibold
+            Width: =150
+            Height: =44
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            X: =480
+            Y: =640
+            OnSelect: |
+              Set(varNewLeadSaving, true);
+              If(
+                Len(Trim(FieldNameInput.Text)) = 0,
+                Notify("Please enter a lead name.", NotificationType.Warning, 3000),
+                IfError(
+                  Collect(Leads, {
+                    Title:             Trim(FieldNameInput.Text),
+                    'Phone Number':    FieldPhoneInput.Text,
+                    Email:             FieldEmailInput.Text,
+                    'Risk Address':    FieldAddrInput.Text,
+                    'Current Premiums': Value(FieldPremiumInput.Text),
+                    Notes:             FieldNotesInput.Text,
+                    Status:            {Value: FieldStatusDD.Selected.Value}
+                  });
+                  Set(varSelectedLead, LookUp(Leads, Title = Trim(FieldNameInput.Text)));
+                  Set(varDetailTab, "Overview");
+                  Navigate(LeadDetailScreen, ScreenTransition.None),
+                  Notify("Error creating lead. Please try again.", NotificationType.Error, 4000)
+                )
+              );
+              Set(varNewLeadSaving, false)
+  
+      - FormCancelBtn:
+          Control: Button@2.2.0
+          Properties:
+            Text: ="Cancel"
+            Fill: =RGBA(0,0,0,0)
+            HoverFill: =BgApp
+            BorderThickness: =0
+            Color: =TextSecondary
+            Width: =100
+            Height: =44
+            X: =648
+            Y: =640
+            OnSelect: =Navigate(LeadsListScreen_V3, ScreenTransition.None)
+  
+      - FormRequiredNote:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="* Required field"
+            Size: =10
+            Color: =TextSecondary
+            X: =308
+            Y: =692
