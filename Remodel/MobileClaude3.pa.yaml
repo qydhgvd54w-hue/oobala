@@ -7,19 +7,19 @@ Screens:
         =If(IsBlank(varSelectedLeadM3), Set(varSelectedLeadM3, First(Leads)));
         Set(varSourceFilterM3, "All Sources");
         Set(varProducerFilterM3, "All Producers");
-        Set(varStatusFilterM3, "Follow-up");
+        Set(varStatusFilterM3, "Contacted");
         Set(varSearchM3, "");
         ClearCollect(colStatusCardsM3,
-            {Key:"New",         Label:"New",         Count: CountRows(Filter(Leads, Status.Value = "New")),         Tint: RGBA(37, 99, 235, 1),  TintSoft: RGBA(232, 240, 254, 1)},
-            {Key:"In Progress", Label:"In Progress", Count: CountRows(Filter(Leads, Status.Value = "In Progress")), Tint: RGBA(217, 119, 6, 1),  TintSoft: RGBA(254, 243, 199, 1)},
+            {Key:"Active",         Label:"Active",         Count: CountRows(Filter(Leads, Status.Value = "Active")),         Tint: RGBA(37, 99, 235, 1),  TintSoft: RGBA(232, 240, 254, 1)},
+            {Key:"Working", Label:"Working", Count: CountRows(Filter(Leads, Status.Value = "Working")), Tint: RGBA(217, 119, 6, 1),  TintSoft: RGBA(254, 243, 199, 1)},
             {Key:"Quoted",      Label:"Quoted",      Count: CountRows(Filter(Leads, Status.Value = "Quoted")),      Tint: RGBA(22, 163, 74, 1),  TintSoft: RGBA(220, 252, 231, 1)},
             {Key:"Bound",       Label:"Bound",       Count: CountRows(Filter(Leads, Status.Value = "Bound")),       Tint: RGBA(13, 148, 136, 1), TintSoft: RGBA(204, 251, 241, 1)},
             {Key:"Lost",        Label:"Lost",        Count: CountRows(Filter(Leads, Status.Value = "Lost")),        Tint: RGBA(107, 114, 128, 1),TintSoft: RGBA(243, 244, 246, 1)},
-            {Key:"Follow-up",   Label:"Follow-up",   Count: CountRows(Filter(Leads, Status.Value = "Follow-up")),   Tint: BrandRed,              TintSoft: RGBA(254, 226, 226, 1)}
+            {Key:"Contacted",   Label:"Contacted",   Count: CountRows(Filter(Leads, Status.Value = "Contacted")),   Tint: BrandRed,              TintSoft: RGBA(254, 226, 226, 1)}
         );
         ClearCollect(colStagesM3,
-            {Key:"New",         Order: 1, Label:"New"},
-            {Key:"In Progress", Order: 2, Label:"In Progress"},
+            {Key:"Active",         Order: 1, Label:"Active"},
+            {Key:"Working", Order: 2, Label:"Working"},
             {Key:"Quoted",      Order: 3, Label:"Quoted"},
             {Key:"Bound",       Order: 4, Label:"Bound"},
             {Key:"Lost",        Order: 5, Label:"Lost"}
@@ -537,7 +537,7 @@ Screens:
                       (varStatusFilterM3 = "All" || Status.Value = varStatusFilterM3),
                       (varSourceFilterM3 = "All Sources" || Source.Value = varSourceFilterM3),
                       (varProducerFilterM3 = "All Producers" || Agent.DisplayName = varProducerFilterM3),
-                      (IsBlank(varSearchM3) || StartsWith(Lower(Coalesce(FullName, Title, "")), Lower(varSearchM3)))
+                      (IsBlank(varSearchM3) || StartsWith(Lower(Coalesce(Title, "")), Lower(varSearchM3)))
                   ),
                   "Modified", SortOrder.Descending
               )
@@ -578,7 +578,7 @@ Screens:
                   Height: =40
                   PaddingTop: =11
                   Size: =13
-                  Text: =Upper(Left(Coalesce(ThisItem.FullName, ThisItem.Title, "?"), 1) & Mid(Coalesce(ThisItem.FullName, ThisItem.Title, "?") & " ", Find(" ", Coalesce(ThisItem.FullName, ThisItem.Title, "?") & " ") + 1, 1))
+                  Text: =Upper(Left(Coalesce(ThisItem.Title, "?"), 1) & Mid(Coalesce(ThisItem.Title, "?") & " ", Find(" ", Coalesce(ThisItem.Title, "?") & " ") + 1, 1))
                   Width: =40
                   X: =24
                   Y: =20
@@ -591,7 +591,7 @@ Screens:
                   Height: =20
                   PaddingLeft: =4
                   Size: =12
-                  Text: =Coalesce(ThisItem.FullName, ThisItem.Title, "Unnamed")
+                  Text: =Coalesce(ThisItem.Title, "Unnamed")
                   Width: =160
                   X: =72
                   Y: =14
@@ -603,7 +603,7 @@ Screens:
                   Height: =18
                   PaddingLeft: =4
                   Size: =11
-                  Text: =Coalesce(ThisItem.LineOfBusiness.Value, ThisItem.Products, "—")
+                  Text: =Coalesce(Concat(ThisItem.Products, Value, ", "), ThisItem.Occupancy.Value, "—")
                   Width: =140
                   X: =72
                   Y: =34
@@ -629,7 +629,7 @@ Screens:
                   Height: =20
                   PaddingRight: =16
                   Size: =12
-                  Text: =If(IsBlank(ThisItem.QuotedPremium), "—", "$" & Text(ThisItem.QuotedPremium, "[$-en-US]#,###"))
+                  Text: =Coalesce(ThisItem.CurrentPremiums, "—")
                   Width: =110
                   X: =240
                   Y: =14
@@ -639,10 +639,10 @@ Screens:
                   BorderColor: =RGBA(0, 0, 0, 0)
                   Fill: |
                     =Switch(ThisItem.Status.Value,
-                        "New",         RGBA(232, 240, 254, 1),
-                        "In Progress", RGBA(254, 243, 199, 1),
+                        "Active",         RGBA(232, 240, 254, 1),
+                        "Working", RGBA(254, 243, 199, 1),
                         "Quoted",      RGBA(220, 252, 231, 1),
-                        "Follow-up",   RGBA(254, 226, 226, 1),
+                        "Contacted",   RGBA(254, 226, 226, 1),
                         "Bound",       RGBA(204, 251, 241, 1),
                         "Lost",        RGBA(243, 244, 246, 1),
                         RGBA(243, 244, 246, 1)
@@ -657,10 +657,10 @@ Screens:
                   Align: =Align.Center
                   Color: |
                     =Switch(ThisItem.Status.Value,
-                        "New",         RGBA(37, 99, 235, 1),
-                        "In Progress", RGBA(180, 95, 0, 1),
+                        "Active",         RGBA(37, 99, 235, 1),
+                        "Working", RGBA(180, 95, 0, 1),
                         "Quoted",      RGBA(22, 163, 74, 1),
-                        "Follow-up",   BrandRed,
+                        "Contacted",   BrandRed,
                         "Bound",       RGBA(13, 148, 136, 1),
                         "Lost",        RGBA(107, 114, 128, 1),
                         TextSecondary
@@ -683,7 +683,7 @@ Screens:
                   Height: =18
                   PaddingRight: =16
                   Size: =10
-                  Text: =If(IsBlank(ThisItem.Created), "—", Text(ThisItem.Created, "[$-en-US]m/d/yyyy"))
+                  Text: =If(IsBlank(ThisItem.QuoteDate), "—", Text(ThisItem.QuoteDate, "[$-en-US]m/d/yyyy"))
                   Width: =100
                   X: =250
                   Y: =56
@@ -738,7 +738,7 @@ Screens:
             Height: =56
             PaddingTop: =17
             Size: =16
-            Text: =Upper(Left(Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "?"), 1) & Mid(Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "?") & " ", Find(" ", Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "?") & " ") + 1, 1))
+            Text: =Upper(Left(Coalesce(varSelectedLeadM3.Title, "?"), 1) & Mid(Coalesce(varSelectedLeadM3.Title, "?") & " ", Find(" ", Coalesce(varSelectedLeadM3.Title, "?") & " ") + 1, 1))
             Width: =56
             X: =534
             Y: =102
@@ -751,7 +751,7 @@ Screens:
             Height: =34
             PaddingLeft: =12
             Size: =22
-            Text: =Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "Select a lead")
+            Text: =Coalesce(varSelectedLeadM3.Title, "Select a lead")
             Width: =320
             X: =600
             Y: =100
@@ -761,8 +761,6 @@ Screens:
             Color: =TextSecondary
             Height: =18
             Icon: =Icon.Star
-            OnSelect: |-
-              =Patch(Leads, varSelectedLeadM3, {Pinned: !varSelectedLeadM3.Pinned})
             Width: =18
             X: =920
             Y: =108
@@ -784,7 +782,7 @@ Screens:
             Height: =20
             PaddingLeft: =4
             Size: =12
-            Text: =Coalesce(varSelectedLeadM3.Phone, "—")
+            Text: =Coalesce(varSelectedLeadM3.'Phone Number', "—")
             Width: =140
             X: =628
             Y: =138
@@ -826,7 +824,7 @@ Screens:
             Height: =20
             PaddingLeft: =4
             Size: =12
-            Text: =Coalesce(varSelectedLeadM3.City & ", " & varSelectedLeadM3.State, varSelectedLeadM3.MailingAddress, "—")
+            Text: =Coalesce(varSelectedLeadM3.City & ", " & varSelectedLeadM3.State, varSelectedLeadM3.'Risk Address', "—")
             Width: =180
             X: =1024
             Y: =138
@@ -1036,7 +1034,7 @@ Screens:
             Height: =40
             PaddingTop: =10
             Size: =11
-            Text: =Text(CountRows(Filter(Quotes, LeadID = varSelectedLeadM3.ID)))
+            Text: =Text(CountRows(Filter('Home Quotes', Phone = varSelectedLeadM3.'Phone Number')))
             Width: =24
             X: =666
             Y: =282
@@ -1088,7 +1086,7 @@ Screens:
             Height: =40
             PaddingTop: =10
             Size: =11
-            Text: =Text(CountRows(Filter(LeadNotes, LeadID = varSelectedLeadM3.ID)))
+            Text: =If(IsBlank(varSelectedLeadM3.Notes), "0", "1")
             Width: =20
             X: =822
             Y: =282
@@ -1185,7 +1183,7 @@ Screens:
             Height: =18
             PaddingRight: =16
             Size: =11
-            Text: =Coalesce(varSelectedLeadM3.FullName, varSelectedLeadM3.Title, "—")
+            Text: =Coalesce(varSelectedLeadM3.Title, "—")
             Width: =160
             X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) - 176
             Y: =384
@@ -1211,7 +1209,7 @@ Screens:
             Height: =18
             PaddingRight: =16
             Size: =11
-            Text: =Coalesce(varSelectedLeadM3.Phone, "—")
+            Text: =Coalesce(varSelectedLeadM3.'Phone Number', "—")
             Width: =160
             X: =516 + ((Parent.Width - 500 - 128 - 64) / 3) - 176
             Y: =410
@@ -1333,7 +1331,7 @@ Screens:
             Height: =36
             PaddingRight: =16
             Size: =11
-            Text: =Coalesce(varSelectedLeadM3.MailingAddress, varSelectedLeadM3.City & ", " & varSelectedLeadM3.State & " " & varSelectedLeadM3.Zip, "—")
+            Text: =Coalesce(varSelectedLeadM3.'Risk Address', varSelectedLeadM3.City & ", " & varSelectedLeadM3.State & " " & varSelectedLeadM3.PostalCode, "—")
             Width: =180
             X: =516 + 2*((Parent.Width - 500 - 128 - 64) / 3) - 180
             Y: =384
@@ -1411,7 +1409,7 @@ Screens:
             Height: =18
             PaddingRight: =16
             Size: =11
-            Text: =Coalesce(varSelectedLeadM3.CurrentCarrier, "—")
+            Text: =Coalesce(varSelectedLeadM3.CurrentCarriers, "—")
             Width: =160
             X: =516 + 2*((Parent.Width - 500 - 128 - 64) / 3) - 176
             Y: =484
@@ -1557,10 +1555,10 @@ Screens:
             BorderColor: =RGBA(0, 0, 0, 0)
             Fill: |
               =Switch(varSelectedLeadM3.Status.Value,
-                  "New",         RGBA(232, 240, 254, 1),
-                  "In Progress", RGBA(254, 243, 199, 1),
+                  "Active",         RGBA(232, 240, 254, 1),
+                  "Working", RGBA(254, 243, 199, 1),
                   "Quoted",      RGBA(220, 252, 231, 1),
-                  "Follow-up",   RGBA(254, 226, 226, 1),
+                  "Contacted",   RGBA(254, 226, 226, 1),
                   "Bound",       RGBA(204, 251, 241, 1),
                   "Lost",        RGBA(243, 244, 246, 1),
                   RGBA(243, 244, 246, 1)
@@ -1575,10 +1573,10 @@ Screens:
             Align: =Align.Center
             Color: |
               =Switch(varSelectedLeadM3.Status.Value,
-                  "New",         RGBA(37, 99, 235, 1),
-                  "In Progress", RGBA(180, 95, 0, 1),
+                  "Active",         RGBA(37, 99, 235, 1),
+                  "Working", RGBA(180, 95, 0, 1),
                   "Quoted",      RGBA(22, 163, 74, 1),
-                  "Follow-up",   BrandRed,
+                  "Contacted",   BrandRed,
                   "Bound",       RGBA(13, 148, 136, 1),
                   "Lost",        RGBA(107, 114, 128, 1),
                   TextSecondary
@@ -1614,7 +1612,7 @@ Screens:
             Height: =18
             PaddingRight: =16
             Size: =11
-            Text: =If(IsBlank(varSelectedLeadM3.QuotedPremium), "—", "$" & Text(varSelectedLeadM3.QuotedPremium, "[$-en-US]#,###"))
+            Text: =Coalesce(varSelectedLeadM3.CurrentPremiums, "—")
             Width: =120
             X: =516 + 3*((Parent.Width - 500 - 128 - 64) / 3) + 32 - 136
             Y: =494
@@ -1671,7 +1669,7 @@ Screens:
             Height: =20
             PaddingLeft: =16
             Size: =12
-            Text: =Coalesce(varSelectedLeadM3.LineOfBusiness.Value, "—")
+            Text: =Coalesce(Concat(varSelectedLeadM3.Products, Value, ", "), "—")
             Width: =180
             X: =516
             Y: =620
@@ -1694,7 +1692,7 @@ Screens:
             FontWeight: =FontWeight.Semibold
             Height: =20
             Size: =12
-            Text: =Coalesce(varSelectedLeadM3.Products, "—")
+            Text: =Coalesce(Concat(varSelectedLeadM3.Products, Value, ", "), "—")
             Width: =180
             X: =660
             Y: =620
@@ -1717,7 +1715,7 @@ Screens:
             FontWeight: =FontWeight.Semibold
             Height: =20
             Size: =12
-            Text: =Coalesce(varSelectedLeadM3.SourceDetail, "—")
+            Text: =Coalesce(Concat(varSelectedLeadM3.SourceDetail, Value, ", "), "—")
             Width: =180
             X: =820
             Y: =620
@@ -1740,7 +1738,7 @@ Screens:
             FontWeight: =FontWeight.Semibold
             Height: =20
             Size: =12
-            Text: =Coalesce(varSelectedLeadM3.CurrentCarrier, "—")
+            Text: =Coalesce(varSelectedLeadM3.CurrentCarriers, "—")
             Width: =180
             X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
             Y: =620
@@ -1787,7 +1785,7 @@ Screens:
             FontWeight: =FontWeight.Semibold
             Height: =20
             Size: =12
-            Text: =If(IsBlank(varSelectedLeadM3.FollowUpDate), "—", Text(varSelectedLeadM3.FollowUpDate, "[$-en-US]m/d/yyyy"))
+            Text: =If(IsBlank(varSelectedLeadM3.Date), "—", Text(varSelectedLeadM3.Date, "[$-en-US]m/d/yyyy"))
             Width: =180
             X: =516 + 2*(((Parent.Width - 500 - 128 - 64) / 3) + 16)
             Y: =680
@@ -1826,7 +1824,7 @@ Screens:
             PaddingLeft: =20
             PaddingTop: =6
             Size: =14
-            Text: ="Quotes (" & Text(CountRows(Filter(Quotes, LeadID = varSelectedLeadM3.ID))) & ")"
+            Text: ="Quotes (" & Text(CountRows(Filter('Home Quotes', Phone = varSelectedLeadM3.'Phone Number'))) & ")"
             Width: =200
             X: =516
             Y: =752
@@ -1937,7 +1935,7 @@ Screens:
             BorderColor: =RGBA(0, 0, 0, 0)
             Fill: =Color.Transparent
             Height: =160
-            Items: =SortByColumns(Filter(Quotes, LeadID = varSelectedLeadM3.ID), "Created", SortOrder.Descending)
+            Items: =SortByColumns(Filter('Home Quotes', Phone = varSelectedLeadM3.'Phone Number'), "QuoteDate", SortOrder.Descending)
             ShowScrollbar: =true
             TemplatePadding: =0
             TemplateSize: =42
@@ -1954,7 +1952,7 @@ Screens:
                   Height: =40
                   PaddingTop: =12
                   Size: =11
-                  Text: =Coalesce(ThisItem.QuoteNumber, "Q-000000")
+                  Text: =Coalesce(ThisItem.Title, "—")
                   Width: =100
                   X: =0
                   Y: =0
@@ -1966,7 +1964,7 @@ Screens:
                   Height: =40
                   PaddingTop: =12
                   Size: =11
-                  Text: =Coalesce(ThisItem.Carrier, "—")
+                  Text: =Coalesce(ThisItem.Agent.DisplayName, "—")
                   Width: =70
                   X: =112
                   Y: =0
@@ -1978,7 +1976,7 @@ Screens:
                   Height: =40
                   PaddingTop: =12
                   Size: =11
-                  Text: =Coalesce(ThisItem.Product, "—")
+                  Text: =Coalesce(ThisItem.Occupancy.Value, "—")
                   Width: =50
                   X: =182
                   Y: =0
@@ -1992,7 +1990,7 @@ Screens:
                   Height: =40
                   PaddingTop: =12
                   Size: =11
-                  Text: =If(IsBlank(ThisItem.Premium), "—", "$" & Text(ThisItem.Premium, "[$-en-US]#,###"))
+                  Text: =Coalesce(ThisItem.AccountNumber, "—")
                   Width: =70
                   X: =238
                   Y: =0
@@ -2001,7 +1999,7 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(0, 0, 0, 0)
                   Fill: |
-                    =Switch(ThisItem.QuoteStatus,
+                    =Switch(ThisItem.NewPurchase.Value,
                         "Pending",  RGBA(254, 243, 199, 1),
                         "Sent",     RGBA(232, 240, 254, 1),
                         "Declined", RGBA(254, 226, 226, 1),
@@ -2017,7 +2015,7 @@ Screens:
                 Properties:
                   Align: =Align.Center
                   Color: |
-                    =Switch(ThisItem.QuoteStatus,
+                    =Switch(ThisItem.NewPurchase.Value,
                         "Pending",  RGBA(180, 95, 0, 1),
                         "Sent",     RGBA(37, 99, 235, 1),
                         "Declined", BrandRed,
@@ -2029,7 +2027,7 @@ Screens:
                   Height: =22
                   PaddingTop: =4
                   Size: =9
-                  Text: =Coalesce(ThisItem.QuoteStatus, "—")
+                  Text: =Coalesce(ThisItem.NewPurchase.Value, "—")
                   Width: =72
                   X: =316
                   Y: =10
@@ -2108,7 +2106,7 @@ Screens:
             BorderColor: =RGBA(0, 0, 0, 0)
             Fill: =Color.Transparent
             Height: =188
-            Items: =SortByColumns(Filter(AuditLog, Lead.Id = varSelectedLeadM3.ID), "Timestamp", SortOrder.Descending)
+            Items: =SortByColumns(Filter(Activities, Lead.Id = varSelectedLeadM3.ID), "Timestamp", SortOrder.Descending)
             ShowScrollbar: =true
             TemplatePadding: =0
             TemplateSize: =60
@@ -2131,11 +2129,12 @@ Screens:
                   Color: =BrandRed
                   Height: =16
                   Icon: |
-                    =Switch(ThisItem.What.Value,
-                        "Reassign",     Icon.PersonAccount,
-                        "StatusChange", Icon.Reload,
-                        "EditBound",    Icon.Edit,
-                        "LostReason",   Icon.Cancel,
+                    =Switch(ThisItem.ActivityType.Value,
+                        "Call",   Icon.Phone,
+                        "Email",  Icon.Mail,
+                        "Text",   Icon.Message,
+                        "Meeting",Icon.CalendarBlank,
+                        "Note",   Icon.Edit,
                         Icon.Information
                     )
                   Width: =16
@@ -2150,7 +2149,7 @@ Screens:
                   Height: =20
                   PaddingLeft: =6
                   Size: =11
-                  Text: =Coalesce(ThisItem.Summary, ThisItem.What.Value, "Activity")
+                  Text: =Coalesce(ThisItem.ActivityType.Value, ThisItem.Title, "Activity")
                   Width: =Parent.Width - 160
                   X: =40
                   Y: =6
@@ -2162,7 +2161,7 @@ Screens:
                   Height: =18
                   PaddingLeft: =6
                   Size: =10
-                  Text: ="from " & Coalesce(ThisItem.OldValue, "—") & " → " & Coalesce(ThisItem.NewValue, "—")
+                  Text: =Coalesce(ThisItem.ActivityNotes, ThisItem.Outcome, "")
                   Width: =Parent.Width - 160
                   X: =40
                   Y: =26
@@ -2174,7 +2173,7 @@ Screens:
                   Font: =Font.'Open Sans'
                   Height: =20
                   Size: =10
-                  Text: =If(IsBlank(ThisItem.Timestamp), "", Text(ThisItem.Timestamp, "[$-en-US]m/d/yyyy h:mm AM/PM"))
+                  Text: =If(IsBlank(ThisItem.EventDate), "", Text(ThisItem.EventDate, "[$-en-US]m/d/yyyy h:mm AM/PM"))
                   Width: =110
                   X: =Parent.Width - 116
                   Y: =6
@@ -2186,7 +2185,7 @@ Screens:
                   Font: =Font.'Open Sans'
                   Height: =18
                   Size: =10
-                  Text: =Coalesce(ThisItem.Who.DisplayName, "System")
+                  Text: =Coalesce(ThisItem.Agent.DisplayName, "System")
                   Width: =110
                   X: =Parent.Width - 116
                   Y: =26
@@ -2240,9 +2239,9 @@ Screens:
                   HoverFill: =RGBA(249, 250, 251, 1)
                   OnSelect: |-
                     =Switch(ThisItem.Key,
-                        "call",   Notify("Calling " & varSelectedLeadM3.Phone, NotificationType.Information),
+                        "call",   Notify("Calling " & varSelectedLeadM3.'Phone Number', NotificationType.Information),
                         "email",  Notify("Composing email to " & varSelectedLeadM3.Email, NotificationType.Information),
-                        "text",   Notify("Texting " & varSelectedLeadM3.Phone, NotificationType.Information),
+                        "text",   Notify("Texting " & varSelectedLeadM3.'Phone Number', NotificationType.Information),
                         "note",   Notify("Add note coming soon", NotificationType.Information),
                         "task",   Notify("Create task coming soon", NotificationType.Information),
                         "upload", Notify("Upload file coming soon", NotificationType.Information),
