@@ -1,0 +1,973 @@
+Screens:
+  DashboardScreen_M4:
+    Properties:
+      Fill: =RGBA(249, 250, 251, 1)
+      LoadingSpinnerColor: =RGBA(37, 99, 235, 1)
+      OnVisible: |-
+        =If(IsBlank(varStatusFilterM4), Set(varStatusFilterM4, "All"));
+        If(IsBlank(varSearchM4), Set(varSearchM4, ""));
+        If(IsBlank(varViewModeM4), Set(varViewModeM4, "table"));
+        If(IsBlank(varSelectedLeadM4), Set(varSelectedLeadM4, First(Leads)));
+        ClearCollect(colKpiM4,
+            {ID: 1, Icon: Icon.People,          Label: "Total Leads",   Value: CountRows(Leads),                                                IconBg: RGBA(232, 240, 254, 1), IconFg: RGBA(37, 99, 235, 1),  Delta: 12,  DeltaLabel: "vs last 7 days"},
+            {ID: 2, Icon: Icon.Reload,          Label: "Working",       Value: CountRows(Filter(Leads, Status.Value = "Working")),              IconBg: RGBA(254, 243, 199, 1), IconFg: RGBA(217, 119, 6, 1),  Delta: -4,  DeltaLabel: "vs last 7 days"},
+            {ID: 3, Icon: Icon.DocumentPDF,     Label: "Quoted",        Value: CountRows(Filter(Leads, Status.Value = "Quoted")),               IconBg: RGBA(220, 252, 231, 1), IconFg: RGBA(22, 163, 74, 1),  Delta: 8,   DeltaLabel: "vs last 7 days"},
+            {ID: 4, Icon: Icon.CheckBadge,      Label: "Bound MTD",     Value: CountRows(Filter(Leads, Status.Value = "Bound")),                IconBg: RGBA(204, 251, 241, 1), IconFg: RGBA(13, 148, 136, 1), Delta: 23,  DeltaLabel: "vs last month"}
+        );
+        ClearCollect(colStatusChipsM4,
+            {id: "1", label: "Active",      selected: false, tint: RGBA(232, 240, 254, 1), text: RGBA(37, 99, 235, 1)},
+            {id: "2", label: "Working",     selected: false, tint: RGBA(254, 243, 199, 1), text: RGBA(180, 95, 0, 1)},
+            {id: "3", label: "Quoted",      selected: false, tint: RGBA(220, 252, 231, 1), text: RGBA(22, 163, 74, 1)},
+            {id: "4", label: "Contacted",   selected: false, tint: RGBA(237, 233, 254, 1), text: RGBA(124, 58, 237, 1)},
+            {id: "5", label: "Negotiating", selected: false, tint: RGBA(224, 231, 255, 1), text: RGBA(67, 56, 202, 1)},
+            {id: "6", label: "Bound",       selected: false, tint: RGBA(204, 251, 241, 1), text: RGBA(13, 148, 136, 1)},
+            {id: "7", label: "Lost",        selected: false, tint: RGBA(243, 244, 246, 1), text: RGBA(107, 114, 128, 1)}
+        );
+        ClearCollect(colNavM4,
+            {ID: 1, Title: "Dashboard",  Icon: Icon.Home,         Active: true,  Badge: 0},
+            {ID: 2, Title: "Leads",      Icon: Icon.People,       Active: false, Badge: CountRows(Filter(Leads, Status.Value = "Working"))},
+            {ID: 3, Title: "Activities", Icon: Icon.CheckBadge,   Active: false, Badge: 0},
+            {ID: 4, Title: "Calendar",   Icon: Icon.CalendarBlank,Active: false, Badge: 0},
+            {ID: 5, Title: "Templates",  Icon: Icon.Mail,         Active: false, Badge: 0},
+            {ID: 6, Title: "Reports",    Icon: Icon.Trending,     Active: false, Badge: 0},
+            {ID: 7, Title: "Settings",   Icon: Icon.Settings,     Active: false, Badge: 0}
+        )
+    Children:
+      - cntRoot_M4:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(249, 250, 251, 1)
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            PaddingLeft: =If(App.Width >= 1024, cntLeftNavHost_M4.Width, 0)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - cntMiddle_M4:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  Width: =Parent.Width
+                Children:
+                  - cntRightStack_M4:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                      Children:
+                        - conAppBar_M4:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(229, 231, 235, 1)
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: =DropShadow.None
+                              Fill: =If(App.Width < 640, Color.Transparent, RGBA(255, 255, 255, 1))
+                              FillPortions: =0
+                              Height: =If(App.Width < 640, 56, 72)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =If(App.Width < 640, 8, 12)
+                              LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                              PaddingLeft: =If(App.Width < 640, 12, 24)
+                              PaddingRight: =If(App.Width < 640, 12, 24)
+                            Children:
+                              - conTitleGroup_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderStyle: =BorderStyle.None
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =2.5
+                                    Height: =Parent.Height
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =0
+                                    LayoutMinWidth: =0
+                                  Children:
+                                    - lblBreadcrumb_M4:
+                                        Control: Text@0.0.51
+                                        Properties:
+                                          FillPortions: =0
+                                          FontColor: =RGBA(100, 116, 139, 1)
+                                          PaddingLeft: =0
+                                          Size: =12
+                                          Text: ="Adams Cosby  ›  Dashboard"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Weight: ='TextCanvas.Weight'.Semibold
+                                          Width: =Parent.Width
+                                          Wrap: =false
+                              - cntBadgeWrap_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =Color.Transparent
+                                    FillPortions: =0
+                                    Height: =45
+                                    Width: =45
+                                  Children:
+                                    - icoBadgeBell_M4:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(75, 85, 99, 1)
+                                          Height: =22
+                                          Icon: =Icon.Bell
+                                          Width: =22
+                                          X: =11
+                                          Y: =11
+                                    - rctBadgeDot_M4:
+                                        Control: Rectangle@2.3.0
+                                        Properties:
+                                          BorderColor: =RGBA(255, 255, 255, 1)
+                                          BorderThickness: =2
+                                          Fill: =RGBA(220, 38, 38, 1)
+                                          Height: =18
+                                          RadiusBottomLeft: =99
+                                          RadiusBottomRight: =99
+                                          RadiusTopLeft: =99
+                                          RadiusTopRight: =99
+                                          Width: =18
+                                          X: =25
+                                          Y: =6
+                                    - lblBadgeCount_M4:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =18
+                                          PaddingTop: =2
+                                          Size: =9
+                                          Text: ="3"
+                                          Width: =18
+                                          X: =25
+                                          Y: =6
+                              - cntUserAvatar_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: ManualLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    DropShadow: =DropShadow.None
+                                    Fill: =BrandRed
+                                    FillPortions: =0
+                                    Height: =45
+                                    RadiusBottomLeft: =99
+                                    RadiusBottomRight: =99
+                                    RadiusTopLeft: =99
+                                    RadiusTopRight: =99
+                                    Width: =45
+                                  Children:
+                                    - lblUserInitials_M4:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =34
+                                          Size: =11
+                                          Text: =Upper(Left(User().FullName, 1) & Mid(User().FullName & " ", Find(" ", User().FullName & " ") + 1, 1))
+                                          Width: =34
+                                          X: =6
+                                          Y: =6
+                        - rctAppBarDivider_M4:
+                            Control: Rectangle@2.3.0
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              BorderStyle: =BorderStyle.None
+                              Fill: =RGBA(229, 231, 235, 1)
+                              Height: =1
+                              Width: =Parent.Width - If(App.Width < 640, 12, 24)
+                        - cntPageGutter_M4:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: =DropShadow.None
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =If(App.Width >= 1024, 16, 8)
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              PaddingBottom: =If(App.Width < 640, 12, 24)
+                              PaddingLeft: =If(App.Width < 640, 12, 24)
+                              PaddingRight: =If(App.Width < 640, 12, 24)
+                              PaddingTop: =If(App.Width < 640, 12, 24)
+                              Width: =Parent.Width
+                            Children:
+                              - cntTitleRow_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =100
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutMinHeight: =96
+                                    Width: =Min(Parent.Width - If(App.Width < 640, 24, 48), 1200)
+                                  Children:
+                                    - cntTitleStack_M4:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =1
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          PaddingBottom: =4
+                                          PaddingLeft: =8
+                                          PaddingRight: =8
+                                          PaddingTop: =4
+                                        Children:
+                                          - lblTitle_M4:
+                                              Control: ModernText@1.0.0
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AutoHeight: =true
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                FontWeight: =FontWeight.Bold
+                                                Size: =22
+                                                Text: ="Dashboard"
+                                          - lblSubtitle_M4:
+                                              Control: ModernText@1.0.0
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AutoHeight: =true
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                Size: =14
+                                                Text: ="Welcome back, " & First(Split(User().FullName, " ")).Result & ". Here's what's happening with your leads."
+                                    - btnNewLead_M4:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          Height: =40
+                                          Icon: ="Add"
+                                          OnSelect: =Notify("New Lead screen coming soon", NotificationType.Information)
+                                          Text: ="New Lead"
+                                          Visible: =App.Width >= 1024
+                                          Width: =140
+                              - cntKpiSection_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    BorderColor: =RGBA(229, 231, 235, 1)
+                                    BorderStyle: =BorderStyle.None
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =gallKpi_M4.Height
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutMinHeight: =0
+                                    Width: =Min(Parent.Width - If(App.Width < 640, 24, 48), 1200)
+                                  Children:
+                                    - gallKpi_M4:
+                                        Control: Gallery@2.15.0
+                                        Variant: Horizontal
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          BorderColor: =RGBA(0, 0, 0, 0)
+                                          Fill: =Color.Transparent
+                                          Height: =If(App.Width < 640, 200, 190)
+                                          Items: =colKpiM4
+                                          ShowScrollbar: =false
+                                          TemplatePadding: =8
+                                          TemplateSize: |-
+                                            =With({ cols: If(App.Width < 640, 2, If(App.Width < 1024, 2, 4)) },
+                                                (Parent.Width - 16) / cols)
+                                          Width: =Parent.Width
+                                        Children:
+                                          - kpiCardBg_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =RGBA(229, 231, 235, 1)
+                                                BorderThickness: =1
+                                                Fill: =RGBA(255, 255, 255, 1)
+                                                Height: =Parent.TemplateHeight - 16
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Width: =Parent.TemplateWidth - 8
+                                                X: =0
+                                                Y: =0
+                                          - kpiIconBg_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =RGBA(0, 0, 0, 0)
+                                                Fill: =ThisItem.IconBg
+                                                Height: =48
+                                                RadiusBottomLeft: =10
+                                                RadiusBottomRight: =10
+                                                RadiusTopLeft: =10
+                                                RadiusTopRight: =10
+                                                Width: =48
+                                                X: =20
+                                                Y: =20
+                                          - kpiIcon_M4:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                Color: =ThisItem.IconFg
+                                                Height: =24
+                                                Icon: =ThisItem.Icon
+                                                Width: =24
+                                                X: =32
+                                                Y: =32
+                                          - kpiLabel_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Font: =Font.'Segoe UI'
+                                                Height: =20
+                                                PaddingLeft: =0
+                                                Size: =11
+                                                Text: =ThisItem.Label
+                                                Width: =Parent.TemplateWidth - 100
+                                                X: =84
+                                                Y: =20
+                                          - kpiValue_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Bold
+                                                Height: =40
+                                                Size: =28
+                                                Text: =Text(ThisItem.Value)
+                                                Width: =Parent.TemplateWidth - 100
+                                                X: =84
+                                                Y: =40
+                                          - kpiDeltaIcon_M4:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                Color: =If(ThisItem.Delta >= 0, RGBA(34, 197, 94, 1), RGBA(239, 68, 68, 1))
+                                                Height: =14
+                                                Icon: =If(ThisItem.Delta >= 0, Icon.Up, Icon.Down)
+                                                Width: =14
+                                                X: =20
+                                                Y: =Parent.TemplateHeight - 44
+                                          - kpiDelta_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =If(ThisItem.Delta >= 0, RGBA(34, 197, 94, 1), RGBA(239, 68, 68, 1))
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =18
+                                                Size: =11
+                                                Text: =Text(Abs(ThisItem.Delta)) & "%   " & ThisItem.DeltaLabel
+                                                Width: =Parent.TemplateWidth - 60
+                                                X: =40
+                                                Y: =Parent.TemplateHeight - 46
+                              - cntSectionHeader_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =45
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    PaddingBottom: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =8
+                                    Width: =Min(Parent.Width - If(App.Width < 640, 24, 48), 1200)
+                                  Children:
+                                    - lblSectionTitle_M4:
+                                        Control: Text@0.0.51
+                                        Properties:
+                                          FillPortions: =1
+                                          FontColor: =RGBA(17, 24, 39, 1)
+                                          PaddingLeft: =0
+                                          Size: =18
+                                          Text: ="Leads"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Weight: ='TextCanvas.Weight'.Bold
+                                          Width: =Parent.Width
+                                          Wrap: =false
+                                    - btnSectionViewAll_M4:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Subtle
+                                          FontColor: =RGBA(200, 16, 46, 1)
+                                          Icon: ="ArrowRight"
+                                          Layout: ='ButtonCanvas.Layout'.IconAfter
+                                          OnSelect: =Navigate(LeadsListScreen_3, ScreenTransition.None)
+                                          Text: ="View All "
+                                          Width: =120
+                              - conToolbar_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =60
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingBottom: =8
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =8
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Width: =Min(Parent.Width - If(App.Width < 640, 24, 48), 1200)
+                                  Children:
+                                    - txtSearchM4:
+                                        Control: TextInput@0.0.54
+                                        Properties:
+                                          Fill: =RGBA(243, 244, 246, 1)
+                                          FillPortions: =1
+                                          FontColor: =RGBA(17, 24, 39, 1)
+                                          FontSize: =14
+                                          OnChange: =Set(varSearchM4, Self.Value)
+                                          Placeholder: ="Search by name, phone, email, or producer..."
+                                          TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                                          Type: ='TextInputCanvas.Type'.Search
+                                    - gallStatusChipsM4:
+                                        Control: Gallery@2.15.0
+                                        Variant: Horizontal
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderColor: =RGBA(0, 0, 0, 0)
+                                          Fill: =Color.Transparent
+                                          FillPortions: =0
+                                          Height: =40
+                                          Items: =colStatusChipsM4
+                                          ShowScrollbar: =false
+                                          TemplatePadding: =4
+                                          TemplateSize: =108
+                                          Visible: =App.Width >= 1024
+                                          Width: =If(App.Width < 1024, 0, 7 * 116 + 8)
+                                        Children:
+                                          - chipBg_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =If(ThisItem.selected, ThisItem.text, RGBA(229, 231, 235, 1))
+                                                BorderThickness: =1
+                                                Fill: =If(ThisItem.selected, ThisItem.tint, RGBA(255, 255, 255, 1))
+                                                Height: =32
+                                                OnSelect: |-
+                                                  =UpdateIf(colStatusChipsM4, id = ThisItem.id, {selected: !selected})
+                                                RadiusBottomLeft: =99
+                                                RadiusBottomRight: =99
+                                                RadiusTopLeft: =99
+                                                RadiusTopRight: =99
+                                                Width: =100
+                                                X: =4
+                                                Y: =4
+                                          - chipLbl_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                Color: =If(ThisItem.selected, ThisItem.text, RGBA(75, 85, 99, 1))
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =32
+                                                OnSelect: |-
+                                                  =UpdateIf(colStatusChipsM4, id = ThisItem.id, {selected: !selected})
+                                                PaddingTop: =8
+                                                Size: =11
+                                                Text: =ThisItem.label
+                                                Width: =100
+                                                X: =4
+                                                Y: =4
+                              - conLeadsCard_M4:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    BorderColor: =RGBA(229, 231, 235, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutMinHeight: =320
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Width: =Min(Parent.Width - If(App.Width < 640, 24, 48), 1200)
+                                  Children:
+                                    - cntLeadsHeader_M4:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderStyle: =BorderStyle.None
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(249, 250, 251, 1)
+                                          FillPortions: =0
+                                          Height: =50
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          PaddingLeft: =20
+                                          PaddingRight: =20
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                        Children:
+                                          - lblColName_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                FillPortions: =3
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =50
+                                                PaddingTop: =18
+                                                Size: =11
+                                                Text: ="NAME"
+                                          - lblColStatus_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                FillPortions: =2
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =50
+                                                PaddingTop: =18
+                                                Size: =11
+                                                Text: ="STATUS"
+                                          - lblColSource_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                FillPortions: =2
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =50
+                                                PaddingTop: =18
+                                                Size: =11
+                                                Text: ="SOURCE"
+                                          - lblColProducer_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                FillPortions: =2
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =50
+                                                PaddingTop: =18
+                                                Size: =11
+                                                Text: ="PRODUCER"
+                                          - lblColPremium_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Right
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                FillPortions: =2
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =50
+                                                PaddingTop: =18
+                                                Size: =11
+                                                Text: ="PREMIUM"
+                                          - lblColDate_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Right
+                                                Color: =RGBA(75, 85, 99, 1)
+                                                FillPortions: =2
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =50
+                                                PaddingTop: =18
+                                                Size: =11
+                                                Text: ="DATE"
+                                    - gallLeadsTableM4:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          BorderColor: =RGBA(0, 0, 0, 0)
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =520
+                                          Items: |-
+                                            =With({selected: Filter(colStatusChipsM4, selected)},
+                                              Filter(Leads,
+                                                (IsBlank(varSearchM4)
+                                                  || StartsWith(Lower(Coalesce(Title, "")), Lower(varSearchM4))
+                                                  || StartsWith(Lower(Coalesce(Email, "")), Lower(varSearchM4))
+                                                  || StartsWith(Lower(Coalesce('Phone Number', "")), Lower(varSearchM4))
+                                                  || StartsWith(Lower(Coalesce(Agent.DisplayName, "")), Lower(varSearchM4))),
+                                                (CountRows(selected) = 0 || Status.Value in ForAll(selected As _c, _c.label))
+                                              )
+                                            )
+                                          ShowScrollbar: =true
+                                          TemplatePadding: =0
+                                          TemplateSize: =60
+                                        Children:
+                                          - rowSelBg_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =RGBA(0, 0, 0, 0)
+                                                Fill: =If(varSelectedLeadM4.ID = ThisItem.ID, RGBA(249, 250, 251, 1), Color.Transparent)
+                                                Height: =60
+                                                OnSelect: =Set(varSelectedLeadM4, ThisItem)
+                                                Width: =Parent.Width
+                                                X: =0
+                                                Y: =0
+                                          - rowDivider_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =RGBA(0, 0, 0, 0)
+                                                Fill: =RGBA(243, 244, 246, 1)
+                                                Height: =1
+                                                Width: =Parent.Width
+                                                X: =0
+                                                Y: =59
+                                          - rowAvatar_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =RGBA(0, 0, 0, 0)
+                                                Fill: =BrandRed
+                                                Height: =36
+                                                RadiusBottomLeft: =99
+                                                RadiusBottomRight: =99
+                                                RadiusTopLeft: =99
+                                                RadiusTopRight: =99
+                                                Width: =36
+                                                X: =20
+                                                Y: =12
+                                          - rowInitials_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                Color: =RGBA(255, 255, 255, 1)
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Bold
+                                                Height: =36
+                                                PaddingTop: =10
+                                                Size: =11
+                                                Text: =Upper(Left(Coalesce(ThisItem.Title, "?"), 1) & Mid(Coalesce(ThisItem.Title, "?") & " ", Find(" ", Coalesce(ThisItem.Title, "?") & " ") + 1, 1))
+                                                Width: =36
+                                                X: =20
+                                                Y: =12
+                                          - rowName_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =22
+                                                PaddingLeft: =0
+                                                Size: =12
+                                                Text: =Coalesce(ThisItem.Title, "Unnamed")
+                                                Width: =Parent.Width * 0.22
+                                                X: =68
+                                                Y: =10
+                                          - rowSub_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Font: =Font.'Segoe UI'
+                                                Height: =18
+                                                Size: =10
+                                                Text: =Coalesce(ThisItem.'Phone Number', ThisItem.Email, "—")
+                                                Width: =Parent.Width * 0.22
+                                                X: =68
+                                                Y: =32
+                                          - rowStatusBg_M4:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                BorderColor: =RGBA(0, 0, 0, 0)
+                                                Fill: |
+                                                  =Switch(ThisItem.Status.Value,
+                                                      "Active",      RGBA(232, 240, 254, 1),
+                                                      "Working",     RGBA(254, 243, 199, 1),
+                                                      "Quoted",      RGBA(220, 252, 231, 1),
+                                                      "Contacted",   RGBA(237, 233, 254, 1),
+                                                      "Negotiating", RGBA(224, 231, 255, 1),
+                                                      "Bound",       RGBA(204, 251, 241, 1),
+                                                      "Lost",        RGBA(243, 244, 246, 1),
+                                                      RGBA(243, 244, 246, 1)
+                                                  )
+                                                Height: =22
+                                                RadiusBottomLeft: =99
+                                                RadiusBottomRight: =99
+                                                RadiusTopLeft: =99
+                                                RadiusTopRight: =99
+                                                Width: =92
+                                                X: =Parent.Width * 0.30
+                                                Y: =19
+                                          - rowStatusLbl_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                Color: |
+                                                  =Switch(ThisItem.Status.Value,
+                                                      "Active",      RGBA(37, 99, 235, 1),
+                                                      "Working",     RGBA(180, 95, 0, 1),
+                                                      "Quoted",      RGBA(22, 163, 74, 1),
+                                                      "Contacted",   RGBA(124, 58, 237, 1),
+                                                      "Negotiating", RGBA(67, 56, 202, 1),
+                                                      "Bound",       RGBA(13, 148, 136, 1),
+                                                      "Lost",        RGBA(107, 114, 128, 1),
+                                                      RGBA(107, 114, 128, 1)
+                                                  )
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =22
+                                                PaddingTop: =4
+                                                Size: =9
+                                                Text: =Upper(Coalesce(ThisItem.Status.Value, "—"))
+                                                Width: =92
+                                                X: =Parent.Width * 0.30
+                                                Y: =19
+                                          - rowSource_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Font: =Font.'Segoe UI'
+                                                Height: =60
+                                                PaddingTop: =20
+                                                Size: =11
+                                                Text: =Coalesce(ThisItem.Source.Value, "—")
+                                                Width: =Parent.Width * 0.13
+                                                X: =Parent.Width * 0.42
+                                                Y: =0
+                                          - rowProducer_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Font: =Font.'Segoe UI'
+                                                Height: =60
+                                                PaddingTop: =20
+                                                Size: =11
+                                                Text: =Coalesce(ThisItem.Agent.DisplayName, "Unassigned")
+                                                Width: =Parent.Width * 0.16
+                                                X: =Parent.Width * 0.56
+                                                Y: =0
+                                          - rowPremium_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Right
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =60
+                                                PaddingRight: =0
+                                                PaddingTop: =20
+                                                Size: =11
+                                                Text: =Coalesce(ThisItem.CurrentPremiums, "—")
+                                                Width: =Parent.Width * 0.12
+                                                X: =Parent.Width * 0.72
+                                                Y: =0
+                                          - rowDate_M4:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Right
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Font: =Font.'Segoe UI'
+                                                Height: =60
+                                                PaddingRight: =20
+                                                PaddingTop: =20
+                                                Size: =11
+                                                Text: =If(IsBlank(ThisItem.Date), If(IsBlank(ThisItem.Created), "—", Text(ThisItem.Created, "[$-en-US]m/d/yyyy")), Text(ThisItem.Date, "[$-en-US]m/d/yyyy"))
+                                                Width: =Parent.Width * 0.16
+                                                X: =Parent.Width * 0.84
+                                                Y: =0
+      - cntLeftNavHost_M4:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(17, 24, 39, 1)
+            Height: =Parent.Height
+            Visible: =App.Width >= 1024
+            Width: =232
+          Children:
+            - sidebarLogoBox_M4:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: =BrandRed
+                  Height: =44
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  Width: =44
+                  X: =20
+                  Y: =22
+            - sidebarLogoLetter_M4:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =44
+                  PaddingTop: =11
+                  Size: =14
+                  Text: ="ALFA"
+                  Width: =44
+                  X: =20
+                  Y: =22
+            - sidebarBrandTop_M4:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  PaddingLeft: =12
+                  Size: =12
+                  Text: ="Adams Cosby"
+                  Width: =160
+                  X: =72
+                  Y: =24
+            - sidebarBrandSub_M4:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(156, 163, 175, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =16
+                  PaddingLeft: =12
+                  Size: =9
+                  Text: ="INSURANCE CRM"
+                  Width: =160
+                  X: =72
+                  Y: =46
+            - gallNav_M4:
+                Control: Gallery@2.15.0
+                Variant: Vertical
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: =Color.Transparent
+                  Height: =400
+                  Items: =colNavM4
+                  ShowScrollbar: =false
+                  TemplatePadding: =0
+                  TemplateSize: =44
+                  Width: =232
+                  X: =0
+                  Y: =96
+                Children:
+                  - navActiveBg_M4:
+                      Control: Rectangle@2.3.0
+                      Properties:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Fill: =If(ThisItem.Active, RGBA(200, 16, 46, 0.15), Color.Transparent)
+                        Height: =40
+                        RadiusBottomLeft: =6
+                        RadiusBottomRight: =6
+                        RadiusTopLeft: =6
+                        RadiusTopRight: =6
+                        Width: =200
+                        X: =16
+                        Y: =2
+                  - navAccent_M4:
+                      Control: Rectangle@2.3.0
+                      Properties:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Fill: =BrandRed
+                        Height: =40
+                        Visible: =ThisItem.Active
+                        Width: =3
+                        X: =16
+                        Y: =2
+                  - navIcon_M4:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        Color: =If(ThisItem.Active, BrandRed, RGBA(156, 163, 175, 1))
+                        Height: =18
+                        Icon: =ThisItem.Icon
+                        Width: =18
+                        X: =34
+                        Y: =13
+                  - navLbl_M4:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =If(ThisItem.Active, RGBA(255, 255, 255, 1), RGBA(229, 231, 235, 1))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =If(ThisItem.Active, FontWeight.Semibold, FontWeight.Normal)
+                        Height: =40
+                        PaddingLeft: =44
+                        PaddingTop: =11
+                        Size: =13
+                        Text: =ThisItem.Title
+                        Width: =200
+                        X: =16
+                        Y: =2
+                  - navBadgeBg_M4:
+                      Control: Rectangle@2.3.0
+                      Properties:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Fill: =BrandRed
+                        Height: =18
+                        RadiusBottomLeft: =99
+                        RadiusBottomRight: =99
+                        RadiusTopLeft: =99
+                        RadiusTopRight: =99
+                        Visible: =ThisItem.Badge > 0
+                        Width: =26
+                        X: =180
+                        Y: =13
+                  - navBadgeLbl_M4:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(255, 255, 255, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =18
+                        PaddingTop: =2
+                        Size: =9
+                        Text: =Text(ThisItem.Badge)
+                        Visible: =ThisItem.Badge > 0
+                        Width: =26
+                        X: =180
+                        Y: =13
+            - sidebarFooterDivider_M4:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Fill: =RGBA(55, 65, 81, 1)
+                  Height: =1
+                  Width: =200
+                  X: =16
+                  Y: =Parent.Height - 80
+            - sidebarFooterUser_M4:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(229, 231, 235, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  PaddingLeft: =20
+                  Size: =12
+                  Text: =User().FullName
+                  Width: =200
+                  X: =0
+                  Y: =Parent.Height - 64
+            - sidebarFooterEmail_M4:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(156, 163, 175, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =18
+                  PaddingLeft: =20
+                  Size: =10
+                  Text: =User().Email
+                  Width: =200
+                  X: =0
+                  Y: =Parent.Height - 42
