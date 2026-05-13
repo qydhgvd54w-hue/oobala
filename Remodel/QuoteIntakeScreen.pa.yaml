@@ -22,26 +22,24 @@ Screens:
                 locDOB:      varEditingQuote.DOB,
                 locPhone:    varEditingQuote.Phone,
                 locEmail:    varEditingQuote.Email,
-                locReferral: varEditingQuote.Referral,
+                locReferral: varEditingQuote.ReferralName,
                 locProducer: varEditingQuote.Agent,
-                locSpouse:   varEditingQuote.Spouse,
+                locSpouse:   varEditingQuote.SpouseName,
                 locMailing:  varEditingQuote.MailingAddress,
                 locRisk:     varEditingQuote.RiskAddress,
-                locPrefContact: varEditingQuote.PreferredContactMethod,
-                locBestTime: varEditingQuote.BestTimeToContact,
                 locYearBuilt:    varEditingQuote.YearBuilt,
-                locSqFt:         varEditingQuote.LivingSqFt,
+                locSqFt:         varEditingQuote.LivingSqFootage,
                 locOccupancy:    varEditingQuote.Occupancy,
                 locNewPurchase:  varEditingQuote.NewPurchase,
                 locRoofType:     varEditingQuote.RoofType,
                 locRoofAge:      varEditingQuote.AgeOfRoof,
                 locCurrentCarrier: varEditingQuote.CurrentCarrier,
                 locCurrentPremium: varEditingQuote.CurrentPremium,
-                locDwelling:     varEditingQuote.Dwelling,
+                locDwelling:     varEditingQuote.DwellingCoverage,
                 locDeductible:   varEditingQuote.Deductible,
                 locNotes:        varEditingQuote.Notes,
-                locClaimsCount:  varEditingQuote.ClaimsLast5,
-                locInsScoreOK:   varEditingQuote.InsuranceScorePermission,
+                locClaimsCount:  varEditingQuote.FiledClaimsLast5Yrs,
+                locInsScoreOK:   varEditingQuote.UW_InsuranceScorePermission,
                 locLastSavedAt:  varEditingQuote.Modified
             }),
             UpdateContext({
@@ -377,26 +375,24 @@ Screens:
                       DOB:      locDOB,
                       Phone:    locPhone,
                       Email:    locEmail,
-                      Referral: locReferral,
+                      ReferralName: locReferral,
                       Agent:    locProducer,
-                      Spouse:   locSpouse,
+                      SpouseName:   locSpouse,
                       MailingAddress: locMailing,
                       RiskAddress:    locRisk,
-                      PreferredContactMethod: locPrefContact,
-                      BestTimeToContact: locBestTime,
                       YearBuilt: locYearBuilt,
-                      LivingSqFt: locSqFt,
+                      LivingSqFootage: locSqFt,
                       Occupancy: locOccupancy,
                       NewPurchase: locNewPurchase,
                       RoofType:  locRoofType,
                       AgeOfRoof: locRoofAge,
                       CurrentCarrier: locCurrentCarrier,
                       CurrentPremium: locCurrentPremium,
-                      Dwelling: locDwelling,
+                      DwellingCoverage: locDwelling,
                       Deductible: locDeductible,
                       Notes:     locNotes,
-                      ClaimsLast5: locClaimsCount,
-                      InsuranceScorePermission: locInsScoreOK
+                      FiledClaimsLast5Yrs: locClaimsCount,
+                      UW_InsuranceScorePermission: locInsScoreOK
                   })
               );
               UpdateContext({ locSaving: false, locLastSavedAt: Now() });
@@ -425,26 +421,24 @@ Screens:
                       DOB:      locDOB,
                       Phone:    locPhone,
                       Email:    locEmail,
-                      Referral: locReferral,
+                      ReferralName: locReferral,
                       Agent:    locProducer,
-                      Spouse:   locSpouse,
+                      SpouseName:   locSpouse,
                       MailingAddress: locMailing,
                       RiskAddress:    locRisk,
-                      PreferredContactMethod: locPrefContact,
-                      BestTimeToContact: locBestTime,
                       YearBuilt: locYearBuilt,
-                      LivingSqFt: locSqFt,
+                      LivingSqFootage: locSqFt,
                       Occupancy: locOccupancy,
                       NewPurchase: locNewPurchase,
                       RoofType:  locRoofType,
                       AgeOfRoof: locRoofAge,
                       CurrentCarrier: locCurrentCarrier,
                       CurrentPremium: locCurrentPremium,
-                      Dwelling: locDwelling,
+                      DwellingCoverage: locDwelling,
                       Deductible: locDeductible,
                       Notes:     locNotes,
-                      ClaimsLast5: locClaimsCount,
-                      InsuranceScorePermission: locInsScoreOK
+                      FiledClaimsLast5Yrs: locClaimsCount,
+                      UW_InsuranceScorePermission: locInsScoreOK
                   })
               );
               Notify("Quote saved.", NotificationType.Success, 1500);
@@ -512,7 +506,7 @@ Screens:
             Font: =Font.'Open Sans'
             Height: =60
             HoverFill: =Win95Light
-            OnSelect: =Notify("All 6 fields in Applicant (Name, DOB, Phone, Email, Referral, Producer) trigger an auto-save.", NotificationType.Information, 6000)
+            OnSelect: =Notify("All 6 fields in Applicant (Name, DOB, Phone, Email, ReferralName, Producer) trigger an auto-save.", NotificationType.Information, 6000)
             PressedFill: =Win95Shadow
             Size: =10
             Text: ="❓" & Char(10) & "Help"
@@ -778,7 +772,7 @@ Screens:
                         Set(varEditingQuote,
                             Patch('Home Quotes', Defaults('Home Quotes'), {
                                 Title: Self.Text, DOB: locDOB, Phone: locPhone, Email: locEmail,
-                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                                ReferralName: locReferral, Agent: locProducer, QuoteDate: Today()
                             })
                         );
                         Set(varQuoteMode, "Edit");
@@ -800,7 +794,7 @@ Screens:
                   FontWeight: =FontWeight.Bold
                   Height: =22
                   Size: =11
-                  Text: "=\"Spouse / Co-Insured:\""
+                  Text: "=\"SpouseName / Co-Insured:\""
                   Width: =240
                   X: =40
                   Y: =128
@@ -817,7 +811,7 @@ Screens:
                   OnChange: |-
                     =UpdateContext({ locSpouse: Self.Text });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { Spouse: Self.Text });
+                        Patch('Home Quotes', varEditingQuote, { SpouseName: Self.Text });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -856,7 +850,7 @@ Screens:
                         Set(varEditingQuote,
                             Patch('Home Quotes', Defaults('Home Quotes'), {
                                 Title: locName, DOB: Self.SelectedDate, Phone: locPhone, Email: locEmail,
-                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                                ReferralName: locReferral, Agent: locProducer, QuoteDate: Today()
                             })
                         );
                         Set(varQuoteMode, "Edit");
@@ -903,7 +897,7 @@ Screens:
                         Set(varEditingQuote,
                             Patch('Home Quotes', Defaults('Home Quotes'), {
                                 Title: locName, DOB: locDOB, Phone: Self.Text, Email: locEmail,
-                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                                ReferralName: locReferral, Agent: locProducer, QuoteDate: Today()
                             })
                         );
                         Set(varQuoteMode, "Edit");
@@ -949,7 +943,7 @@ Screens:
                         Set(varEditingQuote,
                             Patch('Home Quotes', Defaults('Home Quotes'), {
                                 Title: locName, DOB: locDOB, Phone: locPhone, Email: Self.Text,
-                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                                ReferralName: locReferral, Agent: locProducer, QuoteDate: Today()
                             })
                         );
                         Set(varQuoteMode, "Edit");
@@ -1078,7 +1072,6 @@ Screens:
                   OnChange: |-
                     =UpdateContext({ locPrefContact: Self.Selected.Value });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { PreferredContactMethod: { Value: Self.Selected.Value } });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1111,7 +1104,6 @@ Screens:
                   OnChange: |-
                     =UpdateContext({ locBestTime: Self.Selected.Value });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { BestTimeToContact: { Value: Self.Selected.Value } });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1140,7 +1132,7 @@ Screens:
                   Fill: =Win95InputBg
                   Font: =Font.'Open Sans'
                   Height: =30
-                  Items: =["Referral","Google","Facebook","Drive-by","Existing Client","Other"]
+                  Items: =["ReferralName","Google","Facebook","Drive-by","Existing Client","Other"]
                   Items.Value: =Value
                   OnChange: |-
                     =UpdateContext({ locReferral: Self.Selected.Value });
@@ -1151,14 +1143,14 @@ Screens:
                         Set(varEditingQuote,
                             Patch('Home Quotes', Defaults('Home Quotes'), {
                                 Title: locName, DOB: locDOB, Phone: locPhone, Email: locEmail,
-                                Referral: Self.Selected.Value, Agent: locProducer, QuoteDate: Today()
+                                ReferralName: Self.Selected.Value, Agent: locProducer, QuoteDate: Today()
                             })
                         );
                         Set(varQuoteMode, "Edit");
                         UpdateContext({ locLastSavedAt: Now() });
                         Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
                         varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { Referral: Self.Selected.Value });
+                        Patch('Home Quotes', varEditingQuote, { ReferralName: Self.Selected.Value });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1213,7 +1205,7 @@ Screens:
                         Set(varEditingQuote,
                             Patch('Home Quotes', Defaults('Home Quotes'), {
                                 Title: locName, DOB: locDOB, Phone: locPhone, Email: locEmail,
-                                Referral: locReferral, Agent: { Value: Self.Selected.Value }, QuoteDate: Today()
+                                ReferralName: locReferral, Agent: { Value: Self.Selected.Value }, QuoteDate: Today()
                             })
                         );
                         Set(varQuoteMode, "Edit");
@@ -1344,7 +1336,7 @@ Screens:
                   OnChange: |-
                     =UpdateContext({ locSqFt: Value(Self.Text) });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { LivingSqFt: Value(Self.Text) });
+                        Patch('Home Quotes', varEditingQuote, { LivingSqFootage: Value(Self.Text) });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1588,7 +1580,7 @@ Screens:
                   FontWeight: =FontWeight.Bold
                   Height: =22
                   Size: =11
-                  Text: "=\"Dwelling ($):\""
+                  Text: "=\"DwellingCoverage ($):\""
                   Width: =160
                   X: =480
                   Y: =300
@@ -1606,7 +1598,7 @@ Screens:
                   OnChange: |-
                     =UpdateContext({ locDwelling: Value(Self.Text) });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { Dwelling: Value(Self.Text) });
+                        Patch('Home Quotes', varEditingQuote, { DwellingCoverage: Value(Self.Text) });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1916,7 +1908,7 @@ Screens:
                   OnChange: |-
                     =UpdateContext({ locClaimsCount: Value(Self.Text) });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { ClaimsLast5: Value(Self.Text) });
+                        Patch('Home Quotes', varEditingQuote, { FiledClaimsLast5Yrs: Value(Self.Text) });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1964,7 +1956,7 @@ Screens:
                   OnSelect: |-
                     =UpdateContext({ locInsScoreOK: !locInsScoreOK });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
-                        Patch('Home Quotes', varEditingQuote, { InsuranceScorePermission: !locInsScoreOK });
+                        Patch('Home Quotes', varEditingQuote, { UW_InsuranceScorePermission: !locInsScoreOK });
                         UpdateContext({ locLastSavedAt: Now() })
                     )
                   Size: =11
@@ -1993,26 +1985,24 @@ Screens:
                             DOB:      locDOB,
                             Phone:    locPhone,
                             Email:    locEmail,
-                            Referral: locReferral,
+                            ReferralName: locReferral,
                             Agent:    locProducer,
-                            Spouse:   locSpouse,
+                            SpouseName:   locSpouse,
                             MailingAddress: locMailing,
                             RiskAddress:    locRisk,
-                            PreferredContactMethod: locPrefContact,
-                            BestTimeToContact: locBestTime,
                             YearBuilt: locYearBuilt,
-                            LivingSqFt: locSqFt,
+                            LivingSqFootage: locSqFt,
                             Occupancy: locOccupancy,
                             NewPurchase: locNewPurchase,
                             RoofType: locRoofType,
                             AgeOfRoof: locRoofAge,
                             CurrentCarrier: locCurrentCarrier,
                             CurrentPremium: locCurrentPremium,
-                            Dwelling: locDwelling,
+                            DwellingCoverage: locDwelling,
                             Deductible: locDeductible,
                             Notes: locNotes,
-                            ClaimsLast5: locClaimsCount,
-                            InsuranceScorePermission: locInsScoreOK
+                            FiledClaimsLast5Yrs: locClaimsCount,
+                            UW_InsuranceScorePermission: locInsScoreOK
                         })
                     );
                     Notify("Intake saved.", NotificationType.Success, 2000);
