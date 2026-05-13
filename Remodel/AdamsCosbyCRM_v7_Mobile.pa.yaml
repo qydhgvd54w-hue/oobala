@@ -21,7 +21,7 @@ Screens:
         ClearCollect(colNotes, SortByColumns(Filter(Activities, ActivityType.Value = "Note"), "EventDate", SortOrder.Descending));
         Set(varDefaultCalendar, {id: "Calendar"});
         If(IsBlank(varSelectedQuote), Set(varSelectedQuote, First('Home Quotes')));
-        Set(varSelectedLead, LookUp(Leads, 'Phone Number' = varSelectedQuote.Phone || Email = varSelectedQuote.Email));
+        Set(varSelectedLead, Blank());
         Set(varSearchText, "");
         Set(varPage, 1);
         Set(varPageSize, 11);
@@ -330,7 +330,7 @@ Screens:
             PaddingLeft: =18
             PaddingTop: =12
             Size: =12
-            Text: ="1–" & Text(Min(varPage * varPageSize, CountRows('Home Quotes'))) & " of " & Text(CountRows('Home Quotes')) & " leads"
+            Text: ="1–" & Text(Min(varPage * varPageSize, CountRows(colHomeQuotes))) & " of " & Text(CountRows(colHomeQuotes)) & " leads"
             Width: =240
             X: =244
             Y: =874
@@ -382,7 +382,7 @@ Screens:
             OnSelect: =Set(varPage, 2)
             Size: =12
             Text: ="2"
-            Visible: =CountRows('Home Quotes') > varPageSize
+            Visible: =CountRows(colHomeQuotes) > varPageSize
             Width: =32
             X: =1180
             Y: =880
@@ -392,7 +392,7 @@ Screens:
             BorderColor: =BorderSoft
             BorderThickness: =1
             Color: =TextSecondary
-            DisplayMode: =If(varPage * varPageSize < CountRows('Home Quotes'), DisplayMode.Edit, DisplayMode.Disabled)
+            DisplayMode: =If(varPage * varPageSize < CountRows(colHomeQuotes), DisplayMode.Edit, DisplayMode.Disabled)
             Fill: =RGBA(255, 255, 255, 1)
             Font: =Font.'Open Sans'
             Height: =30
@@ -518,7 +518,7 @@ Screens:
             DelayItemLoading: =false
             Fill: =RGBA(255, 255, 255, 1)
             Height: =180
-            Items: =If(IsBlank(varSelectedLead), Take(colNotes, 0), SortByColumns(Filter(colNotes, Lead.Id = varSelectedLead.ID), "EventDate", SortOrder.Descending))
+            Items: =If(IsBlank(varSelectedLead), FirstN(colNotes, 0), SortByColumns(Filter(colNotes, Lead.Id = varSelectedLead.ID), "EventDate", SortOrder.Descending))
             LoadingSpinner: =LoadingSpinner.None
             TemplateSize: =68
             Width: =497
@@ -1800,7 +1800,7 @@ Screens:
             OnSelect: |-
               =Set(varSelectedQuote, ThisItem);
               Set(varEditingQuote, ThisItem);
-              Set(varSelectedLead, LookUp(Leads, 'Phone Number' = ThisItem.Phone || Email = ThisItem.Email))
+              Set(varSelectedLead, IfError(LookUp(Leads, Email = ThisItem.Email), Blank()))
             TemplateFill: =If(!IsBlank(varSelectedQuote) && ThisItem.ID = varSelectedQuote.ID, BrandSoft, RGBA(255, 255, 255, 0))
             TemplateSize: =76
             Width: =1008
@@ -1987,7 +1987,7 @@ Screens:
             Items: |-
               =Table(
                   {ID: 1, Title: "Dashboard",       Icon: "Home",         Letter: "", Badge: 0,                                                    BadgeColor: BrandRed,         BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
-                  {ID: 2, Title: "Leads",           Icon: "Users",        Letter: "", Badge: CountRows(Leads),                                     BadgeColor: BrandRed,         BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
+                  {ID: 2, Title: "Leads",           Icon: "Users",        Letter: "", Badge: CountRows(colLeads),                                     BadgeColor: BrandRed,         BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
                   {ID: 3, Title: "Activities",      Icon: "Check",        Letter: "", Badge: 0,                                                    BadgeColor: RGBA(0,0,0,0),    BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
                   {ID: 4, Title: "Calendar",        Icon: "Calendar",     Letter: "", Badge: 0,                                                    BadgeColor: RGBA(0,0,0,0),    BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
                   {ID: 5, Title: "Email Templates", Icon: "Mail",         Letter: "", Badge: 0,                                                    BadgeColor: RGBA(0,0,0,0),    BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
@@ -2039,11 +2039,11 @@ Screens:
             ColumnsLayout: "={\n      Mobile: 1,\n      Tablet: 2,\n      Desktop: 5,\n      MobileBreakpoint:  IfError(Index(App.SizeBreakpoints, 1).Value, 640),\n      TabletBreakpoint:  IfError(Index(App.SizeBreakpoints, 2).Value, 1024),\n      DesktopBreakpoint: IfError(Index(App.SizeBreakpoints, 3).Value, 1366)\n  }"
             Data: |-
               =Table(
-                  {ID: 1, Icon: "Users",  Value: CountRows('Home Quotes'),                                                                          Label: "Total Leads", PercentChange:  2, PercentLabel: "vs yesterday", IconBg: "#FCEBEB", IconColor: "#C8102E", SparklineData: "", isHidden: false},
-                  {ID: 2, Icon: "Target", Value: CountRows(Filter('Home Quotes', QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days))),                  Label: "Active",      PercentChange:  1, PercentLabel: "vs yesterday", IconBg: "#EBF5FF", IconColor: "#2563EB", SparklineData: "", isHidden: false},
-                  {ID: 3, Icon: "Clock",  Value: CountRows(Filter('Home Quotes', IsBlank(QuoteID) && IsBlank(AutoPolicyNumber))),                    Label: "Working",     PercentChange:  0, PercentLabel: "steady",       IconBg: "#FEF3C7", IconColor: "#B45309", SparklineData: "", isHidden: false},
-                  {ID: 4, Icon: "Shield", Value: CountRows(Filter('Home Quotes', !IsBlank(QuoteID))),                                                Label: "Quoted",      PercentChange:  1, PercentLabel: "vs yesterday", IconBg: "#D1FAE5", IconColor: "#047857", SparklineData: "", isHidden: false},
-                  {ID: 5, Icon: "Star",   Value: CountRows(Filter('Home Quotes', !IsBlank(AutoPolicyNumber))),                                       Label: "Closed",      PercentChange: -1, PercentLabel: "vs yesterday", IconBg: "#F1F5F9", IconColor: "#475569", SparklineData: "", isHidden: false}
+                  {ID: 1, Icon: "Users",  Value: CountRows(colHomeQuotes),                                                                          Label: "Total Leads", PercentChange:  2, PercentLabel: "vs yesterday", IconBg: "#FCEBEB", IconColor: "#C8102E", SparklineData: "", isHidden: false},
+                  {ID: 2, Icon: "Target", Value: CountRows(Filter(colHomeQuotes, QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days))),                  Label: "Active",      PercentChange:  1, PercentLabel: "vs yesterday", IconBg: "#EBF5FF", IconColor: "#2563EB", SparklineData: "", isHidden: false},
+                  {ID: 3, Icon: "Clock",  Value: CountRows(Filter(colHomeQuotes, IsBlank(QuoteID) && IsBlank(AutoPolicyNumber))),                    Label: "Working",     PercentChange:  0, PercentLabel: "steady",       IconBg: "#FEF3C7", IconColor: "#B45309", SparklineData: "", isHidden: false},
+                  {ID: 4, Icon: "Shield", Value: CountRows(Filter(colHomeQuotes, !IsBlank(QuoteID))),                                                Label: "Quoted",      PercentChange:  1, PercentLabel: "vs yesterday", IconBg: "#D1FAE5", IconColor: "#047857", SparklineData: "", isHidden: false},
+                  {ID: 5, Icon: "Star",   Value: CountRows(Filter(colHomeQuotes, !IsBlank(AutoPolicyNumber))),                                       Label: "Closed",      PercentChange: -1, PercentLabel: "vs yesterday", IconBg: "#F1F5F9", IconColor: "#475569", SparklineData: "", isHidden: false}
               )
             IsLoading: =false
             Style: ="Standard"
@@ -2064,7 +2064,7 @@ Screens:
             Items: |-
               =Table(
                   {Icon: "home",   Label: "Dashboard",  Badge: 0},
-                  {Icon: "users",  Label: "Leads",      Badge: CountRows(Leads)},
+                  {Icon: "users",  Label: "Leads",      Badge: CountRows(colLeads)},
                   {Icon: "search", Label: "Activities", Badge: 0},
                   {Icon: "user",   Label: "Profile",    Badge: 0}
               )
