@@ -1817,7 +1817,6 @@ Screens:
                   Fill: =If(!IsBlank(varSelectedQuote) && ThisItem.ID = varSelectedQuote.ID, BrandSoft, RGBA(255, 255, 255, 1))
                   Height: =Parent.TemplateHeight - 8
                   LayoutDirection: =LayoutDirection.Horizontal
-                  OnSelect: =Select(Parent)
                   RadiusBottomLeft: =10
                   RadiusBottomRight: =10
                   RadiusTopLeft: =10
