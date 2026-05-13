@@ -68,7 +68,7 @@ LeadsListScreen As screen:
     SidebarNavItemLeads As rectangle:
         Fill: =If("Leads"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(HomeQuotesScreen, ScreenTransition.None)
         Cursor: =Cursor.Hand
         Width: =200
         X: =0
@@ -97,7 +97,7 @@ LeadsListScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Leads"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(HomeQuotesScreen, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Leads"
@@ -191,7 +191,7 @@ LeadsListScreen As screen:
     SidebarNavItemTasks As rectangle:
         Fill: =If("Tasks"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(TasksScreen, ScreenTransition.None)
         Cursor: =Cursor.Hand
         Width: =200
         X: =0
@@ -220,7 +220,7 @@ LeadsListScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Tasks"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(TasksScreen, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Tasks"

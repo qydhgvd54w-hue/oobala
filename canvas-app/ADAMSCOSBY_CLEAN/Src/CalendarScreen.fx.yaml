@@ -65,7 +65,7 @@ CalendarScreen As screen:
         Cursor: =Cursor.Hand
         Fill: =If("Leads"="Calendar", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(HomeQuotesScreen, ScreenTransition.None)
         Width: =200
         X: =0
         Y: =112
@@ -94,7 +94,7 @@ CalendarScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Leads"="Calendar", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(HomeQuotesScreen, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Leads"
@@ -188,7 +188,7 @@ CalendarScreen As screen:
         Cursor: =Cursor.Hand
         Fill: =If("Tasks"="Calendar", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(TasksScreen, ScreenTransition.None)
         Width: =200
         X: =0
         Y: =232
@@ -217,7 +217,7 @@ CalendarScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Tasks"="Calendar", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Notify("Tasks screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(TasksScreen, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Tasks"
