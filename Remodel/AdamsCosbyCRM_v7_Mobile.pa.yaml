@@ -14,7 +14,6 @@ Screens:
         Set(TextTertiary,  RGBA(168, 165, 160, 1));
         Set(BorderSoft,    RGBA(232, 229, 221, 1));
         ClearCollect(colHomeQuotes, 'Home Quotes');
-        ClearCollect(colLeads, Leads);
         ClearCollect(colActivities, SortByColumns(Activities, "Created", SortOrder.Descending));
         ClearCollect(colTemplates, 'Email Templates');
         ClearCollect(colQuoteDocs, 'Quote Documents');
@@ -693,13 +692,16 @@ Screens:
                   "Follow-up: " & Coalesce(varSelectedQuote.Title, "client"),
                   { startDateTime: Now(), dueDateTime: DateAdd(Today(), 1, TimeUnit.Days) }
               );
-              Office365Outlook.V4CalendarPostItem(
-                  varDefaultCalendar.id,
-                  "Follow-up: " & Coalesce(varSelectedQuote.Title, "client"),
-                  Text(DateAdd(Today(), 1, TimeUnit.Days), "yyyy-mm-ddThh:mm:ss"),
-                  Text(DateAdd(DateAdd(Today(), 1, TimeUnit.Days), 30, TimeUnit.Minutes), "yyyy-mm-ddThh:mm:ss"),
-                  "Pacific Standard Time",
-                  { body: "Auto-created from CRM follow-up", showAs: "Busy" }
+              IfError(
+                  Office365Outlook.V4CalendarPostItem(
+                      varDefaultCalendar.id,
+                      "Follow-up: " & Coalesce(varSelectedQuote.Title, "client"),
+                      Text(DateAdd(Today(), 1, TimeUnit.Days), "yyyy-MM-ddTHH:mm:ss"),
+                      Text(DateAdd(DateAdd(Today(), 1, TimeUnit.Days), 30, TimeUnit.Minutes), "yyyy-MM-ddTHH:mm:ss"),
+                      "Pacific Standard Time",
+                      { body: "Auto-created from CRM follow-up", showAs: "Busy" }
+                  ),
+                  Notify("Calendar error: " & FirstError.Message, NotificationType.Error)
               );
               Notify("Follow-up scheduled", NotificationType.Success)
             Size: =12
@@ -1993,16 +1995,6 @@ Screens:
                   {ID: 5, Title: "Email Templates", Icon: "Mail",         Letter: "", Badge: 0,                                                    BadgeColor: RGBA(0,0,0,0),    BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
                   {ID: 6, Title: "Quote Documents", Icon: "File",         Letter: "", Badge: 0,                                                    BadgeColor: RGBA(0,0,0,0),    BadgeDot: false, IsSection: false, ParentID: -1, Visible: true},
                   {ID: 7, Title: "Audit Log",       Icon: "Clock",        Letter: "", Badge: 0,                                                    BadgeColor: RGBA(0,0,0,0),    BadgeDot: false, IsSection: false, ParentID: -1, Visible: true}
-              )
-            OnNavSelect: |-
-              =Switch(Self.Selected.Title,
-                  "Dashboard",       Notify("You're on Dashboard", NotificationType.Information),
-                  "Leads",           Notify("Leads screen coming soon", NotificationType.Information),
-                  "Activities",      Navigate(ActivitiesScreen, ScreenTransition.None),
-                  "Calendar",        Notify("Calendar screen coming soon", NotificationType.Information),
-                  "Email Templates", Notify("Templates screen coming soon", NotificationType.Information),
-                  "Quote Documents", Notify("Quote Documents screen coming soon", NotificationType.Information),
-                  "Audit Log",       Notify("Audit Log screen coming soon", NotificationType.Information)
               )
             ShowFooterMenu: =true
             ShowHeader: =true
