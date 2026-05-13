@@ -185,7 +185,8 @@ Screens:
                         Fill: =RGBA(255, 255, 255, 1)
                         Font: =Font.'Open Sans'
                         Height: =34
-                        OnChange: =UpdateContext({locName: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locName: Self.Text})
                         Size: =13
                         Width: =320
                         X: =0
@@ -213,7 +214,8 @@ Screens:
                         Font: =Font.'Open Sans'
                         Format: =TextFormat.Number
                         Height: =34
-                        OnChange: =UpdateContext({locPhone: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locPhone: Self.Text})
                         Size: =13
                         Width: =220
                         X: =340
@@ -240,7 +242,8 @@ Screens:
                         Fill: =RGBA(255, 255, 255, 1)
                         Font: =Font.'Open Sans'
                         Height: =34
-                        OnChange: =UpdateContext({locEmail: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locEmail: Self.Text})
                         Size: =13
                         Width: =320
                         X: =580
@@ -267,7 +270,8 @@ Screens:
                         Fill: =RGBA(255, 255, 255, 1)
                         Font: =Font.'Open Sans'
                         Height: =34
-                        OnChange: =UpdateContext({locDOB: Self.SelectedDate})
+                        OnChange: |-
+                          =UpdateContext({locDOB: Self.SelectedDate})
                         Size: =13
                         Width: =220
                         X: =0
@@ -296,7 +300,8 @@ Screens:
                         Height: =34
                         Items: |-
                           =["Alec Adams", "Rachel Cosby", "Jessica Adams", "Tammy Dennis", "Leigh Marsh"]
-                        OnChange: =UpdateContext({locProducer: Self.Selected.Value})
+                        OnChange: |-
+                          =UpdateContext({locProducer: Self.Selected.Value})
                         Size: =13
                         Width: =220
                         X: =240
@@ -323,7 +328,8 @@ Screens:
                         Fill: =RGBA(255, 255, 255, 1)
                         Font: =Font.'Open Sans'
                         Height: =34
-                        OnChange: =UpdateContext({locReferral: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locReferral: Self.Text})
                         Size: =13
                         Width: =420
                         X: =480
@@ -386,7 +392,8 @@ Screens:
                         Fill: =RGBA(255, 255, 255, 1)
                         Font: =Font.'Open Sans'
                         Height: =34
-                        OnChange: =UpdateContext({locMailing: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locMailing: Self.Text})
                         Size: =13
                         Width: =440
                         X: =0
@@ -413,7 +420,8 @@ Screens:
                         Fill: =RGBA(255, 255, 255, 1)
                         Font: =Font.'Open Sans'
                         Height: =34
-                        OnChange: =UpdateContext({locRisk: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locRisk: Self.Text})
                         Size: =13
                         Width: =440
                         X: =460
@@ -441,7 +449,8 @@ Screens:
                         Font: =Font.'Open Sans'
                         Format: =TextFormat.Number
                         Height: =34
-                        OnChange: =UpdateContext({locYearBuilt: IfError(Value(Self.Text), Blank())})
+                        OnChange: |-
+                          =UpdateContext({locYearBuilt: IfError(Value(Self.Text), Blank())})
                         Size: =13
                         Width: =160
                         X: =0
@@ -470,7 +479,8 @@ Screens:
                         Height: =34
                         Items: |-
                           =["Primary Residence", "Secondary/Seasonal", "Rental", "Vacant"]
-                        OnChange: =UpdateContext({locOccupancy: Self.Selected.Value})
+                        OnChange: |-
+                          =UpdateContext({locOccupancy: Self.Selected.Value})
                         Size: =13
                         Width: =220
                         X: =180
@@ -497,7 +507,8 @@ Screens:
                         Height: =34
                         HandleFill: =RGBA(255, 255, 255, 1)
                         HandleHoverFill: =RGBA(255, 255, 255, 1)
-                        OnChange: =UpdateContext({locNewPurchase: Self.Value})
+                        OnChange: |-
+                          =UpdateContext({locNewPurchase: Self.Value})
                         TrueText: ="Yes"
                         ValueFill: =RGBA(22, 162, 190, 1)
                         ValueHoverFill: =RGBA(18, 142, 167, 1)
@@ -527,7 +538,8 @@ Screens:
                         Font: =Font.'Open Sans'
                         Height: =56
                         Mode: =TextMode.MultiLine
-                        OnChange: =UpdateContext({locNotes: Self.Text})
+                        OnChange: |-
+                          =UpdateContext({locNotes: Self.Text})
                         Size: =13
                         Width: =380
                         X: =520
