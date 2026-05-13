@@ -1,0 +1,284 @@
+Screens:
+  Screen1:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - cmpTotalLeadsDashboard_1:
+          Control: CanvasComponent
+          ComponentName: cmpTotalLeadsDashboard
+          Properties:
+            AnimationEffect: ="Pop"
+            ColumnsLayout: "={\n      Mobile: 1,\n      Tablet: 2,\n      Desktop: 4,\n      MobileBreakpoint:  IfError(Index(App.SizeBreakpoints, 1).Value, 640),\n      TabletBreakpoint:  IfError(Index(App.SizeBreakpoints, 2).Value, 1024),\n      DesktopBreakpoint: IfError(Index(App.SizeBreakpoints, 3).Value, 1366)\n  }\n\n  "
+            Data: |-
+              =Table(
+                  {ID: 1, Icon: "Users", Value: 1284, Label: "Total Leads", PercentChange: 18, PercentLabel: "vs last month", IconBg: "#EBF5FF", IconColor: "#2196F3", SparklineData: "620,710,780,830,900,980,1100,1180,1240,1284", isHidden: false},
+                  {ID: 2, Icon: "Target", Value: 437, Label: "Qualified Leads", PercentChange: 11, PercentLabel: "vs last month", IconBg: "#F0FDF4", IconColor: "#22C55E", SparklineData: "210,245,270,295,320,355,380,400,420,437", isHidden: false},
+                  {ID: 3, Icon: "Shield", Value: 198, Label: "Policies Closed", PercentChange: 23, PercentLabel: "vs last month", IconBg: "#FDF4FF", IconColor: "#A855F7", SparklineData: "80,95,108,120,135,150,162,175,188,198", isHidden: false},
+                  {ID: 4, Icon: "Clock", Value: 4, Label: "Avg. Response", PercentChange: -12, PercentLabel: "vs last month", IconBg: "#FFF7ED", IconColor: "#F97316", SparklineData: "9,8,8,7,7,6,6,5,5,4", isHidden: false}
+              )
+            IsLoading: =false
+            Style: ="Standard"
+            Width: =App.Width
+            X: =0.00
+      - cmpSidebar_2:
+          Control: CanvasComponent
+          ComponentName: cmpSidebar
+          Properties:
+            AccentColor: =RGBA(79, 142, 247, 1)
+            AppName: ="PowerApps"
+            AppNameAccent: ="UI"
+            Expanded: =true
+            Height: =App.Height
+            ShowFooterMenu: =true
+            ShowHeader: =true
+            ShowToggle: =true
+            ShowUser: =true
+            Theme: ="Dark"
+            Width: =64.00
+            X: =0.00
+      - cmpSegmentedControl_1:
+          Control: CanvasComponent
+          ComponentName: cmpSegmentedControl
+          Properties:
+            DefaultValue: ="list"
+            DisplayMode: ="Both"
+            Size: ="Medium"
+            Theme: ="Light"
+            Width: =340.00
+            X: =486.00
+            Y: =351
+      - cmpQuickAdd_1:
+          Control: CanvasComponent
+          ComponentName: cmpQuickAdd
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.45)
+            Height: =768
+            Width: =1366.00
+            X: =373.00
+            Y: =430
+      - cmpSalesPipeline_1:
+          Control: CanvasComponent
+          ComponentName: cmpSalesPipeline
+          Properties:
+            EnableHover: =true
+            EnableMenu: =true
+            Height: =600
+            ShowHeader: =true
+            ShowViewToggle: =true
+            ViewMode: ="table"
+            Width: =1200.00
+            X: =1066.00
+            Y: =598
+      - cmpNavClients_1:
+          Control: CanvasComponent
+          ComponentName: cmpNavClients
+          Properties:
+            ActiveColor: =RGBA(37, 99, 235, 1)
+            DropdownColumns: =2
+            NavAlign: ="Center"
+            ShowDescriptions: =true
+            ShowIcons: =true
+            Theme: ="Light"
+            Width: =App.Width
+            X: =0.00
+      - cmpLoadingSpinner_1:
+          Control: CanvasComponent
+          ComponentName: cmpLoadingSpinner
+          Properties:
+            Fill: =Color.Transparent
+            Height: =App.Height
+            LoadingText: ="Loading..."
+            OverlayOpacity: =0.3
+            ShowBlur: =true
+            Theme: ="Light"
+            Width: =App.Width
+            X: =0.00
+      - cmpLoadingScreen_1:
+          Control: CanvasComponent
+          ComponentName: cmpLoadingScreen
+          Properties:
+            AccentColor: =RGBA(79, 142, 247, 1)
+            AppName: ="PowerApps"
+            AppNameAccent: ="UI"
+            AppSubtitle: ="Component Library"
+            AppVersion: ="v1.0"
+            CompanyName: ="powerappsui.com"
+            CurrentStep: =0
+            Height: =App.Height
+            LogoLetter: ="P"
+            MinDisplayTime: =1500
+            Theme: ="Dark"
+            Width: =App.Width
+            X: =0.00
+      - cmpInsuranceLeads_4:
+          Control: CanvasComponent
+          ComponentName: cmpInsuranceLeads_3
+          Properties:
+            EnableHover: =true
+            EnableMenu: =true
+            Height: =600
+            ShowHeader: =true
+            ShowViewToggle: =true
+            ViewMode: ="table"
+            Width: =1200.00
+            X: =804.00
+            Y: =417
+      - cmpFileDropZone_3:
+          Control: CanvasComponent
+          ComponentName: cmpFileDropZone_2
+          Properties:
+            Height: =120
+            LinkedLeadID: =100
+            LinkedLeadTitle: ="Text"
+            Width: =348.00
+            X: =260.00
+            Y: =818
+      - cmpEnhancedDialog_1:
+          Control: CanvasComponent
+          ComponentName: cmpEnhancedDialog
+          Properties:
+            BorderRadius: =10
+            DialogType: ="Confirm"
+            DialogWidth: =400
+            Fill: =Color.Transparent
+            HeaderText: ="Confirm Action"
+            Height: =App.Height
+            IconName: ="Warning"
+            IsTextInputRequired: =false
+            MessageText: ="Are you sure you want to continue?"
+            OverlayBlurColor: ="RGBA(0, 0, 0, 0.4)"
+            PlaceholderText: ="Enter text"
+            ShowCloseIcon: =false
+            Theme: ="Light"
+            Width: =App.Width
+            X: =0.00
+      - cmpChips_1:
+          Control: CanvasComponent
+          ComponentName: cmpChips
+          Properties:
+            ChipType: ="filter"
+            Color: ="secondary"
+            Size: ="default"
+            Variant: ="tonal"
+            Width: =800.00
+            X: =0.00
+      - cmpCallsTimeline_1:
+          Control: CanvasComponent
+          ComponentName: cmpCallsTimeline
+          Properties:
+            CardHeight: =92
+            Height: =App.Height
+            HideHeader: =false
+            IsLoading: =false
+            ShowScrollbar: =false
+            SubDetailCardHeight: =212
+            Theme: ="Light"
+            Width: =App.Width
+            X: =0.00
+      - cmpCalendar_1:
+          Control: CanvasComponent
+          ComponentName: cmpCalendar
+          Properties:
+            DarkMode: =false
+            Height: =540
+            Width: =320.00
+            X: =0.00
+      - cmpBreadcrumbs_2:
+          Control: CanvasComponent
+          ComponentName: cmpBreadcrumbs
+          Properties:
+            CurrentColor: ="#111827"
+            Height: =40
+            LinkColor: ="#64748B"
+            Width: =800.00
+            X: =0.00
+      - cmpBottomNavigation_1:
+          Control: CanvasComponent
+          ComponentName: cmpBottomNavigation
+          Properties:
+            ActiveColor: =RGBA(59, 130, 246, 1)
+            ActiveColorHex: ="3B82F6"
+            ActiveIndicator: ="underline"
+            BadgeColor: =RGBA(220, 38, 38, 1)
+            Height: =64
+            InactiveColorHex: ="6B7280"
+            SelectedIndex: =1
+            ShowLabels: ="always"
+            Theme: ="Light"
+            Width: =App.Width
+            X: =0.00
+      - Badge_2:
+          Control: CanvasComponent
+          ComponentName: Badge
+          Properties:
+            BadgeColor: =RGBA(220, 38, 38, 1)
+            BadgeCount: =5
+            Fill: =Color.Transparent
+            HasNotifications: =true
+            Height: =Badge_2.Size
+            Size: =45.00
+            Theme: ="Light"
+            Width: =45.00
+            X: =0.00
+      - Component2_1:
+          Control: CanvasComponent
+          ComponentName: Component2
+          Properties:
+            Width: =640.00
+            X: =0.00
+      - cmpStatusPill_1:
+          Control: CanvasComponent
+          ComponentName: cmpStatusPill
+          Properties:
+            Fill: =RGBA(252, 235, 235, 1)
+            Height: =24
+            Width: =80.00
+            X: =42.00
+            Y: =327
+      - cmpStatCard_1:
+          Control: CanvasComponent
+          ComponentName: cmpStatCard
+          Properties:
+            Height: =120
+            Width: =220.00
+            X: =0.00
+            Y: =478
+      - cmpStatusPill_2:
+          Control: CanvasComponent
+          ComponentName: cmpStatusPill
+          Properties:
+            Fill: =RGBA(252, 235, 235, 1)
+            Height: =24
+            Width: =80.00
+            X: =436.00
+            Y: =616
+      - cmpStatCard_2:
+          Control: CanvasComponent
+          ComponentName: cmpStatCard
+          Properties:
+            Height: =120
+            Width: =220.00
+            X: =0.00
+      - cmpStatCard_3:
+          Control: CanvasComponent
+          ComponentName: cmpStatCard
+          Properties:
+            Height: =120
+            Width: =220.00
+            X: =0.00
+      - cmpLeadRow_1:
+          Control: CanvasComponent
+          ComponentName: cmpLeadRow
+          Properties:
+            Height: =56
+            Width: =640.00
+            X: =773.00
+            Y: =195
+      - cmpAgentAvatar_1:
+          Control: CanvasComponent
+          ComponentName: cmpAgentAvatar
+          Properties:
+            Height: =32
+            Width: =32.00
+            X: =0.00
