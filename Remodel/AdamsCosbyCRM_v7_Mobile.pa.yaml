@@ -98,7 +98,11 @@ Screens:
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             HoverFill: =BgCream
-            OnSelect: =Notify("Home Quote form coming next", NotificationType.Information)
+            OnSelect: |-
+              =Set(varQuoteMode, "New");
+              Set(varEditingQuote, Blank());
+              Set(varQuoteSection, "Applicant");
+              Navigate(QuoteIntakeScreen, ScreenTransition.None)
             Size: =13
             Text: |-
               ="🏠  Start Home Quote"
@@ -870,6 +874,28 @@ Screens:
             Width: =900
             X: =1278
             Y: =223
+      - DetailEditQuoteBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =BrandRed
+            BorderThickness: =1
+            Color: =BrandRed
+            DisplayMode: =If(IsBlank(varSelectedQuote), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =34
+            HoverFill: =BrandSoft
+            OnSelect: |-
+              =Set(varEditingQuote, varSelectedQuote);
+              Set(varQuoteMode, "Edit");
+              Set(varQuoteSection, "Applicant");
+              Navigate(QuoteIntakeScreen, ScreenTransition.None)
+            Size: =11
+            Text: ="✏  Edit Quote"
+            Width: =150
+            X: =2230
+            Y: =224
       - DetailStatusBg:
           Control: Rectangle@2.3.0
           Properties:
@@ -1819,6 +1845,7 @@ Screens:
             LoadingSpinner: =LoadingSpinner.None
             OnSelect: |-
               =Set(varSelectedQuote, ThisItem);
+              Set(varEditingQuote, ThisItem);
               Set(varSelectedLead, LookUp(Leads, 'Phone Number' = ThisItem.Phone || Email = ThisItem.Email))
             TemplateFill: =If(!IsBlank(varSelectedQuote) && ThisItem.ID = varSelectedQuote.ID, BrandSoft, RGBA(255, 255, 255, 0))
             TemplateSize: =76

@@ -1,0 +1,2186 @@
+Screens:
+  QuoteIntakeScreen:
+    Properties:
+      Fill: =Win95Face
+      LoadingSpinnerColor: =Win95TitleNavy
+      OnVisible: |-
+        =Set(Win95Face,       RGBA(192, 192, 192, 1));
+        Set(Win95Light,       RGBA(255, 255, 255, 1));
+        Set(Win95Shadow,      RGBA(128, 128, 128, 1));
+        Set(Win95Dark,        RGBA(64, 64, 64, 1));
+        Set(Win95TitleNavy,   RGBA(0, 0, 128, 1));
+        Set(Win95TitleBlue,   RGBA(16, 132, 208, 1));
+        Set(Win95Text,        RGBA(0, 0, 0, 1));
+        Set(Win95InputBg,     RGBA(255, 255, 255, 1));
+        Set(Win95Group,       RGBA(0, 0, 128, 1));
+        Set(Win95Disabled,    RGBA(132, 132, 132, 1));
+        If(IsBlank(varQuoteMode), Set(varQuoteMode, "New"));
+        If(IsBlank(varQuoteSection), Set(varQuoteSection, "Applicant"));
+        If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+            UpdateContext({
+                locName:     varEditingQuote.Title,
+                locDOB:      varEditingQuote.DOB,
+                locPhone:    varEditingQuote.Phone,
+                locEmail:    varEditingQuote.Email,
+                locReferral: varEditingQuote.Referral,
+                locProducer: varEditingQuote.Agent,
+                locSpouse:   varEditingQuote.Spouse,
+                locMailing:  varEditingQuote.MailingAddress,
+                locRisk:     varEditingQuote.RiskAddress,
+                locPrefContact: varEditingQuote.PreferredContactMethod,
+                locBestTime: varEditingQuote.BestTimeToContact,
+                locYearBuilt:    varEditingQuote.YearBuilt,
+                locSqFt:         varEditingQuote.LivingSqFt,
+                locOccupancy:    varEditingQuote.Occupancy,
+                locNewPurchase:  varEditingQuote.NewPurchase,
+                locRoofType:     varEditingQuote.RoofType,
+                locRoofAge:      varEditingQuote.AgeOfRoof,
+                locCurrentCarrier: varEditingQuote.CurrentCarrier,
+                locCurrentPremium: varEditingQuote.CurrentPremium,
+                locDwelling:     varEditingQuote.Dwelling,
+                locDeductible:   varEditingQuote.Deductible,
+                locNotes:        varEditingQuote.Notes,
+                locClaimsCount:  varEditingQuote.ClaimsLast5,
+                locInsScoreOK:   varEditingQuote.InsuranceScorePermission,
+                locLastSavedAt:  varEditingQuote.Modified
+            }),
+            UpdateContext({
+                locName: "", locDOB: Blank(), locPhone: "", locEmail: "",
+                locReferral: Blank(), locProducer: Blank(),
+                locSpouse: "", locMailing: "", locRisk: "",
+                locPrefContact: Blank(), locBestTime: Blank(),
+                locYearBuilt: Blank(), locSqFt: Blank(), locOccupancy: Blank(),
+                locNewPurchase: false, locRoofType: Blank(), locRoofAge: Blank(),
+                locCurrentCarrier: "", locCurrentPremium: Blank(),
+                locDwelling: Blank(), locDeductible: Blank(), locNotes: "",
+                locClaimsCount: 0, locInsScoreOK: false, locLastSavedAt: Blank()
+            })
+        )
+    Children:
+      # ---------- Outer window frame (raised bevel) ----------
+      - WinFrameOuter:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Dark
+            Height: =1200
+            Width: =2400
+            X: =0
+            Y: =0
+      - WinFrameInner:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Face
+            Height: =1196
+            Width: =2396
+            X: =2
+            Y: =2
+      - WinHighlightTop:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Light
+            Height: =2
+            Width: =2392
+            X: =4
+            Y: =4
+      - WinHighlightLeft:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Light
+            Height: =1188
+            Width: =2
+            X: =4
+            Y: =4
+      - WinShadowBottom:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =2
+            Width: =2392
+            X: =4
+            Y: =1190
+      - WinShadowRight:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =1188
+            Width: =2
+            X: =2394
+            Y: =4
+
+      # ---------- Title bar (navy gradient + caption + window buttons) ----------
+      - TitleBarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95TitleNavy
+            Height: =40
+            Width: =2380
+            X: =10
+            Y: =10
+      - TitleBarGradient:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95TitleBlue
+            Height: =40
+            Width: =1200
+            X: =1190
+            Y: =10
+      - TitleBarIcon:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =40
+            PaddingLeft: =10
+            PaddingTop: =9
+            Size: =14
+            Text: ="🏠"
+            Width: =40
+            X: =14
+            Y: =10
+      - TitleBarText:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =40
+            PaddingTop: =10
+            Size: =13
+            Text: |-
+              ="Adams Cosby CRM - Homeowner Quote Intake" &
+                If(varQuoteMode = "Edit" && !IsBlank(locName),
+                    "  -  " & locName & "  [draft]",
+                    "")
+            Width: =1400
+            X: =56
+            Y: =10
+      - TitleBarMinBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =Win95Dark
+            BorderThickness: =1
+            Fill: =Win95Face
+            Height: =22
+            Width: =26
+            X: =2300
+            Y: =19
+      - TitleBarMinLbl:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =11
+            Text: ="_"
+            Width: =26
+            X: =2300
+            Y: =19
+      - TitleBarMaxBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =Win95Dark
+            BorderThickness: =1
+            Fill: =Win95Face
+            Height: =22
+            Width: =26
+            X: =2328
+            Y: =19
+      - TitleBarMaxLbl:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            PaddingTop: =0
+            Size: =11
+            Text: ="◻"
+            Width: =26
+            X: =2328
+            Y: =19
+      - TitleBarCloseBg:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Dark
+            BorderThickness: =1
+            Color: =Win95Text
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            HoverFill: =RGBA(232, 64, 64, 1)
+            OnSelect: |-
+              =Set(varQuoteMode, Blank());
+              Set(varEditingQuote, Blank());
+              Set(varQuoteSection, Blank());
+              Navigate(Dashboard, ScreenTransition.None)
+            PressedFill: =RGBA(192, 32, 32, 1)
+            Size: =11
+            Text: ="✕"
+            Width: =26
+            X: =2356
+            Y: =19
+
+      # ---------- Menu bar (File / Edit / View / Tools / Help) ----------
+      - MenuBarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Face
+            Height: =26
+            Width: =2380
+            X: =10
+            Y: =52
+      - MenuFile:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingLeft: =10
+            PaddingTop: =5
+            Size: =12
+            Text: ="File"
+            Width: =48
+            X: =14
+            Y: =52
+      - MenuEdit:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingLeft: =10
+            PaddingTop: =5
+            Size: =12
+            Text: ="Edit"
+            Width: =48
+            X: =62
+            Y: =52
+      - MenuView:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingLeft: =10
+            PaddingTop: =5
+            Size: =12
+            Text: ="View"
+            Width: =50
+            X: =110
+            Y: =52
+      - MenuTools:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingLeft: =10
+            PaddingTop: =5
+            Size: =12
+            Text: ="Tools"
+            Width: =54
+            X: =160
+            Y: =52
+      - MenuHelp:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingLeft: =10
+            PaddingTop: =5
+            Size: =12
+            Text: ="Help"
+            Width: =50
+            X: =214
+            Y: =52
+
+      # ---------- Toolbar (raised strip) ----------
+      - ToolbarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Face
+            Height: =68
+            Width: =2380
+            X: =10
+            Y: =78
+      - ToolbarHL:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =1
+            Width: =2380
+            X: =10
+            Y: =146
+      - TbNew:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =Set(varQuoteMode, "New");
+              Set(varEditingQuote, Blank());
+              Set(varQuoteSection, "Applicant");
+              UpdateContext({
+                  locName: "", locDOB: Blank(), locPhone: "", locEmail: "",
+                  locReferral: Blank(), locProducer: Blank(),
+                  locSpouse: "", locMailing: "", locRisk: "",
+                  locPrefContact: Blank(), locBestTime: Blank(),
+                  locYearBuilt: Blank(), locSqFt: Blank(), locOccupancy: Blank(),
+                  locNewPurchase: false, locRoofType: Blank(), locRoofAge: Blank(),
+                  locCurrentCarrier: "", locCurrentPremium: Blank(),
+                  locDwelling: Blank(), locDeductible: Blank(), locNotes: "",
+                  locClaimsCount: 0, locInsScoreOK: false, locLastSavedAt: Blank()
+              })
+            PressedFill: =Win95Shadow
+            Size: =10
+            Text: ="📄" & Char(10) & "New"
+            Width: =68
+            X: =18
+            Y: =82
+      - TbSave:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            DisplayMode: =If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote), DisplayMode.Edit, DisplayMode.Disabled)
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =UpdateContext({ locSaving: true });
+              Set(varEditingQuote,
+                  Patch('Home Quotes', varEditingQuote, {
+                      Title:    locName,
+                      DOB:      locDOB,
+                      Phone:    locPhone,
+                      Email:    locEmail,
+                      Referral: locReferral,
+                      Agent:    locProducer,
+                      Spouse:   locSpouse,
+                      MailingAddress: locMailing,
+                      RiskAddress:    locRisk,
+                      PreferredContactMethod: locPrefContact,
+                      BestTimeToContact: locBestTime,
+                      YearBuilt: locYearBuilt,
+                      LivingSqFt: locSqFt,
+                      Occupancy: locOccupancy,
+                      NewPurchase: locNewPurchase,
+                      RoofType:  locRoofType,
+                      AgeOfRoof: locRoofAge,
+                      CurrentCarrier: locCurrentCarrier,
+                      CurrentPremium: locCurrentPremium,
+                      Dwelling: locDwelling,
+                      Deductible: locDeductible,
+                      Notes:     locNotes,
+                      ClaimsLast5: locClaimsCount,
+                      InsuranceScorePermission: locInsScoreOK
+                  })
+              );
+              UpdateContext({ locSaving: false, locLastSavedAt: Now() });
+              Notify("Quote saved.", NotificationType.Success, 2000)
+            PressedFill: =Win95Shadow
+            Size: =10
+            Text: ="💾" & Char(10) & "Save"
+            Width: =68
+            X: =90
+            Y: =82
+      - TbSaveClose:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            DisplayMode: =If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote), DisplayMode.Edit, DisplayMode.Disabled)
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =Set(varEditingQuote,
+                  Patch('Home Quotes', varEditingQuote, {
+                      Title:    locName,
+                      DOB:      locDOB,
+                      Phone:    locPhone,
+                      Email:    locEmail,
+                      Referral: locReferral,
+                      Agent:    locProducer,
+                      Spouse:   locSpouse,
+                      MailingAddress: locMailing,
+                      RiskAddress:    locRisk,
+                      PreferredContactMethod: locPrefContact,
+                      BestTimeToContact: locBestTime,
+                      YearBuilt: locYearBuilt,
+                      LivingSqFt: locSqFt,
+                      Occupancy: locOccupancy,
+                      NewPurchase: locNewPurchase,
+                      RoofType:  locRoofType,
+                      AgeOfRoof: locRoofAge,
+                      CurrentCarrier: locCurrentCarrier,
+                      CurrentPremium: locCurrentPremium,
+                      Dwelling: locDwelling,
+                      Deductible: locDeductible,
+                      Notes:     locNotes,
+                      ClaimsLast5: locClaimsCount,
+                      InsuranceScorePermission: locInsScoreOK
+                  })
+              );
+              Notify("Quote saved.", NotificationType.Success, 1500);
+              Set(varQuoteMode, Blank());
+              Set(varEditingQuote, Blank());
+              Set(varQuoteSection, Blank());
+              Navigate(Dashboard, ScreenTransition.None)
+            PressedFill: =Win95Shadow
+            Size: =9
+            Text: ="💾" & Char(10) & "Save & Close"
+            Width: =94
+            X: =162
+            Y: =82
+      - TbPrint:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            OnSelect: =Notify("Print pending.", NotificationType.Information)
+            Size: =10
+            Text: ="🖨" & Char(10) & "Print"
+            Width: =68
+            X: =260
+            Y: =82
+      - TbClear:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =UpdateContext({
+                  locName: "", locDOB: Blank(), locPhone: "", locEmail: "",
+                  locReferral: Blank(), locProducer: Blank(),
+                  locSpouse: "", locMailing: "", locRisk: "",
+                  locPrefContact: Blank(), locBestTime: Blank(),
+                  locYearBuilt: Blank(), locSqFt: Blank(), locOccupancy: Blank(),
+                  locNewPurchase: false, locRoofType: Blank(), locRoofAge: Blank(),
+                  locCurrentCarrier: "", locCurrentPremium: Blank(),
+                  locDwelling: Blank(), locDeductible: Blank(), locNotes: "",
+                  locClaimsCount: 0, locInsScoreOK: false
+              })
+            PressedFill: =Win95Shadow
+            Size: =10
+            Text: ="🧹" & Char(10) & "Clear"
+            Width: =68
+            X: =332
+            Y: =82
+      - TbHelp:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            HoverFill: =Win95Light
+            OnSelect: =Notify("All 6 fields in Applicant (Name, DOB, Phone, Email, Referral, Producer) trigger an auto-save.", NotificationType.Information, 6000)
+            PressedFill: =Win95Shadow
+            Size: =10
+            Text: ="❓" & Char(10) & "Help"
+            Width: =68
+            X: =404
+            Y: =82
+      - TbCloseBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =60
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =Set(varQuoteMode, Blank());
+              Set(varEditingQuote, Blank());
+              Set(varQuoteSection, Blank());
+              Navigate(Dashboard, ScreenTransition.None)
+            PressedFill: =Win95Shadow
+            Size: =10
+            Text: ="✕" & Char(10) & "Close"
+            Width: =68
+            X: =476
+            Y: =82
+      - TbSavedIndicator:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =If(IsBlank(locLastSavedAt), Win95Disabled, RGBA(0, 100, 0, 1))
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            PaddingTop: =22
+            Size: =11
+            Text: |-
+              =If(varQuoteMode = "New",
+                  "New - fill 6 required Applicant fields to auto-save",
+                  IsBlank(locLastSavedAt),
+                  "Draft - not yet saved",
+                  "Draft saved " & Text(locLastSavedAt, "h:mm AM/PM") & "  -  auto-saving on each edit"
+              )
+            Width: =1800
+            X: =570
+            Y: =82
+
+      # ---------- Sections sidebar ----------
+      - SidebarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Face
+            Height: =948
+            Width: =240
+            X: =10
+            Y: =150
+      - SidebarHeaderBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95InputBg
+            Height: =30
+            Width: =236
+            X: =12
+            Y: =152
+      - SidebarHeaderShadowR:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =948
+            Width: =1
+            X: =248
+            Y: =150
+      - SidebarHeaderHL:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Light
+            Height: =1
+            Width: =236
+            X: =249
+            Y: =150
+      - SidebarHeaderLbl:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            PaddingLeft: =10
+            PaddingTop: =7
+            Size: =12
+            Text: ="Sections"
+            Width: =236
+            X: =12
+            Y: =152
+      - SidebarApplicantBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =If(varQuoteSection = "Applicant", Win95TitleNavy, Win95Face)
+            BorderThickness: =If(varQuoteSection = "Applicant", 1, 0)
+            Color: =Win95Text
+            Fill: =If(varQuoteSection = "Applicant", RGBA(232, 232, 240, 1), Win95Face)
+            Font: =Font.'Open Sans'
+            FontWeight: =If(varQuoteSection = "Applicant", FontWeight.Bold, FontWeight.Normal)
+            Height: =40
+            HoverFill: =Win95Light
+            OnSelect: =Set(varQuoteSection, "Applicant")
+            Size: =12
+            Text: ="👤  Applicant"
+            Width: =228
+            X: =16
+            Y: =190
+      - SidebarPropertyBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =If(varQuoteSection = "Property", Win95TitleNavy, Win95Face)
+            BorderThickness: =If(varQuoteSection = "Property", 1, 0)
+            Color: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), Win95Disabled, Win95Text)
+            DisplayMode: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =If(varQuoteSection = "Property", RGBA(232, 232, 240, 1), Win95Face)
+            Font: =Font.'Open Sans'
+            FontWeight: =If(varQuoteSection = "Property", FontWeight.Bold, FontWeight.Normal)
+            Height: =40
+            HoverFill: =Win95Light
+            OnSelect: =Set(varQuoteSection, "Property")
+            Size: =12
+            Text: ="🏠  Property & Coverage"
+            Width: =228
+            X: =16
+            Y: =232
+      - SidebarReviewBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =If(varQuoteSection = "Review", Win95TitleNavy, Win95Face)
+            BorderThickness: =If(varQuoteSection = "Review", 1, 0)
+            Color: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), Win95Disabled, Win95Text)
+            DisplayMode: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =If(varQuoteSection = "Review", RGBA(232, 232, 240, 1), Win95Face)
+            Font: =Font.'Open Sans'
+            FontWeight: =If(varQuoteSection = "Review", FontWeight.Bold, FontWeight.Normal)
+            Height: =40
+            HoverFill: =Win95Light
+            OnSelect: =Set(varQuoteSection, "Review")
+            Size: =12
+            Text: ="📋  Review & Save"
+            Width: =228
+            X: =16
+            Y: =274
+      - SidebarHelpHint:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Disabled
+            Font: =Font.'Open Sans'
+            Height: =40
+            PaddingLeft: =12
+            PaddingTop: =4
+            Size: =10
+            Text: ="Press F1 for help."
+            Width: =228
+            X: =16
+            Y: =1050
+
+      # ---------- Form pane border (sunken) ----------
+      - FormPaneShadowT:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =1
+            Width: =2120
+            X: =260
+            Y: =150
+      - FormPaneShadowL:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =948
+            Width: =1
+            X: =260
+            Y: =150
+      - FormPaneHLB:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Light
+            Height: =1
+            Width: =2120
+            X: =260
+            Y: =1098
+      - FormPaneHLR:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Light
+            Height: =948
+            Width: =1
+            X: =2380
+            Y: =150
+
+      # ================================================================
+      # ===================  APPLICANT SECTION  ========================
+      # ================================================================
+      - ApplicantPanel:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =Win95Face
+            Height: =940
+            Visible: =varQuoteSection = "Applicant"
+            Width: =2118
+            X: =262
+            Y: =152
+          Children:
+            - AppGroupTitleBg:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Applicant Information"
+                  Width: =400
+                  X: =20
+                  Y: =14
+            - AppNameLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Named Insured:\""
+                  Width: =240
+                  X: =40
+                  Y: =60
+            - AppNameInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locName
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  HintText: ="John Smith"
+                  OnChange: |-
+                    =UpdateContext({ locName: Self.Text });
+                    If(
+                        varQuoteMode = "New" &&
+                        !IsBlank(Self.Text) && !IsBlank(locDOB) && !IsBlank(locPhone) &&
+                        !IsBlank(locEmail) && !IsBlank(locReferral) && !IsBlank(locProducer),
+                        Set(varEditingQuote,
+                            Patch('Home Quotes', Defaults('Home Quotes'), {
+                                Title: Self.Text, DOB: locDOB, Phone: locPhone, Email: locEmail,
+                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                            })
+                        );
+                        Set(varQuoteMode, "Edit");
+                        UpdateContext({ locLastSavedAt: Now() });
+                        Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
+                        varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Title: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =380
+                  X: =40
+                  Y: =84
+            - AppSpouseLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Spouse / Co-Insured:\""
+                  Width: =240
+                  X: =40
+                  Y: =128
+            - AppSpouseInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locSpouse
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locSpouse: Self.Text });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Spouse: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =380
+                  X: =40
+                  Y: =152
+            - AppDOBLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"DOB:\""
+                  Width: =160
+                  X: =440
+                  Y: =60
+            - AppDOBPicker:
+                Control: Classic/DatePicker@2.6.0
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  DefaultDate: =If(IsBlank(locDOB), Blank(), locDOB)
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =DateTimeFormat.ShortDate
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locDOB: Self.SelectedDate });
+                    If(
+                        varQuoteMode = "New" &&
+                        !IsBlank(locName) && !IsBlank(Self.SelectedDate) && !IsBlank(locPhone) &&
+                        !IsBlank(locEmail) && !IsBlank(locReferral) && !IsBlank(locProducer),
+                        Set(varEditingQuote,
+                            Patch('Home Quotes', Defaults('Home Quotes'), {
+                                Title: locName, DOB: Self.SelectedDate, Phone: locPhone, Email: locEmail,
+                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                            })
+                        );
+                        Set(varQuoteMode, "Edit");
+                        UpdateContext({ locLastSavedAt: Now() });
+                        Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
+                        varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { DOB: Self.SelectedDate });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =220
+                  X: =440
+                  Y: =84
+            - AppPhoneLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Phone:\""
+                  Width: =160
+                  X: =40
+                  Y: =196
+            - AppPhoneInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locPhone
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Text
+                  Height: =30
+                  HintText: ="(317) 555-0198"
+                  OnChange: |-
+                    =UpdateContext({ locPhone: Self.Text });
+                    If(
+                        varQuoteMode = "New" &&
+                        !IsBlank(locName) && !IsBlank(locDOB) && !IsBlank(Self.Text) &&
+                        !IsBlank(locEmail) && !IsBlank(locReferral) && !IsBlank(locProducer),
+                        Set(varEditingQuote,
+                            Patch('Home Quotes', Defaults('Home Quotes'), {
+                                Title: locName, DOB: locDOB, Phone: Self.Text, Email: locEmail,
+                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                            })
+                        );
+                        Set(varQuoteMode, "Edit");
+                        UpdateContext({ locLastSavedAt: Now() });
+                        Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
+                        varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Phone: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =380
+                  X: =40
+                  Y: =220
+            - AppEmailLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Email:\""
+                  Width: =160
+                  X: =440
+                  Y: =196
+            - AppEmailInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locEmail
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  HintText: ="john.smith@email.com"
+                  OnChange: |-
+                    =UpdateContext({ locEmail: Self.Text });
+                    If(
+                        varQuoteMode = "New" &&
+                        !IsBlank(locName) && !IsBlank(locDOB) && !IsBlank(locPhone) &&
+                        !IsBlank(Self.Text) && !IsBlank(locReferral) && !IsBlank(locProducer),
+                        Set(varEditingQuote,
+                            Patch('Home Quotes', Defaults('Home Quotes'), {
+                                Title: locName, DOB: locDOB, Phone: locPhone, Email: Self.Text,
+                                Referral: locReferral, Agent: locProducer, QuoteDate: Today()
+                            })
+                        );
+                        Set(varQuoteMode, "Edit");
+                        UpdateContext({ locLastSavedAt: Now() });
+                        Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
+                        varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Email: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =380
+                  X: =440
+                  Y: =220
+
+            # ----- Mailing Address group -----
+            - AppMailGroupLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  PaddingLeft: =10
+                  Size: =11
+                  Text: ="Mailing Address"
+                  Width: =200
+                  X: =40
+                  Y: =280
+            - AppMailingInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locMailing
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =76
+                  HintText: ="123 Main St\nIndianapolis, IN 46204"
+                  Mode: =TextMode.MultiLine
+                  OnChange: |-
+                    =UpdateContext({ locMailing: Self.Text });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { MailingAddress: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =380
+                  X: =40
+                  Y: =304
+
+            # ----- Risk Address group -----
+            - AppRiskGroupLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  PaddingLeft: =10
+                  Size: =11
+                  Text: ="Risk Address (if different)"
+                  Width: =300
+                  X: =440
+                  Y: =280
+            - AppRiskInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locRisk
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =76
+                  HintText: ="Same as Mailing Address"
+                  Mode: =TextMode.MultiLine
+                  OnChange: |-
+                    =UpdateContext({ locRisk: Self.Text });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { RiskAddress: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =380
+                  X: =440
+                  Y: =304
+
+            # ----- Preferences group -----
+            - AppPrefGroupLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  PaddingLeft: =10
+                  Size: =11
+                  Text: ="Preferences"
+                  Width: =200
+                  X: =40
+                  Y: =408
+            - AppPrefContactLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Preferred Contact:\""
+                  Width: =180
+                  X: =40
+                  Y: =434
+            - AppPrefContactDD:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  Default: =locPrefContact
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  Items: =["Phone","Email","Text","Mail"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =UpdateContext({ locPrefContact: Self.Selected.Value });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { PreferredContactMethod: { Value: Self.Selected.Value } });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =40
+                  Y: =458
+            - AppBestTimeLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Best Time:\""
+                  Width: =180
+                  X: =240
+                  Y: =434
+            - AppBestTimeDD:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  Default: =locBestTime
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  Items: =["Morning","Afternoon","Evening","Anytime"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =UpdateContext({ locBestTime: Self.Selected.Value });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { BestTimeToContact: { Value: Self.Selected.Value } });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =240
+                  Y: =458
+            - AppReferralLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: ="How did you hear about us? *"
+                  Width: =260
+                  X: =440
+                  Y: =434
+            - AppReferralDD:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  Default: =locReferral
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  Items: =["Referral","Google","Facebook","Drive-by","Existing Client","Other"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =UpdateContext({ locReferral: Self.Selected.Value });
+                    If(
+                        varQuoteMode = "New" &&
+                        !IsBlank(locName) && !IsBlank(locDOB) && !IsBlank(locPhone) &&
+                        !IsBlank(locEmail) && !IsBlank(Self.Selected.Value) && !IsBlank(locProducer),
+                        Set(varEditingQuote,
+                            Patch('Home Quotes', Defaults('Home Quotes'), {
+                                Title: locName, DOB: locDOB, Phone: locPhone, Email: locEmail,
+                                Referral: Self.Selected.Value, Agent: locProducer, QuoteDate: Today()
+                            })
+                        );
+                        Set(varQuoteMode, "Edit");
+                        UpdateContext({ locLastSavedAt: Now() });
+                        Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
+                        varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Referral: Self.Selected.Value });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =260
+                  X: =440
+                  Y: =458
+
+            # ----- Assignment group -----
+            - AppAssignGroupLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  PaddingLeft: =10
+                  Size: =11
+                  Text: ="Assignment (Rotation)"
+                  Width: =300
+                  X: =40
+                  Y: =520
+            - AppProducerLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Producer: *\""
+                  Width: =160
+                  X: =40
+                  Y: =546
+            - AppProducerDD:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locProducer), "", locProducer.Value)
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  Items: =["Alec","Rachel Cosby","Jessica Adams","Tammy Dennis","Leigh Marsh"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =UpdateContext({ locProducer: { Value: Self.Selected.Value } });
+                    If(
+                        varQuoteMode = "New" &&
+                        !IsBlank(locName) && !IsBlank(locDOB) && !IsBlank(locPhone) &&
+                        !IsBlank(locEmail) && !IsBlank(locReferral) && !IsBlank(Self.Selected.Value),
+                        Set(varEditingQuote,
+                            Patch('Home Quotes', Defaults('Home Quotes'), {
+                                Title: locName, DOB: locDOB, Phone: locPhone, Email: locEmail,
+                                Referral: locReferral, Agent: { Value: Self.Selected.Value }, QuoteDate: Today()
+                            })
+                        );
+                        Set(varQuoteMode, "Edit");
+                        UpdateContext({ locLastSavedAt: Now() });
+                        Notify("Draft saved - come back any time.", NotificationType.Success, 3000),
+                        varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Agent: { Value: Self.Selected.Value } });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =300
+                  X: =40
+                  Y: =570
+
+            - AppRequiredLegend:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Disabled
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =10
+                  Text: ="* Required to start the draft - we'll save automatically once all six are filled."
+                  Width: =800
+                  X: =40
+                  Y: =620
+            - AppStatusReadout:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =If(varQuoteMode = "New", RGBA(160, 100, 0, 1), RGBA(0, 100, 0, 1))
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =26
+                  Size: =11
+                  Text: |-
+                    =If(varQuoteMode = "New",
+                        "Status: " & CountIf([!IsBlank(locName), !IsBlank(locDOB), !IsBlank(locPhone), !IsBlank(locEmail), !IsBlank(locReferral), !IsBlank(locProducer)], Value = true) & " of 6 required fields complete",
+                        "Status: Draft saved - editing now writes to SharePoint on each blur"
+                    )
+                  Width: =800
+                  X: =40
+                  Y: =648
+
+      # ================================================================
+      # ===============  PROPERTY & COVERAGE SECTION  ==================
+      # ================================================================
+      - PropertyPanel:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =Win95Face
+            Height: =940
+            Visible: =varQuoteSection = "Property"
+            Width: =2118
+            X: =262
+            Y: =152
+          Children:
+            - PropTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Property"
+                  Width: =400
+                  X: =20
+                  Y: =14
+            - PropYearLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Year Built:\""
+                  Width: =160
+                  X: =40
+                  Y: =60
+            - PropYearInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locYearBuilt), "", Text(locYearBuilt))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locYearBuilt: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { YearBuilt: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =40
+                  Y: =84
+            - PropSqFtLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Living Sq Ft:\""
+                  Width: =160
+                  X: =240
+                  Y: =60
+            - PropSqFtInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locSqFt), "", Text(locSqFt))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locSqFt: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { LivingSqFt: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =240
+                  Y: =84
+            - PropOccLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Occupancy:\""
+                  Width: =160
+                  X: =440
+                  Y: =60
+            - PropOccDD:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locOccupancy), "", locOccupancy.Value)
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  Items: =["Primary Residence","Secondary","Rental","Seasonal","Vacant"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =UpdateContext({ locOccupancy: { Value: Self.Selected.Value } });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Occupancy: { Value: Self.Selected.Value } });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =220
+                  X: =440
+                  Y: =84
+            - PropNewPurchaseLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: ="New Purchase?"
+                  Width: =160
+                  X: =680
+                  Y: =60
+            - PropNewPurchaseChk:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Fill: =Win95Face
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  HoverFill: =Win95Light
+                  OnSelect: |-
+                    =UpdateContext({ locNewPurchase: !locNewPurchase });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { NewPurchase: !locNewPurchase });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Text: =If(locNewPurchase, "[X] Yes", "[ ] No")
+                  Width: =100
+                  X: =680
+                  Y: =84
+
+            - ConstructionTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Construction"
+                  Width: =400
+                  X: =20
+                  Y: =140
+            - PropRoofTypeLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Roof Type:\""
+                  Width: =160
+                  X: =40
+                  Y: =180
+            - PropRoofTypeDD:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locRoofType), "", locRoofType.Value)
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  Items: =["Architectural Shingle","3-Tab Shingle","Metal","Tile","Slate","Flat","Other"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =UpdateContext({ locRoofType: { Value: Self.Selected.Value } });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { RoofType: { Value: Self.Selected.Value } });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =220
+                  X: =40
+                  Y: =204
+            - PropRoofAgeLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Roof Age (yrs):\""
+                  Width: =160
+                  X: =280
+                  Y: =180
+            - PropRoofAgeInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locRoofAge), "", Text(locRoofAge))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locRoofAge: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { AgeOfRoof: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =280
+                  Y: =204
+
+            - CoverageTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Coverage (Current Carrier)"
+                  Width: =400
+                  X: =20
+                  Y: =260
+            - PropCarrierLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Current Carrier:\""
+                  Width: =180
+                  X: =40
+                  Y: =300
+            - PropCarrierInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locCurrentCarrier
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locCurrentCarrier: Self.Text });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { CurrentCarrier: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =220
+                  X: =40
+                  Y: =324
+            - PropPremiumLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Current Premium ($):\""
+                  Width: =200
+                  X: =280
+                  Y: =300
+            - PropPremiumInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locCurrentPremium), "", Text(locCurrentPremium))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locCurrentPremium: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { CurrentPremium: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =280
+                  Y: =324
+            - PropDwellingLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Dwelling ($):\""
+                  Width: =160
+                  X: =480
+                  Y: =300
+            - PropDwellingInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locDwelling), "", Text(locDwelling))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locDwelling: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Dwelling: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =480
+                  Y: =324
+            - PropDeductibleLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Deductible ($):\""
+                  Width: =160
+                  X: =680
+                  Y: =300
+            - PropDeductibleInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =If(IsBlank(locDeductible), "", Text(locDeductible))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locDeductible: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Deductible: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =180
+                  X: =680
+                  Y: =324
+
+            - NotesTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Notes"
+                  Width: =400
+                  X: =20
+                  Y: =400
+            - NotesInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =locNotes
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Height: =180
+                  HintText: ="Free-form notes about the property, prior claims, special conditions..."
+                  Mode: =TextMode.MultiLine
+                  OnChange: |-
+                    =UpdateContext({ locNotes: Self.Text });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { Notes: Self.Text });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =800
+                  X: =40
+                  Y: =440
+
+      # ================================================================
+      # =================  REVIEW & SAVE SECTION  ======================
+      # ================================================================
+      - ReviewPanel:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =Win95Face
+            Height: =940
+            Visible: =varQuoteSection = "Review"
+            Width: =2118
+            X: =262
+            Y: =152
+          Children:
+            - ReviewTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Quote Summary"
+                  Width: =400
+                  X: =20
+                  Y: =14
+            - ReviewNamedLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Named Insured:\""
+                  Width: =160
+                  X: =40
+                  Y: =60
+            - ReviewNamedVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: =Coalesce(locName, "-")
+                  Width: =400
+                  X: =210
+                  Y: =60
+            - ReviewPhoneLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Phone:\""
+                  Width: =160
+                  X: =40
+                  Y: =86
+            - ReviewPhoneVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: =Coalesce(locPhone, "-")
+                  Width: =400
+                  X: =210
+                  Y: =86
+            - ReviewEmailLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Email:\""
+                  Width: =160
+                  X: =40
+                  Y: =112
+            - ReviewEmailVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: =Coalesce(locEmail, "-")
+                  Width: =400
+                  X: =210
+                  Y: =112
+            - ReviewAddrLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Risk Address:\""
+                  Width: =160
+                  X: =40
+                  Y: =138
+            - ReviewAddrVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =60
+                  Size: =11
+                  Text: =Coalesce(If(!IsBlank(locRisk), locRisk, locMailing), "-")
+                  Width: =400
+                  X: =210
+                  Y: =138
+            - ReviewYearLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Year Built / Sq Ft:\""
+                  Width: =160
+                  X: =40
+                  Y: =212
+            - ReviewYearVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: =Coalesce(If(IsBlank(locYearBuilt), "-", Text(locYearBuilt)), "-") & "  /  " & Coalesce(If(IsBlank(locSqFt), "-", Text(locSqFt)), "-")
+                  Width: =400
+                  X: =210
+                  Y: =212
+            - ReviewOccLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Occupancy:\""
+                  Width: =160
+                  X: =40
+                  Y: =238
+            - ReviewOccVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: =Coalesce(locOccupancy.Value, "-")
+                  Width: =400
+                  X: =210
+                  Y: =238
+            - ReviewProducerLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"Producer:\""
+                  Width: =160
+                  X: =40
+                  Y: =264
+            - ReviewProducerVal:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  Height: =22
+                  Size: =11
+                  Text: =Coalesce(locProducer.Value, "-")
+                  Width: =400
+                  X: =210
+                  Y: =264
+
+            # ----- Claims (Last 5 Years) -----
+            - ReviewClaimsTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Claims (Last 5 Years)"
+                  Width: =400
+                  X: =640
+                  Y: =14
+            - ReviewClaimsLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: "=\"# Claims:\""
+                  Width: =160
+                  X: =660
+                  Y: =60
+            - ReviewClaimsInput:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Default: =Text(Coalesce(locClaimsCount, 0))
+                  Fill: =Win95InputBg
+                  Font: =Font.'Open Sans'
+                  Format: =TextFormat.Number
+                  Height: =30
+                  OnChange: |-
+                    =UpdateContext({ locClaimsCount: Value(Self.Text) });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { ClaimsLast5: Value(Self.Text) });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Width: =100
+                  X: =660
+                  Y: =84
+
+            # ----- Underwriting -----
+            - ReviewUWTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Group
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =30
+                  PaddingLeft: =12
+                  PaddingTop: =6
+                  Size: =13
+                  Text: ="Underwriting"
+                  Width: =400
+                  X: =640
+                  Y: =160
+            - ReviewInsScoreLbl:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =Win95Text
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =22
+                  Size: =11
+                  Text: ="Insurance Score Permission Granted?"
+                  Width: =380
+                  X: =660
+                  Y: =200
+            - ReviewInsScoreBtn:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =1
+                  Color: =Win95Text
+                  Fill: =Win95Face
+                  Font: =Font.'Open Sans'
+                  Height: =30
+                  HoverFill: =Win95Light
+                  OnSelect: |-
+                    =UpdateContext({ locInsScoreOK: !locInsScoreOK });
+                    If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
+                        Patch('Home Quotes', varEditingQuote, { InsuranceScorePermission: !locInsScoreOK });
+                        UpdateContext({ locLastSavedAt: Now() })
+                    )
+                  Size: =11
+                  Text: =If(locInsScoreOK, "[X] Yes - granted", "[ ] No / not asked")
+                  Width: =260
+                  X: =660
+                  Y: =224
+
+            # ----- Save Intake big button -----
+            - ReviewSaveBtn:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =Win95Shadow
+                  BorderThickness: =2
+                  Color: =Win95Text
+                  DisplayMode: =If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote), DisplayMode.Edit, DisplayMode.Disabled)
+                  Fill: =Win95Face
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =44
+                  HoverFill: =Win95Light
+                  OnSelect: |-
+                    =Set(varEditingQuote,
+                        Patch('Home Quotes', varEditingQuote, {
+                            Title:    locName,
+                            DOB:      locDOB,
+                            Phone:    locPhone,
+                            Email:    locEmail,
+                            Referral: locReferral,
+                            Agent:    locProducer,
+                            Spouse:   locSpouse,
+                            MailingAddress: locMailing,
+                            RiskAddress:    locRisk,
+                            PreferredContactMethod: locPrefContact,
+                            BestTimeToContact: locBestTime,
+                            YearBuilt: locYearBuilt,
+                            LivingSqFt: locSqFt,
+                            Occupancy: locOccupancy,
+                            NewPurchase: locNewPurchase,
+                            RoofType: locRoofType,
+                            AgeOfRoof: locRoofAge,
+                            CurrentCarrier: locCurrentCarrier,
+                            CurrentPremium: locCurrentPremium,
+                            Dwelling: locDwelling,
+                            Deductible: locDeductible,
+                            Notes: locNotes,
+                            ClaimsLast5: locClaimsCount,
+                            InsuranceScorePermission: locInsScoreOK
+                        })
+                    );
+                    Notify("Intake saved.", NotificationType.Success, 2000);
+                    Set(varQuoteMode, Blank());
+                    Set(varEditingQuote, Blank());
+                    Set(varQuoteSection, Blank());
+                    Navigate(Dashboard, ScreenTransition.None)
+                  PressedFill: =Win95Shadow
+                  Size: =12
+                  Text: ="💾  Save Intake"
+                  Width: =220
+                  X: =660
+                  Y: =300
+
+      # ---------- Bottom button row ----------
+      - BottomBarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Face
+            Height: =48
+            Width: =2380
+            X: =10
+            Y: =1108
+      - BottomBackBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            DisplayMode: =If(varQuoteSection = "Applicant", DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =Set(varQuoteSection,
+                  If(varQuoteSection = "Review", "Property",
+                     varQuoteSection = "Property", "Applicant",
+                     "Applicant"))
+            PressedFill: =Win95Shadow
+            Size: =11
+            Text: ="< Back"
+            Width: =120
+            X: =2030
+            Y: =1114
+      - BottomNextBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            DisplayMode: =If(varQuoteSection = "Review" || (varQuoteMode = "New" && IsBlank(varEditingQuote)), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =Set(varQuoteSection,
+                  If(varQuoteSection = "Applicant", "Property",
+                     varQuoteSection = "Property", "Review",
+                     "Review"))
+            PressedFill: =Win95Shadow
+            Size: =11
+            Text: ="Next >"
+            Width: =120
+            X: =2160
+            Y: =1114
+      - BottomCancelBtn:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =Win95Shadow
+            BorderThickness: =1
+            Color: =Win95Text
+            Fill: =Win95Face
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverFill: =Win95Light
+            OnSelect: |-
+              =Set(varQuoteMode, Blank());
+              Set(varEditingQuote, Blank());
+              Set(varQuoteSection, Blank());
+              Navigate(Dashboard, ScreenTransition.None)
+            PressedFill: =Win95Shadow
+            Size: =11
+            Text: ="✕ Cancel"
+            Width: =120
+            X: =2290
+            Y: =1114
+
+      # ---------- Status bar ----------
+      - StatusBarBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Face
+            Height: =26
+            Width: =2380
+            X: =10
+            Y: =1160
+      - StatusBarHL:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Fill: =Win95Shadow
+            Height: =1
+            Width: =2380
+            X: =10
+            Y: =1160
+      - StatusBarLeft:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingLeft: =12
+            PaddingTop: =5
+            Size: =10
+            Text: ="Press F1 for help."
+            Width: =400
+            X: =14
+            Y: =1160
+      - StatusBarCenter:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =Win95Text
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingTop: =5
+            Size: =10
+            Text: |-
+              ="Record: 1 of 1   |   " &
+                If(varQuoteMode = "New", "Mode: New (unsaved draft)",
+                   varQuoteMode = "Edit", "Mode: Edit",
+                   "Mode: View")
+            Width: =800
+            X: =790
+            Y: =1160
+      - StatusBarRight:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            Color: =Win95Disabled
+            Font: =Font.'Open Sans'
+            Height: =26
+            PaddingRight: =12
+            PaddingTop: =5
+            Size: =10
+            Text: |-
+              =If(IsBlank(locLastSavedAt),
+                  "",
+                  "Auto-saved " & Text(locLastSavedAt, "h:mm:ss AM/PM"))
+            Width: =600
+            X: =1780
+            Y: =1160
