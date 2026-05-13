@@ -825,8 +825,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   DefaultDate: =If(IsBlank(locDOB), Blank(), locDOB)
                   Fill: =RGBA(255, 255, 255, 1)
@@ -1054,8 +1052,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   Default: =locPrefContact
                   Fill: =RGBA(255, 255, 255, 1)
@@ -1088,8 +1084,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   Default: =locBestTime
                   Fill: =RGBA(255, 255, 255, 1)
@@ -1123,8 +1117,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   Default: =locReferral
                   Fill: =RGBA(255, 255, 255, 1)
@@ -1187,8 +1179,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locProducer), "", locProducer.Value)
                   Fill: =RGBA(255, 255, 255, 1)
@@ -1360,8 +1350,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locOccupancy), "", locOccupancy.Value)
                   Fill: =RGBA(255, 255, 255, 1)
@@ -1444,8 +1432,6 @@ Screens:
                 Properties:
                   BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =RGBA(192, 192, 192, 1)
-                  ChevronFill: =RGBA(0, 0, 0, 1)
                   Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locRoofType), "", locRoofType.Value)
                   Fill: =RGBA(255, 255, 255, 1)
