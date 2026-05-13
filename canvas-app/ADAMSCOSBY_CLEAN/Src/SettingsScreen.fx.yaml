@@ -24,7 +24,7 @@ SettingsScreen As screen:
         Cursor: =Cursor.Hand
         Fill: =If("Dashboard"="Settings", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         Width: =200
         X: =0
         Y: =72
@@ -53,7 +53,7 @@ SettingsScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Dashboard"="Settings", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Dashboard"
@@ -415,7 +415,7 @@ SettingsScreen As screen:
         Fill: =RGBA(255, 255, 255, 0.15)
         FontWeight: =FontWeight.Semibold
         Height: =36
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         PressedFill: =RGBA(255, 255, 255, 0.25)
         Size: =13
         Text: ="← Dashboard"

@@ -25,7 +25,7 @@ TemplatesScreen As screen:
     TplSidebarNavItemDashboard As rectangle:
         Fill: =If("Dashboard"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         Cursor: =Cursor.Hand
         Width: =200
         X: =0
@@ -54,7 +54,7 @@ TemplatesScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Dashboard"="Templates", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Dashboard"
@@ -66,7 +66,7 @@ TemplatesScreen As screen:
     TplSidebarNavItemLeads As rectangle:
         Fill: =If("Leads"="Templates", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Notify("Leads screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
         Cursor: =Cursor.Hand
         Width: =200
         X: =0
@@ -95,7 +95,7 @@ TemplatesScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Leads"="Templates", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Notify("Leads screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Leads"
@@ -417,7 +417,7 @@ TemplatesScreen As screen:
         Fill: =RGBA(255, 255, 255, 0.15)
         FontWeight: =FontWeight.Semibold
         Height: =36
-        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         PressedFill: =RGBA(255, 255, 255, 0.25)
         Size: =13
         Text: ="← Dashboard"

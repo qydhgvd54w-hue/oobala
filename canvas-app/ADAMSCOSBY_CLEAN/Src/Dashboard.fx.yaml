@@ -1,0 +1,1122 @@
+Dashboard As screen:
+    Fill: =BgCream2
+    LoadingSpinnerColor: =BrandRed
+    OnVisible: =ClearCollect(colHomeQuotes, 'Home Quotes'); ClearCollect(colLeads, Leads); ClearCollect(colActivities, SortByColumns(Activities, "Created", SortOrder.Descending)); ClearCollect(colTemplates, 'Email Templates'); ClearCollect(colQuoteDocs, 'Quote Documents'); ClearCollect(colNotes, SortByColumns(Filter(Activities, ActivityType.Value = "Note"), "EventDate", SortOrder.Descending)); Set(varDefaultCalendar, First(Office365Outlook.CalendarGetTables_V2().value)); If(IsBlank(varSelectedQuote), Set(varSelectedQuote, First('Home Quotes'))); Set(varSelectedLead, LookUp(Leads, 'Phone Number' = varSelectedQuote.Phone Or Email = varSelectedQuote.Email)); Set(varDashSearch, ""); Set(varDashNoteDraft, ""); Set(varQuickAddOpen, false)
+
+    DashSidebarBackground As rectangle:
+        Fill: =RGBA(247, 247, 250, 1)
+        Height: =Parent.Height
+        Width: =200
+        X: =0
+        Y: =0
+        ZIndex: =1
+    DashSidebarLogoLabel As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        PaddingLeft: =16
+        Size: =16
+        Text: ="Adams Cosby"
+        Width: =200
+        X: =0
+        Y: =16
+        ZIndex: =2
+
+    DashSidebarNavItemDashboard As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =If("Dashboard"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+        Height: =40
+        OnSelect: =Notify("You're on Dashboard", NotificationType.Information)
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =3
+    DashSidebarNavItemDashboardAccent As rectangle:
+        Fill: =BrandRed
+        Height: =40
+        Visible: =If("Dashboard"="Dashboard", true, false)
+        Width: =3
+        X: =0
+        Y: =72
+        ZIndex: =4
+    DashSidebarNavItemDashboardIcon As icon.Home:
+        Color: =If("Dashboard"="Dashboard", BrandRed, TextSecondary)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Home
+        Width: =20
+        X: =16
+        Y: =82
+        ZIndex: =5
+    DashSidebarNavItemDashboardLabel As label:
+        Color: =If("Dashboard"="Dashboard", BrandRed, TextPrimary)
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =If("Dashboard"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
+        Height: =40
+        OnSelect: =Notify("You're on Dashboard", NotificationType.Information)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Dashboard"
+        Width: =200
+        X: =0
+        Y: =72
+        ZIndex: =6
+
+    DashSidebarNavItemLeads As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =120
+        ZIndex: =7
+    DashSidebarNavItemLeadsIcon As icon.People:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.People
+        Width: =20
+        X: =16
+        Y: =130
+        ZIndex: =8
+    DashSidebarNavItemLeadsLabel As label:
+        Color: =TextPrimary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =40
+        OnSelect: =Navigate(LeadsListScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Leads"
+        Width: =200
+        X: =0
+        Y: =120
+        ZIndex: =9
+
+    DashSidebarNavItemActivities As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =168
+        ZIndex: =10
+    DashSidebarNavItemActivitiesIcon As icon.CheckBadge:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.CheckBadge
+        Width: =20
+        X: =16
+        Y: =178
+        ZIndex: =11
+    DashSidebarNavItemActivitiesLabel As label:
+        Color: =TextPrimary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =40
+        OnSelect: =Navigate(ActivitiesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Activities"
+        Width: =200
+        X: =0
+        Y: =168
+        ZIndex: =12
+
+    DashSidebarNavItemCalendar As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =216
+        ZIndex: =13
+    DashSidebarNavItemCalendarIcon As icon.CalendarBlank:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.CalendarBlank
+        Width: =20
+        X: =16
+        Y: =226
+        ZIndex: =14
+    DashSidebarNavItemCalendarLabel As label:
+        Color: =TextPrimary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =40
+        OnSelect: =Navigate(CalendarScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Calendar"
+        Width: =200
+        X: =0
+        Y: =216
+        ZIndex: =15
+
+    DashSidebarNavItemTemplates As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =264
+        ZIndex: =16
+    DashSidebarNavItemTemplatesIcon As icon.Mail:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Mail
+        Width: =20
+        X: =16
+        Y: =274
+        ZIndex: =17
+    DashSidebarNavItemTemplatesLabel As label:
+        Color: =TextPrimary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =40
+        OnSelect: =Navigate(TemplatesScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Templates"
+        Width: =200
+        X: =0
+        Y: =264
+        ZIndex: =18
+
+    DashSidebarNavItemSettings As rectangle:
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =19
+    DashSidebarNavItemSettingsIcon As icon.Settings:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =20
+        Icon: =Icon.Settings
+        Width: =20
+        X: =16
+        Y: =322
+        ZIndex: =20
+    DashSidebarNavItemSettingsLabel As label:
+        Color: =TextPrimary
+        Cursor: =Cursor.Hand
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =40
+        OnSelect: =Navigate(SettingsScreen, ScreenTransition.None)
+        PaddingLeft: =44
+        Size: =13
+        Text: ="Settings"
+        Width: =200
+        X: =0
+        Y: =312
+        ZIndex: =21
+
+    DashAppBarBackground As rectangle:
+        Fill: =BrandRed
+        Height: =60
+        Width: =Parent.Width - 200
+        X: =200
+        Y: =0
+        ZIndex: =22
+    DashAppBarTitle As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =60
+        PaddingLeft: =24
+        Size: =18
+        Text: ="Adams Cosby  ›  Dashboard"
+        Width: =500
+        X: =200
+        Y: =0
+        ZIndex: =23
+    DashAppBarSearch As text:
+        BorderColor: =RGBA(255, 255, 255, 0.4)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Default: =""
+        Fill: =RGBA(255, 255, 255, 0.18)
+        Font: =Font.'Open Sans'
+        Height: =34
+        HintText: ="Search leads, quotes, notes..."
+        OnChange: =Set(varDashSearch, Self.Text)
+        Size: =13
+        Width: =320
+        X: =720
+        Y: =13
+        ZIndex: =24
+    DashAppBarQuickLeadBtn As button:
+        BorderColor: =RGBA(255, 255, 255, 0.55)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.12)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Set(varQuickAddOpen, true)
+        Size: =13
+        Text: ="+ Quick Lead"
+        Width: =140
+        X: =Parent.Width - 320
+        Y: =13
+        ZIndex: =25
+    DashAppBarStartQuoteBtn As button:
+        BorderColor: =RGBA(255, 255, 255, 1)
+        BorderThickness: =1
+        Color: =BrandRed
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        OnSelect: =Notify("Home Quote form coming next", NotificationType.Information)
+        Size: =13
+        Text: ="🏠  Start Home Quote"
+        Width: =170
+        X: =Parent.Width - 172
+        Y: =13
+        ZIndex: =26
+
+    DashKpiTotalBg As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =92
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220
+        Y: =80
+        ZIndex: =27
+    DashKpiTotalLabel As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =16
+        Size: =11
+        Text: ="TOTAL LEADS"
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220
+        Y: =88
+        ZIndex: =28
+    DashKpiTotalValue As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        PaddingLeft: =16
+        Size: =26
+        Text: =Text(CountRows('Home Quotes'))
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220
+        Y: =108
+        ZIndex: =29
+    DashKpiActiveBg As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =92
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5)
+        Y: =80
+        ZIndex: =30
+    DashKpiActiveLabel As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =16
+        Size: =11
+        Text: ="ACTIVE"
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5)
+        Y: =88
+        ZIndex: =31
+    DashKpiActiveValue As label:
+        Color: =StatusActive
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        PaddingLeft: =16
+        Size: =26
+        Text: =Text(CountRows(Filter('Home Quotes', QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days))))
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5)
+        Y: =108
+        ZIndex: =32
+    DashKpiWorkingBg As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =92
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 2
+        Y: =80
+        ZIndex: =33
+    DashKpiWorkingLabel As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =16
+        Size: =11
+        Text: ="WORKING"
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 2
+        Y: =88
+        ZIndex: =34
+    DashKpiWorkingValue As label:
+        Color: =StatusWorking
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        PaddingLeft: =16
+        Size: =26
+        Text: =Text(CountRows(Filter('Home Quotes', IsBlank(QuoteID) And IsBlank(AutoPolicyNumber))))
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 2
+        Y: =108
+        ZIndex: =35
+    DashKpiQuotedBg As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =92
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 3
+        Y: =80
+        ZIndex: =36
+    DashKpiQuotedLabel As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =16
+        Size: =11
+        Text: ="QUOTED"
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 3
+        Y: =88
+        ZIndex: =37
+    DashKpiQuotedValue As label:
+        Color: =StatusQuoted_Fg
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        PaddingLeft: =16
+        Size: =26
+        Text: =Text(CountRows(Filter('Home Quotes', !IsBlank(QuoteID))))
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 3
+        Y: =108
+        ZIndex: =38
+    DashKpiBoundBg As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =92
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 4
+        Y: =80
+        ZIndex: =39
+    DashKpiBoundLabel As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =16
+        Size: =11
+        Text: ="BOUND"
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 4
+        Y: =88
+        ZIndex: =40
+    DashKpiBoundValue As label:
+        Color: =StatusBound
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        PaddingLeft: =16
+        Size: =26
+        Text: =Text(CountRows(Filter('Home Quotes', !IsBlank(AutoPolicyNumber))))
+        Width: =(Parent.Width - 232) / 5 - 12
+        X: =220 + ((Parent.Width - 232) / 5) * 4
+        Y: =108
+        ZIndex: =41
+
+    DashQueueCard As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =500
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) * 0.55
+        X: =220
+        Y: =188
+        ZIndex: =42
+    DashQueueTitle As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        PaddingLeft: =16
+        Size: =15
+        Text: ="Lead Queue"
+        Width: =200
+        X: =220
+        Y: =196
+        ZIndex: =43
+    DashQueueNewBtn As button:
+        BorderColor: =BrandRed
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =BrandRed
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =32
+        OnSelect: =Set(varQuickAddOpen, true)
+        Size: =12
+        Text: ="+ New Lead"
+        Width: =110
+        X: =220 + (Parent.Width - 232) * 0.55 - 130
+        Y: =200
+        ZIndex: =44
+    "DashQueueGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =440
+        Items: =SortByColumns(Filter('Home Quotes', varDashSearch = "" Or StartsWith(Lower(Coalesce(Title, "")), Lower(varDashSearch))), "QuoteDate", SortOrder.Descending)
+        Layout: =Layout.Vertical
+        OnSelect: =Set(varSelectedQuote, ThisItem); Set(varSelectedLead, LookUp(Leads, 'Phone Number' = ThisItem.Phone Or Email = ThisItem.Email))
+        TemplateFill: =If(!IsBlank(varSelectedQuote) And ThisItem.ID = varSelectedQuote.ID, BrandSoft, RGBA(255, 255, 255, 0))
+        TemplatePadding: =0
+        TemplateSize: =64
+        Width: =(Parent.Width - 232) * 0.55 - 16
+        X: =228
+        Y: =244
+        ZIndex: =45
+
+        DashRowName As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            PaddingLeft: =16
+            Size: =13
+            Text: =Coalesce(ThisItem.Title, "Unnamed Lead")
+            Width: =Parent.TemplateWidth * 0.35
+            X: =0
+            Y: =10
+            ZIndex: =1
+        DashRowSub As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =16
+            PaddingLeft: =16
+            Size: =10
+            Text: =Coalesce(ThisItem.Phone, ThisItem.Email, "—")
+            Width: =Parent.TemplateWidth * 0.35
+            X: =0
+            Y: =34
+            ZIndex: =2
+        DashRowProducer As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =64
+            PaddingTop: =22
+            Size: =11
+            Text: =Coalesce(ThisItem.Agent.Value, "Unassigned")
+            Width: =Parent.TemplateWidth * 0.20
+            X: =Parent.TemplateWidth * 0.35
+            Y: =0
+            ZIndex: =3
+        DashRowDate As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =64
+            PaddingTop: =22
+            Size: =11
+            Text: =If(IsBlank(ThisItem.QuoteDate), "—", Text(ThisItem.QuoteDate, "[$-en-US]m/d/yyyy"))
+            Width: =Parent.TemplateWidth * 0.20
+            X: =Parent.TemplateWidth * 0.55
+            Y: =0
+            ZIndex: =4
+        DashRowStatusBg As rectangle:
+            Fill: =If(!IsBlank(ThisItem.AutoPolicyNumber), StatusBound_Bg, If(!IsBlank(ThisItem.QuoteID), StatusQuoted_Bg, If(ThisItem.QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days), StatusNew_Bg, StatusProg_Bg)))
+            Height: =22
+            RadiusBottomLeft: =11
+            RadiusBottomRight: =11
+            RadiusTopLeft: =11
+            RadiusTopRight: =11
+            Width: =90
+            X: =Parent.TemplateWidth * 0.78
+            Y: =21
+            ZIndex: =5
+        DashRowStatusLbl As label:
+            Align: =Align.Center
+            Color: =If(!IsBlank(ThisItem.AutoPolicyNumber), StatusBound_Fg, If(!IsBlank(ThisItem.QuoteID), StatusQuoted_Fg, If(ThisItem.QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days), StatusNew_Fg, StatusProg_Fg)))
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            PaddingTop: =4
+            Size: =9
+            Text: =If(!IsBlank(ThisItem.AutoPolicyNumber), "BOUND", If(!IsBlank(ThisItem.QuoteID), "QUOTED", If(ThisItem.QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days), "ACTIVE", "WORKING")))
+            Width: =90
+            X: =Parent.TemplateWidth * 0.78
+            Y: =21
+            ZIndex: =6
+        DashRowDivider As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.TemplateWidth - 32
+            X: =16
+            Y: =63
+            ZIndex: =7
+
+    DashDetailCard As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =500
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) * 0.43
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =188
+        ZIndex: =46
+    DashDetailName As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =32
+        PaddingLeft: =20
+        Size: =18
+        Text: =Coalesce(varSelectedQuote.Title, "Select a quote")
+        Width: =(Parent.Width - 232) * 0.43
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =200
+        ZIndex: =47
+    DashDetailStatus As label:
+        Color: =If(!IsBlank(varSelectedQuote.AutoPolicyNumber), StatusBound_Fg, If(!IsBlank(varSelectedQuote.QuoteID), StatusQuoted_Fg, If(varSelectedQuote.QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days), StatusNew_Fg, StatusProg_Fg)))
+        Fill: =If(!IsBlank(varSelectedQuote.AutoPolicyNumber), StatusBound_Bg, If(!IsBlank(varSelectedQuote.QuoteID), StatusQuoted_Bg, If(varSelectedQuote.QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days), StatusNew_Bg, StatusProg_Bg)))
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =22
+        Size: =10
+        Text: =If(!IsBlank(varSelectedQuote.AutoPolicyNumber), "BOUND", If(!IsBlank(varSelectedQuote.QuoteID), "QUOTED", If(varSelectedQuote.QuoteDate >= DateAdd(Today(), -7, TimeUnit.Days), "ACTIVE", "WORKING")))
+        Width: =90
+        X: =Parent.Width - 116
+        Y: =206
+        ZIndex: =48
+    DashDetailMeta As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =20
+        PaddingLeft: =20
+        Size: =11
+        Text: ="Quote ID: " & Coalesce(varSelectedQuote.QuoteID, "—") & "    ·    Producer: " & Coalesce(varSelectedQuote.Agent.Value, "Unassigned")
+        Width: =(Parent.Width - 232) * 0.43
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =232
+        ZIndex: =49
+
+    DashContactPhoneLbl As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =20
+        Size: =10
+        Text: ="PHONE"
+        Width: =200
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =268
+        ZIndex: =50
+    DashContactPhoneVal As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =22
+        PaddingLeft: =20
+        Size: =13
+        Text: =Coalesce(varSelectedQuote.Phone, "—")
+        Width: =(Parent.Width - 232) * 0.43 - 24
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =288
+        ZIndex: =51
+    DashContactEmailLbl As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =20
+        Size: =10
+        Text: ="EMAIL"
+        Width: =200
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =318
+        ZIndex: =52
+    DashContactEmailVal As label:
+        Color: =BrandRed
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =22
+        PaddingLeft: =20
+        Size: =12
+        Text: =Coalesce(varSelectedQuote.Email, "—")
+        Width: =(Parent.Width - 232) * 0.43 - 24
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =338
+        ZIndex: =53
+    DashContactAddressLbl As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =20
+        Size: =10
+        Text: ="RISK ADDRESS"
+        Width: =200
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =368
+        ZIndex: =54
+    DashContactAddressVal As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =22
+        PaddingLeft: =20
+        Size: =12
+        Text: =Coalesce(varSelectedQuote.RiskAddress, varSelectedQuote.MailingAddress, "—")
+        Width: =(Parent.Width - 232) * 0.43 - 24
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =388
+        ZIndex: =55
+    DashContactYearLbl As label:
+        Color: =TextSecondary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =18
+        PaddingLeft: =20
+        Size: =10
+        Text: ="YEAR BUILT  /  ROOF AGE"
+        Width: =300
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =418
+        ZIndex: =56
+    DashContactYearVal As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        Height: =22
+        PaddingLeft: =20
+        Size: =12
+        Text: =Coalesce(varSelectedQuote.YearBuilt, "—") & "  /  " & Coalesce(varSelectedQuote.AgeOfRoof, "—") & " yrs"
+        Width: =(Parent.Width - 232) * 0.43 - 24
+        X: =220 + (Parent.Width - 232) * 0.55 + 12
+        Y: =438
+        ZIndex: =57
+
+    DashNotesCard As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 720
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) * 0.32
+        X: =220
+        Y: =700
+        ZIndex: =58
+    DashNotesTitle As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =32
+        PaddingLeft: =16
+        Size: =14
+        Text: ="📝  Notes (" & Text(CountRows(Filter(colNotes, Lead.Id = varSelectedLead.ID))) & ")"
+        Width: =320
+        X: =220
+        Y: =708
+        ZIndex: =59
+    DashNotesInput As text:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextPrimary
+        Default: =""
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =56
+        HintText: ="Add a note..."
+        Mode: =TextMode.MultiLine
+        OnChange: =Set(varDashNoteDraft, Self.Text)
+        Size: =12
+        Width: =(Parent.Width - 232) * 0.32 - 32
+        X: =236
+        Y: =748
+        ZIndex: =60
+    DashNotesSaveBtn As button:
+        BorderColor: =TextPrimary
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =TextPrimary
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =28
+        OnSelect: =If(!IsBlank(varDashNoteDraft) And !IsBlank(varSelectedLead), Patch(Activities, Defaults(Activities), {Title: "Note: " & Coalesce(varSelectedQuote.Title, varSelectedLead.Title, "lead"), ActivityType: {Value: "Note"}, EventDate: Now(), ActivityNotes: varDashNoteDraft, Lead: {Id: varSelectedLead.ID, Value: varSelectedLead.Title}}); ClearCollect(colActivities, SortByColumns(Activities, "Created", SortOrder.Descending)); ClearCollect(colNotes, SortByColumns(Filter(Activities, ActivityType.Value = "Note"), "EventDate", SortOrder.Descending)); Reset(DashNotesInput); Set(varDashNoteDraft, ""); Notify("Note saved", NotificationType.Success), Notify("Type a note and select a lead first", NotificationType.Warning))
+        Size: =11
+        Text: ="Save Note"
+        Width: =100
+        X: =Parent.Width - 320
+        Y: =812
+        ZIndex: =61
+    "DashNotesFeed As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =Parent.Height - 880
+        Items: =If(IsBlank(varSelectedLead), Take(colNotes, 0), Filter(colNotes, Lead.Id = varSelectedLead.ID))
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =60
+        Width: =(Parent.Width - 232) * 0.32 - 16
+        X: =228
+        Y: =850
+        ZIndex: =62
+
+        DashNoteBody As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =20
+            PaddingLeft: =12
+            Size: =12
+            Text: =Coalesce(ThisItem.ActivityNotes, ThisItem.Title, "")
+            Width: =Parent.TemplateWidth - 16
+            X: =0
+            Y: =8
+            ZIndex: =1
+        DashNoteFooter As label:
+            Color: =TextTertiary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =16
+            PaddingLeft: =12
+            Size: =10
+            Text: =If(IsBlank(ThisItem.Agent), Coalesce(User().FullName, "Alec"), ThisItem.Agent.DisplayName) & "  ·  " & If(IsBlank(ThisItem.EventDate), "", Text(ThisItem.EventDate, "[$-en-US]m/d h:mm AM/PM"))
+            Width: =Parent.TemplateWidth - 16
+            X: =0
+            Y: =32
+            ZIndex: =2
+        DashNoteDivider As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.TemplateWidth - 24
+            X: =12
+            Y: =59
+            ZIndex: =3
+
+    DashActivityCard As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 720
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) * 0.32
+        X: =220 + (Parent.Width - 232) * 0.34
+        Y: =700
+        ZIndex: =63
+    DashActivityTitle As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =32
+        PaddingLeft: =16
+        Size: =14
+        Text: ="📞  Recent Activity"
+        Width: =320
+        X: =220 + (Parent.Width - 232) * 0.34
+        Y: =708
+        ZIndex: =64
+    DashActCallBtn As button:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =32
+        OnSelect: =Patch(Activities, Defaults(Activities), {Title: "Called " & Coalesce(varSelectedQuote.Title, varSelectedLead.Title, "client"), ActivityType: {Value: "Call"}, EventDate: Now(), Outcome: "Logged from dashboard", Lead: {Id: varSelectedLead.ID, Value: varSelectedLead.Title}}); ClearCollect(colActivities, SortByColumns(Activities, "Created", SortOrder.Descending)); Notify("Call logged", NotificationType.Success)
+        Size: =11
+        Text: ="📞 Call"
+        Width: =((Parent.Width - 232) * 0.32 - 48) / 3
+        X: =236 + (Parent.Width - 232) * 0.34
+        Y: =748
+        ZIndex: =65
+    DashActTextBtn As button:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =32
+        OnSelect: =Patch(Activities, Defaults(Activities), {Title: "Texted " & Coalesce(varSelectedQuote.Title, varSelectedLead.Title, "client"), ActivityType: {Value: "Text"}, EventDate: Now(), Outcome: "Logged from dashboard", Lead: {Id: varSelectedLead.ID, Value: varSelectedLead.Title}}); ClearCollect(colActivities, SortByColumns(Activities, "Created", SortOrder.Descending)); Notify("Text logged", NotificationType.Success)
+        Size: =11
+        Text: ="💬 Text"
+        Width: =((Parent.Width - 232) * 0.32 - 48) / 3
+        X: =236 + (Parent.Width - 232) * 0.34 + ((Parent.Width - 232) * 0.32 - 48) / 3 + 8
+        Y: =748
+        ZIndex: =66
+    DashActEmailBtn As button:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Color: =TextPrimary
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Open Sans'
+        Height: =32
+        OnSelect: =If(!IsBlank(varSelectedQuote.Email), Office365Outlook.SendEmailV2(varSelectedQuote.Email, "Adams Cosby — Your Home Quote", "Hi " & Coalesce(varSelectedQuote.Title, "there") & ",<br/><br/>Quick note about your home quote.<br/><br/>Thanks,<br/>" & Coalesce(User().FullName, "Adams Cosby"), {Cc: "teamac@alfains.com", ReplyTo: "teamac@alfains.com", IsHtml: true}); Notify("Email sent", NotificationType.Success), Notify("No email on selected quote", NotificationType.Warning))
+        Size: =11
+        Text: ="✉️ Email"
+        Width: =((Parent.Width - 232) * 0.32 - 48) / 3
+        X: =236 + (Parent.Width - 232) * 0.34 + (((Parent.Width - 232) * 0.32 - 48) / 3 + 8) * 2
+        Y: =748
+        ZIndex: =67
+    "DashActFeed As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =Parent.Height - 820
+        Items: =If(IsBlank(varSelectedLead), Take(colActivities, 0), Filter(colActivities, Lead.Id = varSelectedLead.ID))
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =60
+        Width: =(Parent.Width - 232) * 0.32 - 16
+        X: =228 + (Parent.Width - 232) * 0.34
+        Y: =792
+        ZIndex: =68
+
+        DashActIcon As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =28
+            Size: =14
+            Text: =Switch(ThisItem.ActivityType.Value, "Call", "📞", "Text", "💬", "Email", "✉️", "Voicemail", "🎙", "Meeting", "🤝", "Note", "📝", "📌")
+            Width: =28
+            X: =12
+            Y: =14
+            ZIndex: =1
+        DashActItemTitle As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            Size: =12
+            Text: =Coalesce(ThisItem.Title, ThisItem.ActivityType.Value, "Activity")
+            Width: =Parent.TemplateWidth - 60
+            X: =48
+            Y: =8
+            ZIndex: =2
+        DashActItemNotes As label:
+            Color: =TextSecondary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =16
+            Size: =10
+            Text: =Coalesce(ThisItem.ActivityNotes, ThisItem.Outcome, "")
+            Width: =Parent.TemplateWidth - 60
+            X: =48
+            Y: =28
+            ZIndex: =3
+        DashActItemDate As label:
+            Align: =Align.Right
+            Color: =TextTertiary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =14
+            Size: =9
+            Text: =If(IsBlank(ThisItem.EventDate), "", Text(ThisItem.EventDate, "[$-en-US]m/d h:mm AM/PM"))
+            Width: =Parent.TemplateWidth - 60
+            X: =48
+            Y: =44
+            ZIndex: =4
+        DashActItemDivider As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.TemplateWidth - 24
+            X: =12
+            Y: =59
+            ZIndex: =5
+
+    DashTplCard As rectangle:
+        BorderColor: =BorderSoft
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 720
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 232) * 0.32
+        X: =220 + (Parent.Width - 232) * 0.68
+        Y: =700
+        ZIndex: =69
+    DashTplTitle As label:
+        Color: =TextPrimary
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Open Sans'
+        FontWeight: =FontWeight.Bold
+        Height: =32
+        PaddingLeft: =16
+        Size: =14
+        Text: ="✉️  Templates (" & Text(CountRows(colTemplates)) & ")"
+        Width: =320
+        X: =220 + (Parent.Width - 232) * 0.68
+        Y: =708
+        ZIndex: =70
+    "DashTplGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver5.0'":
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =Parent.Height - 760
+        Items: =colTemplates
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =68
+        Width: =(Parent.Width - 232) * 0.32 - 16
+        X: =228 + (Parent.Width - 232) * 0.68
+        Y: =748
+        ZIndex: =71
+
+        DashTplCatLbl As label:
+            Align: =Align.Center
+            Color: =Switch(ThisItem.Category.Value, "New Lead", StatusNew_Fg, "Follow Up", StatusProg_Fg, "Quote Sent", StatusQuoted_Fg, "Re-quote", BrandRed, TextSecondary)
+            Fill: =Switch(ThisItem.Category.Value, "New Lead", StatusNew_Bg, "Follow Up", StatusProg_Bg, "Quote Sent", StatusQuoted_Bg, "Re-quote", StatusLost_Bg, BgCream)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =20
+            PaddingTop: =4
+            Size: =9
+            Text: =Upper(Coalesce(ThisItem.Category.Value, "TEMPLATE"))
+            Width: =96
+            X: =12
+            Y: =12
+            ZIndex: =1
+        DashTplName As label:
+            Color: =TextPrimary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =12
+            Text: =Coalesce(ThisItem.Title, "")
+            Width: =Parent.TemplateWidth - 200
+            X: =116
+            Y: =12
+            ZIndex: =2
+        DashTplUsed As label:
+            Color: =TextTertiary
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Open Sans'
+            Height: =16
+            Size: =10
+            Text: ="Used " & Text(Coalesce(ThisItem.TimesUsed, 0)) & "x"
+            Width: =100
+            X: =116
+            Y: =36
+            ZIndex: =3
+        DashTplSendBtn As button:
+            BorderColor: =BrandRed
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisplayMode: =If(IsBlank(varSelectedQuote) Or IsBlank(varSelectedQuote.Email), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =BrandRed
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            OnSelect: =Office365Outlook.SendEmailV2(varSelectedQuote.Email, Coalesce(ThisItem.Subject, ThisItem.Title), "Hi " & Coalesce(varSelectedQuote.Title, "there") & ",<br/><br/>" & Substitute(Coalesce(ThisItem.Body, ""), Char(10), "<br/>") & "<br/><br/>Thanks,<br/>" & Coalesce(User().FullName, "Adams Cosby"), {Cc: "teamac@alfains.com", ReplyTo: "teamac@alfains.com", IsHtml: true}); Patch('Email Templates', ThisItem, {TimesUsed: Coalesce(ThisItem.TimesUsed, 0) + 1}); Notify("Sent " & ThisItem.Title & " to " & varSelectedQuote.Email, NotificationType.Success)
+            Size: =10
+            Text: ="Send →"
+            Width: =80
+            X: =Parent.TemplateWidth - 96
+            Y: =18
+            ZIndex: =4
+        DashTplRowDivider As rectangle:
+            Fill: =BorderSoft
+            Height: =1
+            Width: =Parent.TemplateWidth - 24
+            X: =12
+            Y: =67
+            ZIndex: =5

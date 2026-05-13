@@ -27,7 +27,7 @@ LeadsListScreen As screen:
     SidebarNavItemDashboard As rectangle:
         Fill: =If("Dashboard"="Dashboard", RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
         Height: =40
-        OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         Cursor: =Cursor.Hand
         Width: =200
         X: =0
@@ -56,7 +56,7 @@ LeadsListScreen As screen:
         Font: =Font.'Open Sans'
         FontWeight: =If("Dashboard"="Dashboard", FontWeight.Semibold, FontWeight.Normal)
         Height: =40
-        OnSelect: =Notify("Dashboard screen coming soon", NotificationType.Information)
+        OnSelect: =Navigate(Dashboard, ScreenTransition.None)
         PaddingLeft: =44
         Size: =13
         Text: ="Dashboard"
