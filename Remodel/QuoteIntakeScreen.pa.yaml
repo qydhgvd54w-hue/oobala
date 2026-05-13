@@ -1,20 +1,10 @@
 Screens:
   QuoteIntakeScreen:
     Properties:
-      Fill: =Win95Face
-      LoadingSpinnerColor: =Win95TitleNavy
+      Fill: =RGBA(192, 192, 192, 1)
+      LoadingSpinnerColor: =RGBA(0, 0, 128, 1)
       OnVisible: |-
-        =Set(Win95Face,       RGBA(192, 192, 192, 1));
-        Set(Win95Light,       RGBA(255, 255, 255, 1));
-        Set(Win95Shadow,      RGBA(128, 128, 128, 1));
-        Set(Win95Dark,        RGBA(64, 64, 64, 1));
-        Set(Win95TitleNavy,   RGBA(0, 0, 128, 1));
-        Set(Win95TitleBlue,   RGBA(16, 132, 208, 1));
-        Set(Win95Text,        RGBA(0, 0, 0, 1));
-        Set(Win95InputBg,     RGBA(255, 255, 255, 1));
-        Set(Win95Group,       RGBA(0, 0, 128, 1));
-        Set(Win95Disabled,    RGBA(132, 132, 132, 1));
-        If(IsBlank(varQuoteMode), Set(varQuoteMode, "New"));
+        =If(IsBlank(varQuoteMode), Set(varQuoteMode, "New"));
         If(IsBlank(varQuoteSection), Set(varQuoteSection, "Applicant"));
         If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
             UpdateContext({
@@ -60,7 +50,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Dark
+            Fill: =RGBA(64, 64, 64, 1)
             Height: =1200
             Width: =2400
             X: =0
@@ -69,7 +59,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =1196
             Width: =2396
             X: =2
@@ -78,7 +68,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Light
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =2
             Width: =2392
             X: =4
@@ -87,7 +77,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Light
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =1188
             Width: =2
             X: =4
@@ -96,7 +86,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =2
             Width: =2392
             X: =4
@@ -105,7 +95,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =1188
             Width: =2
             X: =2394
@@ -116,7 +106,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95TitleNavy
+            Fill: =RGBA(0, 0, 128, 1)
             Height: =40
             Width: =2380
             X: =10
@@ -125,7 +115,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95TitleBlue
+            Fill: =RGBA(16, 132, 208, 1)
             Height: =40
             Width: =1200
             X: =1190
@@ -163,9 +153,9 @@ Screens:
       - TitleBarMinBg:
           Control: Rectangle@2.3.0
           Properties:
-            BorderColor: =Win95Dark
+            BorderColor: =RGBA(64, 64, 64, 1)
             BorderThickness: =1
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =22
             Width: =26
             X: =2300
@@ -174,7 +164,7 @@ Screens:
           Control: Label@2.5.1
           Properties:
             Align: =Align.Center
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =22
@@ -186,9 +176,9 @@ Screens:
       - TitleBarMaxBg:
           Control: Rectangle@2.3.0
           Properties:
-            BorderColor: =Win95Dark
+            BorderColor: =RGBA(64, 64, 64, 1)
             BorderThickness: =1
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =22
             Width: =26
             X: =2328
@@ -197,7 +187,7 @@ Screens:
           Control: Label@2.5.1
           Properties:
             Align: =Align.Center
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =22
@@ -210,10 +200,10 @@ Screens:
       - TitleBarCloseBg:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Dark
+            BorderColor: =RGBA(64, 64, 64, 1)
             BorderThickness: =1
-            Color: =Win95Text
-            Fill: =Win95Face
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =22
@@ -235,7 +225,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =26
             Width: =2380
             X: =10
@@ -243,7 +233,7 @@ Screens:
       - MenuFile:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingLeft: =10
@@ -256,7 +246,7 @@ Screens:
       - MenuEdit:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingLeft: =10
@@ -269,7 +259,7 @@ Screens:
       - MenuView:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingLeft: =10
@@ -282,7 +272,7 @@ Screens:
       - MenuTools:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingLeft: =10
@@ -295,7 +285,7 @@ Screens:
       - MenuHelp:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingLeft: =10
@@ -311,7 +301,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =68
             Width: =2380
             X: =10
@@ -320,7 +310,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =1
             Width: =2380
             X: =10
@@ -328,13 +318,13 @@ Screens:
       - TbNew:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
-            Fill: =Win95Face
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =Set(varQuoteMode, "New");
               Set(varEditingQuote, Blank());
@@ -350,7 +340,7 @@ Screens:
                   locDwelling: Blank(), locDeductible: Blank(), locNotes: "",
                   locClaimsCount: 0, locInsScoreOK: false, locLastSavedAt: Blank()
               })
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =10
             Text: ="📄" & Char(10) & "New"
             Width: =68
@@ -359,14 +349,14 @@ Screens:
       - TbSave:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             DisplayMode: =If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote), DisplayMode.Edit, DisplayMode.Disabled)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =UpdateContext({ locSaving: true });
               Set(varEditingQuote,
@@ -397,7 +387,7 @@ Screens:
               );
               UpdateContext({ locSaving: false, locLastSavedAt: Now() });
               Notify("Quote saved.", NotificationType.Success, 2000)
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =10
             Text: ="💾" & Char(10) & "Save"
             Width: =68
@@ -406,14 +396,14 @@ Screens:
       - TbSaveClose:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             DisplayMode: =If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote), DisplayMode.Edit, DisplayMode.Disabled)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =Set(varEditingQuote,
                   Patch('Home Quotes', varEditingQuote, {
@@ -446,7 +436,7 @@ Screens:
               Set(varEditingQuote, Blank());
               Set(varQuoteSection, Blank());
               Navigate(Dashboard, ScreenTransition.None)
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =9
             Text: ="💾" & Char(10) & "Save & Close"
             Width: =94
@@ -455,11 +445,11 @@ Screens:
       - TbPrint:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             DisplayMode: =DisplayMode.Disabled
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
             OnSelect: =Notify("Print pending.", NotificationType.Information)
@@ -471,13 +461,13 @@ Screens:
       - TbClear:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
-            Fill: =Win95Face
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =UpdateContext({
                   locName: "", locDOB: Blank(), locPhone: "", locEmail: "",
@@ -490,7 +480,7 @@ Screens:
                   locDwelling: Blank(), locDeductible: Blank(), locNotes: "",
                   locClaimsCount: 0, locInsScoreOK: false
               })
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =10
             Text: ="🧹" & Char(10) & "Clear"
             Width: =68
@@ -499,15 +489,15 @@ Screens:
       - TbHelp:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
-            Fill: =Win95Face
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: =Notify("All 6 fields in Applicant (Name, DOB, Phone, Email, ReferralName, Producer) trigger an auto-save.", NotificationType.Information, 6000)
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =10
             Text: ="❓" & Char(10) & "Help"
             Width: =68
@@ -516,19 +506,19 @@ Screens:
       - TbCloseBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
-            Fill: =Win95Face
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =60
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =Set(varQuoteMode, Blank());
               Set(varEditingQuote, Blank());
               Set(varQuoteSection, Blank());
               Navigate(Dashboard, ScreenTransition.None)
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =10
             Text: ="✕" & Char(10) & "Close"
             Width: =68
@@ -538,7 +528,7 @@ Screens:
           Control: Label@2.5.1
           Properties:
             Align: =Align.Right
-            Color: =If(IsBlank(locLastSavedAt), Win95Disabled, RGBA(0, 100, 0, 1))
+            Color: =If(IsBlank(locLastSavedAt), RGBA(132, 132, 132, 1), RGBA(0, 100, 0, 1))
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =60
@@ -560,7 +550,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =948
             Width: =240
             X: =10
@@ -569,7 +559,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95InputBg
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =30
             Width: =236
             X: =12
@@ -578,7 +568,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =948
             Width: =1
             X: =248
@@ -587,7 +577,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Light
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =1
             Width: =236
             X: =249
@@ -595,7 +585,7 @@ Screens:
       - SidebarHeaderLbl:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =30
@@ -609,14 +599,14 @@ Screens:
       - SidebarApplicantBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =If(varQuoteSection = "Applicant", Win95TitleNavy, Win95Face)
+            BorderColor: =If(varQuoteSection = "Applicant", RGBA(0, 0, 128, 1), RGBA(192, 192, 192, 1))
             BorderThickness: =If(varQuoteSection = "Applicant", 1, 0)
-            Color: =Win95Text
-            Fill: =If(varQuoteSection = "Applicant", RGBA(232, 232, 240, 1), Win95Face)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =If(varQuoteSection = "Applicant", RGBA(232, 232, 240, 1), RGBA(192, 192, 192, 1))
             Font: =Font.'Open Sans'
             FontWeight: =If(varQuoteSection = "Applicant", FontWeight.Bold, FontWeight.Normal)
             Height: =40
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: =Set(varQuoteSection, "Applicant")
             Size: =12
             Text: ="👤  Applicant"
@@ -626,15 +616,15 @@ Screens:
       - SidebarPropertyBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =If(varQuoteSection = "Property", Win95TitleNavy, Win95Face)
+            BorderColor: =If(varQuoteSection = "Property", RGBA(0, 0, 128, 1), RGBA(192, 192, 192, 1))
             BorderThickness: =If(varQuoteSection = "Property", 1, 0)
-            Color: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), Win95Disabled, Win95Text)
+            Color: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), RGBA(132, 132, 132, 1), RGBA(0, 0, 0, 1))
             DisplayMode: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), DisplayMode.Disabled, DisplayMode.Edit)
-            Fill: =If(varQuoteSection = "Property", RGBA(232, 232, 240, 1), Win95Face)
+            Fill: =If(varQuoteSection = "Property", RGBA(232, 232, 240, 1), RGBA(192, 192, 192, 1))
             Font: =Font.'Open Sans'
             FontWeight: =If(varQuoteSection = "Property", FontWeight.Bold, FontWeight.Normal)
             Height: =40
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: =Set(varQuoteSection, "Property")
             Size: =12
             Text: ="🏠  Property & Coverage"
@@ -644,15 +634,15 @@ Screens:
       - SidebarReviewBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =If(varQuoteSection = "Review", Win95TitleNavy, Win95Face)
+            BorderColor: =If(varQuoteSection = "Review", RGBA(0, 0, 128, 1), RGBA(192, 192, 192, 1))
             BorderThickness: =If(varQuoteSection = "Review", 1, 0)
-            Color: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), Win95Disabled, Win95Text)
+            Color: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), RGBA(132, 132, 132, 1), RGBA(0, 0, 0, 1))
             DisplayMode: =If(varQuoteMode = "New" && IsBlank(varEditingQuote), DisplayMode.Disabled, DisplayMode.Edit)
-            Fill: =If(varQuoteSection = "Review", RGBA(232, 232, 240, 1), Win95Face)
+            Fill: =If(varQuoteSection = "Review", RGBA(232, 232, 240, 1), RGBA(192, 192, 192, 1))
             Font: =Font.'Open Sans'
             FontWeight: =If(varQuoteSection = "Review", FontWeight.Bold, FontWeight.Normal)
             Height: =40
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: =Set(varQuoteSection, "Review")
             Size: =12
             Text: ="📋  Review & Save"
@@ -662,7 +652,7 @@ Screens:
       - SidebarHelpHint:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Disabled
+            Color: =RGBA(132, 132, 132, 1)
             Font: =Font.'Open Sans'
             Height: =40
             PaddingLeft: =12
@@ -678,7 +668,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =1
             Width: =2120
             X: =260
@@ -687,7 +677,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =948
             Width: =1
             X: =260
@@ -696,7 +686,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Light
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =1
             Width: =2120
             X: =260
@@ -705,7 +695,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Light
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =948
             Width: =1
             X: =2380
@@ -719,7 +709,7 @@ Screens:
           Variant: ManualLayout
           Properties:
             DropShadow: =DropShadow.None
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =940
             Visible: =varQuoteSection = "Applicant"
             Width: =2118
@@ -729,7 +719,7 @@ Screens:
             - AppGroupTitleBg:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -743,7 +733,7 @@ Screens:
             - AppNameLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -755,11 +745,11 @@ Screens:
             - AppNameInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locName
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   HintText: ="John Smith"
@@ -789,7 +779,7 @@ Screens:
             - AppSpouseLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -801,11 +791,11 @@ Screens:
             - AppSpouseInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locSpouse
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   OnChange: |-
@@ -821,7 +811,7 @@ Screens:
             - AppDOBLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -833,13 +823,13 @@ Screens:
             - AppDOBPicker:
                 Control: Classic/DatePicker@2.6.0
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   DefaultDate: =If(IsBlank(locDOB), Blank(), locDOB)
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =DateTimeFormat.ShortDate
                   Height: =30
@@ -869,7 +859,7 @@ Screens:
             - AppPhoneLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -881,11 +871,11 @@ Screens:
             - AppPhoneInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locPhone
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Text
                   Height: =30
@@ -916,7 +906,7 @@ Screens:
             - AppEmailLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -928,11 +918,11 @@ Screens:
             - AppEmailInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locEmail
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   HintText: ="john.smith@email.com"
@@ -964,7 +954,7 @@ Screens:
             - AppMailGroupLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =24
@@ -977,11 +967,11 @@ Screens:
             - AppMailingInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locMailing
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =76
                   HintText: ="123 Main St\nIndianapolis, IN 46204"
@@ -1001,7 +991,7 @@ Screens:
             - AppRiskGroupLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =24
@@ -1014,11 +1004,11 @@ Screens:
             - AppRiskInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locRisk
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =76
                   HintText: ="Same as Mailing Address"
@@ -1038,7 +1028,7 @@ Screens:
             - AppPrefGroupLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =24
@@ -1051,7 +1041,7 @@ Screens:
             - AppPrefContactLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1062,13 +1052,13 @@ Screens:
             - AppPrefContactDD:
                 Control: Classic/DropDown@2.3.1
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locPrefContact
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   Items: =["Phone","Email","Text","Mail"]
@@ -1085,7 +1075,7 @@ Screens:
             - AppBestTimeLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1096,13 +1086,13 @@ Screens:
             - AppBestTimeDD:
                 Control: Classic/DropDown@2.3.1
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locBestTime
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   Items: =["Morning","Afternoon","Evening","Anytime"]
@@ -1119,7 +1109,7 @@ Screens:
             - AppReferralLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1131,13 +1121,13 @@ Screens:
             - AppReferralDD:
                 Control: Classic/DropDown@2.3.1
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locReferral
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   Items: =["ReferralName","Google","Facebook","Drive-by","Existing Client","Other"]
@@ -1170,7 +1160,7 @@ Screens:
             - AppAssignGroupLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =24
@@ -1183,7 +1173,7 @@ Screens:
             - AppProducerLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1195,13 +1185,13 @@ Screens:
             - AppProducerDD:
                 Control: Classic/DropDown@2.3.1
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locProducer), "", locProducer.Value)
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   Items: =["Alec","Rachel Cosby","Jessica Adams","Tammy Dennis","Leigh Marsh"]
@@ -1233,7 +1223,7 @@ Screens:
             - AppRequiredLegend:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Disabled
+                  Color: =RGBA(132, 132, 132, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =10
@@ -1266,7 +1256,7 @@ Screens:
           Variant: ManualLayout
           Properties:
             DropShadow: =DropShadow.None
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =940
             Visible: =varQuoteSection = "Property"
             Width: =2118
@@ -1276,7 +1266,7 @@ Screens:
             - PropTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1290,7 +1280,7 @@ Screens:
             - PropYearLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1302,11 +1292,11 @@ Screens:
             - PropYearInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locYearBuilt), "", Text(locYearBuilt))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1323,7 +1313,7 @@ Screens:
             - PropSqFtLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1335,11 +1325,11 @@ Screens:
             - PropSqFtInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locSqFt), "", Text(locSqFt))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1356,7 +1346,7 @@ Screens:
             - PropOccLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1368,13 +1358,13 @@ Screens:
             - PropOccDD:
                 Control: Classic/DropDown@2.3.1
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locOccupancy), "", locOccupancy.Value)
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   Items: =["Primary Residence","Secondary","Rental","Seasonal","Vacant"]
@@ -1392,7 +1382,7 @@ Screens:
             - PropNewPurchaseLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1404,13 +1394,13 @@ Screens:
             - PropNewPurchaseChk:
                 Control: Classic/Button@2.2.0
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
-                  Fill: =Win95Face
+                  Color: =RGBA(0, 0, 0, 1)
+                  Fill: =RGBA(192, 192, 192, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
-                  HoverFill: =Win95Light
+                  HoverFill: =RGBA(255, 255, 255, 1)
                   OnSelect: |-
                     =UpdateContext({ locNewPurchase: !locNewPurchase });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
@@ -1426,7 +1416,7 @@ Screens:
             - ConstructionTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1440,7 +1430,7 @@ Screens:
             - PropRoofTypeLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1452,13 +1442,13 @@ Screens:
             - PropRoofTypeDD:
                 Control: Classic/DropDown@2.3.1
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  ChevronBackground: =Win95Face
-                  ChevronFill: =Win95Text
-                  Color: =Win95Text
+                  ChevronBackground: =RGBA(192, 192, 192, 1)
+                  ChevronFill: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locRoofType), "", locRoofType.Value)
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   Items: =["Architectural Shingle","3-Tab Shingle","Metal","Tile","Slate","Flat","Other"]
@@ -1476,7 +1466,7 @@ Screens:
             - PropRoofAgeLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1488,11 +1478,11 @@ Screens:
             - PropRoofAgeInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locRoofAge), "", Text(locRoofAge))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1510,7 +1500,7 @@ Screens:
             - CoverageTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1524,7 +1514,7 @@ Screens:
             - PropCarrierLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1536,11 +1526,11 @@ Screens:
             - PropCarrierInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locCurrentCarrier
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
                   OnChange: |-
@@ -1556,7 +1546,7 @@ Screens:
             - PropPremiumLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1568,11 +1558,11 @@ Screens:
             - PropPremiumInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locCurrentPremium), "", Text(locCurrentPremium))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1589,7 +1579,7 @@ Screens:
             - PropDwellingLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1601,11 +1591,11 @@ Screens:
             - PropDwellingInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locDwelling), "", Text(locDwelling))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1622,7 +1612,7 @@ Screens:
             - PropDeductibleLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1634,11 +1624,11 @@ Screens:
             - PropDeductibleInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =If(IsBlank(locDeductible), "", Text(locDeductible))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1656,7 +1646,7 @@ Screens:
             - NotesTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1670,11 +1660,11 @@ Screens:
             - NotesInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =locNotes
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Height: =180
                   HintText: ="Free-form notes about the property, prior claims, special conditions..."
@@ -1698,7 +1688,7 @@ Screens:
           Variant: ManualLayout
           Properties:
             DropShadow: =DropShadow.None
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =940
             Visible: =varQuoteSection = "Review"
             Width: =2118
@@ -1708,7 +1698,7 @@ Screens:
             - ReviewTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1722,7 +1712,7 @@ Screens:
             - ReviewNamedLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1734,7 +1724,7 @@ Screens:
             - ReviewNamedVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1745,7 +1735,7 @@ Screens:
             - ReviewPhoneLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1757,7 +1747,7 @@ Screens:
             - ReviewPhoneVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1768,7 +1758,7 @@ Screens:
             - ReviewEmailLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1780,7 +1770,7 @@ Screens:
             - ReviewEmailVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1791,7 +1781,7 @@ Screens:
             - ReviewAddrLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1803,7 +1793,7 @@ Screens:
             - ReviewAddrVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =60
                   Size: =11
@@ -1814,7 +1804,7 @@ Screens:
             - ReviewYearLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1826,7 +1816,7 @@ Screens:
             - ReviewYearVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1837,7 +1827,7 @@ Screens:
             - ReviewOccLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1849,7 +1839,7 @@ Screens:
             - ReviewOccVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1860,7 +1850,7 @@ Screens:
             - ReviewProducerLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1872,7 +1862,7 @@ Screens:
             - ReviewProducerVal:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   Height: =22
                   Size: =11
@@ -1885,7 +1875,7 @@ Screens:
             - ReviewClaimsTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1899,7 +1889,7 @@ Screens:
             - ReviewClaimsLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1911,11 +1901,11 @@ Screens:
             - ReviewClaimsInput:
                 Control: Classic/TextInput@2.3.2
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Default: =Text(Coalesce(locClaimsCount, 0))
-                  Fill: =Win95InputBg
+                  Fill: =RGBA(255, 255, 255, 1)
                   Font: =Font.'Open Sans'
                   Format: =TextFormat.Number
                   Height: =30
@@ -1934,7 +1924,7 @@ Screens:
             - ReviewUWTitle:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Group
+                  Color: =RGBA(0, 0, 128, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =30
@@ -1948,7 +1938,7 @@ Screens:
             - ReviewInsScoreLbl:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =22
@@ -1960,13 +1950,13 @@ Screens:
             - ReviewInsScoreBtn:
                 Control: Classic/Button@2.2.0
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =1
-                  Color: =Win95Text
-                  Fill: =Win95Face
+                  Color: =RGBA(0, 0, 0, 1)
+                  Fill: =RGBA(192, 192, 192, 1)
                   Font: =Font.'Open Sans'
                   Height: =30
-                  HoverFill: =Win95Light
+                  HoverFill: =RGBA(255, 255, 255, 1)
                   OnSelect: |-
                     =UpdateContext({ locInsScoreOK: !locInsScoreOK });
                     If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote),
@@ -1983,15 +1973,15 @@ Screens:
             - ReviewSaveBtn:
                 Control: Classic/Button@2.2.0
                 Properties:
-                  BorderColor: =Win95Shadow
+                  BorderColor: =RGBA(128, 128, 128, 1)
                   BorderThickness: =2
-                  Color: =Win95Text
+                  Color: =RGBA(0, 0, 0, 1)
                   DisplayMode: =If(varQuoteMode = "Edit" && !IsBlank(varEditingQuote), DisplayMode.Edit, DisplayMode.Disabled)
-                  Fill: =Win95Face
+                  Fill: =RGBA(192, 192, 192, 1)
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
                   Height: =44
-                  HoverFill: =Win95Light
+                  HoverFill: =RGBA(255, 255, 255, 1)
                   OnSelect: |-
                     =Set(varEditingQuote,
                         Patch('Home Quotes', varEditingQuote, {
@@ -2024,7 +2014,7 @@ Screens:
                     Set(varEditingQuote, Blank());
                     Set(varQuoteSection, Blank());
                     Navigate(Dashboard, ScreenTransition.None)
-                  PressedFill: =Win95Shadow
+                  PressedFill: =RGBA(128, 128, 128, 1)
                   Size: =12
                   Text: ="💾  Save Intake"
                   Width: =220
@@ -2036,7 +2026,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =48
             Width: =2380
             X: =10
@@ -2044,20 +2034,20 @@ Screens:
       - BottomBackBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             DisplayMode: =If(varQuoteSection = "Applicant", DisplayMode.Disabled, DisplayMode.Edit)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =36
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =Set(varQuoteSection,
                   If(varQuoteSection = "Review", "Property",
                      varQuoteSection = "Property", "Applicant",
                      "Applicant"))
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =11
             Text: ="< Back"
             Width: =120
@@ -2066,21 +2056,21 @@ Screens:
       - BottomNextBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             DisplayMode: =If(varQuoteSection = "Review" || (varQuoteMode = "New" && IsBlank(varEditingQuote)), DisplayMode.Disabled, DisplayMode.Edit)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             FontWeight: =FontWeight.Bold
             Height: =36
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =Set(varQuoteSection,
                   If(varQuoteSection = "Applicant", "Property",
                      varQuoteSection = "Property", "Review",
                      "Review"))
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =11
             Text: ="Next >"
             Width: =120
@@ -2089,19 +2079,19 @@ Screens:
       - BottomCancelBtn:
           Control: Classic/Button@2.2.0
           Properties:
-            BorderColor: =Win95Shadow
+            BorderColor: =RGBA(128, 128, 128, 1)
             BorderThickness: =1
-            Color: =Win95Text
-            Fill: =Win95Face
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(192, 192, 192, 1)
             Font: =Font.'Open Sans'
             Height: =36
-            HoverFill: =Win95Light
+            HoverFill: =RGBA(255, 255, 255, 1)
             OnSelect: |-
               =Set(varQuoteMode, Blank());
               Set(varEditingQuote, Blank());
               Set(varQuoteSection, Blank());
               Navigate(Dashboard, ScreenTransition.None)
-            PressedFill: =Win95Shadow
+            PressedFill: =RGBA(128, 128, 128, 1)
             Size: =11
             Text: ="✕ Cancel"
             Width: =120
@@ -2113,7 +2103,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Face
+            Fill: =RGBA(192, 192, 192, 1)
             Height: =26
             Width: =2380
             X: =10
@@ -2122,7 +2112,7 @@ Screens:
           Control: Rectangle@2.3.0
           Properties:
             BorderColor: =RGBA(0, 0, 0, 0)
-            Fill: =Win95Shadow
+            Fill: =RGBA(128, 128, 128, 1)
             Height: =1
             Width: =2380
             X: =10
@@ -2130,7 +2120,7 @@ Screens:
       - StatusBarLeft:
           Control: Label@2.5.1
           Properties:
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingLeft: =12
@@ -2144,7 +2134,7 @@ Screens:
           Control: Label@2.5.1
           Properties:
             Align: =Align.Center
-            Color: =Win95Text
+            Color: =RGBA(0, 0, 0, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingTop: =5
@@ -2161,7 +2151,7 @@ Screens:
           Control: Label@2.5.1
           Properties:
             Align: =Align.Right
-            Color: =Win95Disabled
+            Color: =RGBA(132, 132, 132, 1)
             Font: =Font.'Open Sans'
             Height: =26
             PaddingRight: =12
