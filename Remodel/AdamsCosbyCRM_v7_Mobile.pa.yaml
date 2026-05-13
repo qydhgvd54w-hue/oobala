@@ -19,7 +19,7 @@ Screens:
         ClearCollect(colTemplates, 'Email Templates');
         ClearCollect(colQuoteDocs, 'Quote Documents');
         ClearCollect(colNotes, SortByColumns(Filter(Activities, ActivityType.Value = "Note"), "EventDate", SortOrder.Descending));
-        Set(varDefaultCalendar, First(Office365Outlook.CalendarGetTables_V2().value));
+        Set(varDefaultCalendar, {id: "Calendar"});
         If(IsBlank(varSelectedQuote), Set(varSelectedQuote, First('Home Quotes')));
         Set(varSelectedLead, LookUp(Leads, 'Phone Number' = varSelectedQuote.Phone || Email = varSelectedQuote.Email));
         Set(varSearchText, "");
