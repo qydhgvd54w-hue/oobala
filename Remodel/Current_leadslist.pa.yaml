@@ -884,10 +884,6 @@ Screens:
                   PressedBorderColor: =RGBA(0, 0, 0, 0)
                   PressedColor: =RGBA(0, 0, 0, 0)
                   PressedFill: =RGBA(0, 0, 0, 0)
-                  RadiusBottomLeft: =0
-                  RadiusBottomRight: =0
-                  RadiusTopLeft: =0
-                  RadiusTopRight: =0
                   Size: =1.09
                   Text: =""
                   Width: =Parent.TemplateWidth
@@ -1677,10 +1673,6 @@ Screens:
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =BrandRedDark
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
             Size: =12
             Text: ="Open Form"
             Visible: =!IsBlank(varSelectedLead)
@@ -1712,10 +1704,6 @@ Screens:
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =BrandRedDark
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
             Size: =12
             Text: ="Mark Bound"
             Visible: =!IsBlank(varSelectedLead)
@@ -1792,10 +1780,6 @@ Screens:
                   PressedBorderColor: =RGBA(0, 0, 0, 0)
                   PressedColor: =RGBA(0, 0, 0, 0)
                   PressedFill: =RGBA(0, 0, 0, 0)
-                  RadiusBottomLeft: =0
-                  RadiusBottomRight: =0
-                  RadiusTopLeft: =0
-                  RadiusTopRight: =0
                   Size: =1.09
                   Text: =""
                   Width: =Parent.TemplateWidth
@@ -1844,10 +1828,6 @@ Screens:
                   Font: =Font.'Open Sans'
                   Height: =28
                   OnSelect: =Select(Parent)
-                  RadiusBottomLeft: =6
-                  RadiusBottomRight: =6
-                  RadiusTopLeft: =6
-                  RadiusTopRight: =6
                   Size: =11.98
                   Text: ="Send"
                   Width: =74
@@ -2395,10 +2375,6 @@ Screens:
             PressedBorderColor: =BrandRed
             PressedColor: =BrandRed
             PressedFill: =BrandSoft
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
             Size: =12
             Text: ="Open PDF"
             Visible: =!IsBlank(varSelectedLead)
