@@ -835,6 +835,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   DefaultDate: =If(IsBlank(locDOB), Blank(), locDOB)
                   Fill: =Win95InputBg
@@ -1062,6 +1064,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   Default: =locPrefContact
                   Fill: =Win95InputBg
@@ -1094,6 +1098,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   Default: =locBestTime
                   Fill: =Win95InputBg
@@ -1127,6 +1133,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   Default: =locReferral
                   Fill: =Win95InputBg
@@ -1189,6 +1197,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   Default: =If(IsBlank(locProducer), "", locProducer.Value)
                   Fill: =Win95InputBg
@@ -1360,6 +1370,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   Default: =If(IsBlank(locOccupancy), "", locOccupancy.Value)
                   Fill: =Win95InputBg
@@ -1442,6 +1454,8 @@ Screens:
                 Properties:
                   BorderColor: =Win95Shadow
                   BorderThickness: =1
+                  ChevronBackground: =Win95Face
+                  ChevronFill: =Win95Text
                   Color: =Win95Text
                   Default: =If(IsBlank(locRoofType), "", locRoofType.Value)
                   Fill: =Win95InputBg

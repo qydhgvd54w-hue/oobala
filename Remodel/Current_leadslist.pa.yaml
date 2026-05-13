@@ -770,6 +770,12 @@ Screens:
           Control: Classic/DropDown@2.3.1
           Properties:
             BorderColor: =BorderSoft
+            ChevronBackground: =RGBA(35, 31, 32, 1)
+            ChevronDisabledBackground: =RGBA(215, 210, 204, 1)
+            ChevronDisabledFill: =RGBA(235, 233, 229, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(Self.ChevronBackground, 20%)
+            ChevronHoverFill: =Self.ChevronFill
             Color: =TextPrimary
             DisabledBorderColor: =RGBA(186, 186, 186, 1)
             DisabledColor: =RGBA(186, 186, 186, 1)
@@ -795,6 +801,12 @@ Screens:
           Control: Classic/DropDown@2.3.1
           Properties:
             BorderColor: =BorderSoft
+            ChevronBackground: =RGBA(35, 31, 32, 1)
+            ChevronDisabledBackground: =RGBA(215, 210, 204, 1)
+            ChevronDisabledFill: =RGBA(235, 233, 229, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(Self.ChevronBackground, 20%)
+            ChevronHoverFill: =Self.ChevronFill
             Color: =TextPrimary
             DisabledBorderColor: =RGBA(186, 186, 186, 1)
             DisabledColor: =RGBA(186, 186, 186, 1)
